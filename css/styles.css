@@ -471,6 +471,57 @@ input, select, textarea {
   padding-left: calc(var(--space-4) + 4px);
 }
 
+/* Mega-Menu */
+.nav-mega .nav-dropdown-menu {
+  display: grid;
+  min-width: auto;
+  padding: var(--space-4);
+  gap: var(--space-4);
+}
+
+.nav-mega.nav-mega--3col .nav-dropdown-menu {
+  width: 700px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.nav-mega.nav-mega--2col .nav-dropdown-menu {
+  width: 500px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.nav-mega-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-mega-heading {
+  color: var(--clr-white);
+  font-family: var(--ff-heading);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: var(--space-2) var(--space-2) var(--space-1);
+  pointer-events: none;
+}
+
+.nav-mega .nav-dropdown-item {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--fs-xs);
+}
+
+.nav-mega .nav-dropdown-item:hover,
+.nav-mega .nav-dropdown-item:focus-visible {
+  padding-left: calc(var(--space-2) + 4px);
+}
+
+@media (max-width: 1024px) {
+  .nav-link {
+    font-size: var(--fs-xs);
+    padding: var(--space-2) var(--space-2);
+  }
+}
+
 /* Hamburger */
 .nav-toggle {
   display: none;
@@ -2364,6 +2415,25 @@ input, select, textarea {
 }
 
 /* ============================================================
+   ABOUT US
+   ============================================================ */
+.about-us {
+  background: var(--clr-gray-50);
+}
+
+.about-us-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-us-content p {
+  font-size: var(--fs-lg);
+  line-height: 1.8;
+  color: var(--clr-gray-600);
+}
+
+/* ============================================================
    TEAM
    ============================================================ */
 .team {
@@ -3176,6 +3246,29 @@ input, select, textarea {
     visibility: visible;
     max-height: 400px;
     padding: var(--space-2) 0;
+    margin-top: var(--space-2);
+  }
+
+  .nav-dropdown.nav-mega.open .nav-dropdown-menu {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .nav-mega .nav-dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    position: static;
+    grid-template-columns: none;
+  }
+
+  .nav-mega.nav-mega--3col .nav-dropdown-menu,
+  .nav-mega.nav-mega--2col .nav-dropdown-menu {
+    width: 100% !important;
+    grid-template-columns: none;
+  }
+
+  .nav-mega-heading {
     margin-top: var(--space-2);
   }
 

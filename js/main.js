@@ -9,11 +9,53 @@
      DATA — loaded from API (fallbacks to empty arrays)
   -------------------------------------------------------- */
   let destinations = [];
+  let destMap = {};  // id -> destination lookup for O(1) access
   let reviews = [];
   let deals = [];
   let videos = [];
   let galleryImages = [];
   let teamMembers = [];
+
+  /* --------------------------------------------------------
+     STATIC DATA — Treks, Safaris, Culture
+  -------------------------------------------------------- */
+  const trekData = [
+    { name: 'Fairy Meadows', type: 'easy', image: 'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=600&h=400&fit=crop', rating: 4.8, description: 'A lush green meadow with a stunning view of Nanga Parbat, the 9th highest mountain in the world.' },
+    { name: 'Rakaposhi BC', type: 'easy', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&h=400&fit=crop', rating: 4.7, description: 'Trek to the base camp of Rakaposhi (7,788m) through beautiful alpine meadows and glaciers.' },
+    { name: 'Naltar Lakes', type: 'easy', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&h=400&fit=crop', rating: 4.6, description: 'Crystal-clear lakes surrounded by pine forests at an altitude of 3,200m in Naltar Valley.' },
+    { name: 'Rush Lake', type: 'easy', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&h=400&fit=crop', rating: 4.5, description: 'One of the highest alpine lakes in the world at 4,694m, offering breathtaking panoramic views.' },
+    { name: 'Borith Lake', type: 'easy', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=400&fit=crop', rating: 4.4, description: 'A serene lake near Passu with views of Passu Cones and surrounding glaciers.' },
+    { name: 'Patundas', type: 'easy', image: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=600&h=400&fit=crop', rating: 4.5, description: 'A hidden meadow trek above Passu offering panoramic views of the Karakoram range.' },
+    { name: 'Passu Glacier', type: 'easy', image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=400&fit=crop', rating: 4.6, description: 'Walk across the spectacular Passu Glacier and explore its dramatic ice formations.' },
+    { name: 'K2 Base Camp', type: 'advanced', image: 'https://images.unsplash.com/photo-1585409677983-0f6c41128c4b?w=600&h=400&fit=crop', rating: 4.9, description: 'The ultimate trekking experience to the base of the world\'s second highest mountain (8,611m).' },
+    { name: 'Nanga Parbat BC', type: 'advanced', image: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=600&h=400&fit=crop', rating: 4.8, description: 'Trek to the base camp of the "Killer Mountain" — one of the most dramatic peaks on Earth.' },
+    { name: 'Snow Lake', type: 'advanced', image: 'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=600&h=400&fit=crop', rating: 4.7, description: 'A vast glacial basin at 4,843m, one of the largest glacial systems outside the polar regions.' },
+    { name: 'Gondogoro La', type: 'advanced', image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&h=400&fit=crop', rating: 4.8, description: 'Cross the legendary 5,585m pass with views of K2, Broad Peak, and the Gasherbrum group.' },
+    { name: 'Spantik BC', type: 'advanced', image: 'https://images.unsplash.com/photo-1515876305430-f06edab8282a?w=600&h=400&fit=crop', rating: 4.6, description: 'Trek to the base of the "Golden Peak" (7,027m) through stunning glacial valleys.' },
+    { name: 'Biafo-Hispar', type: 'advanced', image: 'https://images.unsplash.com/photo-1491904768633-2b7e3e7fede5?w=600&h=400&fit=crop', rating: 4.7, description: 'Traverse two of the world\'s longest glaciers in an epic 7-day high-altitude crossing.' }
+  ];
+
+  const safariData = [
+    { name: 'Hunza Valley Safari', image: 'https://images.unsplash.com/photo-1597074866923-dc0589150a53?w=600&h=400&fit=crop', rating: 4.8, description: 'Drive along the Karakoram Highway through Hunza, visiting Karimabad, Passu, and Khunjerab Pass.' },
+    { name: 'Skardu Valley Safari', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&h=400&fit=crop', rating: 4.7, description: 'Explore Skardu\'s stunning lakes, forts, and desert landscapes by 4x4 jeep.' },
+    { name: 'Deosai Jeep Safari', image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=600&h=400&fit=crop', rating: 4.9, description: 'Traverse the world\'s second-highest plateau — home to Himalayan brown bears and wildflowers.' },
+    { name: 'Off-Road Adventures', image: 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=600&h=400&fit=crop', rating: 4.5, description: 'Thrilling 4x4 jeep rides through rugged mountain passes and remote valleys.' },
+    { name: 'Kalash Valley Safari', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop', rating: 4.6, description: 'Visit the unique Kalash people, their ancient festivals, and the beautiful valleys of Chitral.' }
+  ];
+
+  const cultureData = [
+    { name: 'Village Tours', type: 'cultural', image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&h=400&fit=crop', rating: 4.6, description: 'Visit traditional mountain villages and experience the daily life of local communities.' },
+    { name: 'Heritage Walks', type: 'cultural', image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=600&h=400&fit=crop', rating: 4.5, description: 'Walk through ancient forts, sacred sites, and centuries-old settlements of Gilgit-Baltistan.' },
+    { name: 'Festivals & Events', type: 'cultural', image: 'https://images.unsplash.com/photo-1533669955142-6a73332af4db?w=600&h=400&fit=crop', rating: 4.8, description: 'Experience vibrant local festivals — from Shandur Polo to Harvest celebrations and Navroz.' },
+    { name: 'Local Food Tours', type: 'cultural', image: 'https://images.unsplash.com/photo-1567337710282-00832b415979?w=600&h=400&fit=crop', rating: 4.7, description: 'Taste authentic Northern Pakistani cuisine — from chapshoro to apricot dishes and local teas.' },
+    { name: 'Handicraft Workshops', type: 'cultural', image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=400&fit=crop', rating: 4.4, description: 'Learn traditional crafts — gemstone cutting, wool weaving, and woodwork from local artisans.' },
+    { name: 'Southern Pakistan Tours', type: 'cultural', image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&h=400&fit=crop', rating: 4.5, description: 'Explore Lahore, Multan, and Mohenjo-daro — the rich cultural heritage of southern Pakistan.' },
+    { name: 'Camping', type: 'adventure', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&h=400&fit=crop', rating: 4.7, description: 'Camp under the stars in pristine mountain meadows with full gear and guided setups.' },
+    { name: 'Photography Tours', type: 'adventure', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop', rating: 4.8, description: 'Capture stunning landscapes with expert photography guides at the best viewpoints.' },
+    { name: 'Bird Watching', type: 'adventure', image: 'https://images.unsplash.com/photo-1470114716159-e389f8712fda?w=600&h=400&fit=crop', rating: 4.3, description: 'Spot rare Himalayan birds — golden eagles, snow cocks, and lammergeiers in their habitat.' },
+    { name: 'Fishing Trips', type: 'adventure', image: 'https://images.unsplash.com/photo-1440778303588-435521a205bc?w=600&h=400&fit=crop', rating: 4.4, description: 'Fish for brown and rainbow trout in the crystal-clear rivers and streams of Gilgit-Baltistan.' },
+    { name: 'Family Adventures', type: 'adventure', image: 'https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=600&h=400&fit=crop', rating: 4.6, description: 'Kid-friendly adventures with easy hikes, boat rides, and nature walks for the whole family.' }
+  ];
 
   /* --------------------------------------------------------
      UTILITIES
@@ -79,7 +121,10 @@
       // On mobile, toggle dropdown instead of closing menu
       if (link.classList.contains('nav-link--dropdown') && window.innerWidth <= 768) {
         e.preventDefault();
-        link.parentElement.classList.toggle('open');
+        const parent = link.parentElement;
+        // Close other open dropdowns on mobile
+        $$('.nav-dropdown.open').forEach(d => { if (d !== parent) d.classList.remove('open'); });
+        parent.classList.toggle('open');
         return;
       }
       navLinks.classList.remove('open');
@@ -172,14 +217,19 @@
   /* --------------------------------------------------------
      DESTINATION CARDS
   -------------------------------------------------------- */
-  function renderTopDestinations() {
+  var topDestShowAll = false;
+  var DEST_INITIAL_COUNT = 8;
+
+  function renderTopDestinations(regionFilter) {
     const topGrid = $('#topDestGrid');
     if (!topGrid) return;
-    topGrid.innerHTML = '';
-    const featured = destinations.filter(d => d.featured);
-    featured.forEach(dest => {
-      const card = createEl('div', { className: 'top-dest-card', role: 'button', tabindex: '0' });
-      card.innerHTML = `
+    var filtered = (!regionFilter || regionFilter === 'all')
+      ? destinations
+      : destinations.filter(d => d.country && d.country.toLowerCase().includes(regionFilter.toLowerCase()));
+    var visible = topDestShowAll ? filtered : filtered.slice(0, DEST_INITIAL_COUNT);
+    // Build all cards as a single HTML string (1 reflow instead of N)
+    var html = visible.map(dest => `
+      <div class="top-dest-card" role="button" tabindex="0" data-dest-id="${dest.id}">
         <img src="${dest.image}" alt="${dest.name} — top destination in ${dest.country} | Gilgit Adventure Treks" loading="lazy" width="600" height="400">
         <div class="top-dest-overlay">
           <span class="top-dest-tag">Top Destination</span>
@@ -193,22 +243,239 @@
           </div>
           <button class="top-dest-btn" data-id="${dest.id}">Explore</button>
         </div>
-      `;
-      card.addEventListener('click', () => openModal(dest.id));
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(dest.id); }
+      </div>
+    `).join('');
+    topGrid.innerHTML = html;
+    // See More / Show Less button
+    var existingBtn = document.getElementById('destSeeMoreBtn');
+    if (existingBtn) existingBtn.remove();
+    if (filtered.length > DEST_INITIAL_COUNT) {
+      var btn = document.createElement('div');
+      btn.id = 'destSeeMoreBtn';
+      btn.style.cssText = 'text-align:center; margin-top:2rem;';
+      btn.innerHTML = '<button class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;">' +
+        (topDestShowAll ? 'Show Less' : 'See More (' + (filtered.length - DEST_INITIAL_COUNT) + ' more)') + '</button>';
+      topGrid.parentNode.insertBefore(btn, topGrid.nextSibling);
+      btn.querySelector('button').addEventListener('click', function() {
+        topDestShowAll = !topDestShowAll;
+        renderTopDestinations(regionFilter);
+        if (!topDestShowAll) topGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
-      topGrid.appendChild(card);
+    }
+    // Ensure grid is visible immediately after cards are rendered
+    if (visible.length > 0 && !topGrid.classList.contains('revealed')) {
+      topGrid.classList.add('revealed');
+    }
+  }
+
+  // Event delegation for destination cards (1 listener instead of N)
+  (function() {
+    const topGrid = $('#topDestGrid');
+    if (!topGrid) return;
+    topGrid.addEventListener('click', function(e) {
+      const card = e.target.closest('.top-dest-card');
+      if (card) openModal(Number(card.dataset.destId));
+    });
+    topGrid.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const card = e.target.closest('.top-dest-card');
+        if (card) { e.preventDefault(); openModal(Number(card.dataset.destId)); }
+      }
+    });
+  })();
+
+  // Destination filter tabs
+  const destFilterTabs = $('#destFilterTabs');
+  if (destFilterTabs) {
+    destFilterTabs.addEventListener('click', (e) => {
+      const tab = e.target.closest('.filter-tab');
+      if (!tab) return;
+      destFilterTabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      topDestShowAll = false;  // Reset to first 8 when switching filter
+      renderTopDestinations(tab.dataset.region);
+    });
+  }
+
+  /* --------------------------------------------------------
+     TREKS, SAFARIS, CULTURE SECTIONS
+  -------------------------------------------------------- */
+  var treksShowAll = false;
+  var safarisShowAll = false;
+  var cultureShowAll = false;
+  var SECTION_INITIAL_COUNT = 8;
+
+  function renderTreks(filter) {
+    var grid = $('#treksGrid');
+    if (!grid) return;
+    var filtered = (!filter || filter === 'all')
+      ? trekData
+      : trekData.filter(function(t) { return t.type === filter; });
+    var visible = treksShowAll ? filtered : filtered.slice(0, SECTION_INITIAL_COUNT);
+    grid.innerHTML = visible.map(function(item) {
+      var tag = item.type === 'easy' ? 'Easy Trek' : 'Advanced Trek';
+      return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' trek — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
+        '<div class="top-dest-overlay">' +
+          '<span class="top-dest-tag">' + tag + '</span>' +
+          '<h3 class="top-dest-name">' + item.name + '</h3>' +
+          '<p class="top-dest-region">' + item.description + '</p>' +
+          '<div class="top-dest-meta">' +
+            '<span class="top-dest-rating">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg> ' +
+              item.rating +
+            '</span>' +
+          '</div>' +
+          '<button class="top-dest-btn">Explore</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    // See More / Show Less
+    var existingBtn = document.getElementById('treksSeeMoreBtn');
+    if (existingBtn) existingBtn.remove();
+    if (filtered.length > SECTION_INITIAL_COUNT) {
+      var btn = document.createElement('div');
+      btn.id = 'treksSeeMoreBtn';
+      btn.style.cssText = 'text-align:center; margin-top:2rem;';
+      btn.innerHTML = '<button class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;">' +
+        (treksShowAll ? 'Show Less' : 'See More (' + (filtered.length - SECTION_INITIAL_COUNT) + ' more)') + '</button>';
+      grid.parentNode.insertBefore(btn, grid.nextSibling);
+      btn.querySelector('button').addEventListener('click', function() {
+        treksShowAll = !treksShowAll;
+        renderTreks(filter);
+        if (!treksShowAll) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+    if (visible.length > 0 && !grid.classList.contains('revealed')) {
+      grid.classList.add('revealed');
+    }
+  }
+
+  function renderSafaris() {
+    var grid = $('#safarisGrid');
+    if (!grid) return;
+    grid.innerHTML = safariData.map(function(item) {
+      return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
+        '<div class="top-dest-overlay">' +
+          '<span class="top-dest-tag">Safari</span>' +
+          '<h3 class="top-dest-name">' + item.name + '</h3>' +
+          '<p class="top-dest-region">' + item.description + '</p>' +
+          '<div class="top-dest-meta">' +
+            '<span class="top-dest-rating">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg> ' +
+              item.rating +
+            '</span>' +
+          '</div>' +
+          '<button class="top-dest-btn">Explore</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    if (safariData.length > 0 && !grid.classList.contains('revealed')) {
+      grid.classList.add('revealed');
+    }
+  }
+
+  function renderCulture(filter) {
+    var grid = $('#cultureGrid');
+    if (!grid) return;
+    var filtered = (!filter || filter === 'all')
+      ? cultureData
+      : cultureData.filter(function(c) { return c.type === filter; });
+    var visible = cultureShowAll ? filtered : filtered.slice(0, SECTION_INITIAL_COUNT);
+    grid.innerHTML = visible.map(function(item) {
+      var tag = item.type === 'cultural' ? 'Cultural Tour' : 'Adventure Activity';
+      return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
+        '<div class="top-dest-overlay">' +
+          '<span class="top-dest-tag">' + tag + '</span>' +
+          '<h3 class="top-dest-name">' + item.name + '</h3>' +
+          '<p class="top-dest-region">' + item.description + '</p>' +
+          '<div class="top-dest-meta">' +
+            '<span class="top-dest-rating">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg> ' +
+              item.rating +
+            '</span>' +
+          '</div>' +
+          '<button class="top-dest-btn">Explore</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    // See More / Show Less
+    var existingBtn = document.getElementById('cultureSeeMoreBtn');
+    if (existingBtn) existingBtn.remove();
+    if (filtered.length > SECTION_INITIAL_COUNT) {
+      var btn = document.createElement('div');
+      btn.id = 'cultureSeeMoreBtn';
+      btn.style.cssText = 'text-align:center; margin-top:2rem;';
+      btn.innerHTML = '<button class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;">' +
+        (cultureShowAll ? 'Show Less' : 'See More (' + (filtered.length - SECTION_INITIAL_COUNT) + ' more)') + '</button>';
+      grid.parentNode.insertBefore(btn, grid.nextSibling);
+      btn.querySelector('button').addEventListener('click', function() {
+        cultureShowAll = !cultureShowAll;
+        renderCulture(filter);
+        if (!cultureShowAll) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+    if (visible.length > 0 && !grid.classList.contains('revealed')) {
+      grid.classList.add('revealed');
+    }
+  }
+
+  // Event delegation for treks/safaris/culture grids — open modal if matching destination
+  ['treksGrid', 'safarisGrid', 'cultureGrid'].forEach(function(gridId) {
+    var grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.addEventListener('click', function(e) {
+      var card = e.target.closest('.top-dest-card');
+      if (!card) return;
+      var name = card.dataset.name;
+      var dest = destinations.find(function(d) { return d.name === name; });
+      if (dest) openModal(dest.id);
+    });
+    grid.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        var card = e.target.closest('.top-dest-card');
+        if (!card) return;
+        e.preventDefault();
+        var name = card.dataset.name;
+        var dest = destinations.find(function(d) { return d.name === name; });
+        if (dest) openModal(dest.id);
+      }
+    });
+  });
+
+  // Treks filter tabs
+  var treksFilterTabs = $('#treksFilterTabs');
+  if (treksFilterTabs) {
+    treksFilterTabs.addEventListener('click', function(e) {
+      var tab = e.target.closest('.filter-tab');
+      if (!tab) return;
+      treksFilterTabs.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      treksShowAll = false;
+      renderTreks(tab.dataset.trek);
+    });
+  }
+
+  // Culture filter tabs
+  var cultureFilterTabs = $('#cultureFilterTabs');
+  if (cultureFilterTabs) {
+    cultureFilterTabs.addEventListener('click', function(e) {
+      var tab = e.target.closest('.filter-tab');
+      if (!tab) return;
+      cultureFilterTabs.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      cultureShowAll = false;
+      renderCulture(tab.dataset.culture);
     });
   }
 
   function renderMapList() {
     const mapDestList = $('#mapDestList');
     if (!mapDestList) return;
-    mapDestList.innerHTML = '';
-    destinations.forEach(dest => {
-      const item = createEl('div', { className: 'map-dest-item', role: 'button', tabindex: '0' });
-      item.innerHTML = `
+    mapDestList.innerHTML = destinations.map(dest => `
+      <div class="map-dest-item" role="button" tabindex="0" data-dest-id="${dest.id}">
         <div class="map-dest-pin">
           <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor"/></svg>
         </div>
@@ -216,15 +483,18 @@
           <div class="map-dest-name">${dest.name}</div>
           <div class="map-dest-detail">${dest.country}</div>
         </div>
-      `;
-      item.addEventListener('click', () => openModal(dest.id));
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openModal(dest.id);
-        }
-      });
-      mapDestList.appendChild(item);
+      </div>
+    `).join('');
+    // Event delegation for map list
+    mapDestList.addEventListener('click', function(e) {
+      const item = e.target.closest('.map-dest-item');
+      if (item) openModal(Number(item.dataset.destId));
+    });
+    mapDestList.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const item = e.target.closest('.map-dest-item');
+        if (item) { e.preventDefault(); openModal(Number(item.dataset.destId)); }
+      }
     });
   }
 
@@ -235,7 +505,7 @@
   const modalClose = $('#modalClose');
 
   function openModal(id) {
-    const dest = destinations.find(d => d.id === id);
+    const dest = destMap[id] || destinations.find(d => d.id === id);
     if (!dest) return;
 
     $('#modalImage').src = dest.image;
@@ -1463,6 +1733,9 @@
       const data = (window.__publicDataPromise && await window.__publicDataPromise) || await fetch('/api/page-data?need=destinations,reviews,deals,team,videos,gallery').then(r => r.json());
       delete window.__publicDataPromise;
       destinations = data.destinations || [];
+      // Build O(1) lookup map
+      destMap = {};
+      destinations.forEach(d => { destMap[d.id] = d; });
       reviews = data.reviews || [];
       deals = data.deals || [];
       teamMembers = data.team || [];
@@ -1479,6 +1752,9 @@
 
     // Render all sections immediately (videos & gallery load in background during page load)
     renderTopDestinations();
+    renderTreks();
+    renderSafaris();
+    renderCulture();
     renderMapList();
     renderReviews();
     renderDeals();
