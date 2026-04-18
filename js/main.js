@@ -11,7 +11,7 @@
   let destinations = [];
   let destMap = {};  // id -> destination lookup for O(1) access
   let reviews = [];
-  let deals = [];
+
   let videos = [];
   let galleryImages = [];
   let teamMembers = [];
@@ -119,7 +119,7 @@
   $$('.nav-link').forEach(link => {
     link.addEventListener('click', (e) => {
       // On mobile, toggle dropdown instead of closing menu
-      if (link.classList.contains('nav-link--dropdown') && window.innerWidth <= 768) {
+      if (link.classList.contains('nav-link--dropdown') && window.innerWidth <= 1256) {
         e.preventDefault();
         const parent = link.parentElement;
         // Close other open dropdowns on mobile
@@ -640,55 +640,6 @@
   });
 
   /* --------------------------------------------------------
-     DEALS & COUNTDOWNS
-  -------------------------------------------------------- */
-  const dealsGrid = $('#dealsGrid');
-  let countdownEndTimes = [];
-
-  function renderDeals() {
-    dealsGrid.innerHTML = '';
-    const previewDeals = deals.slice(0, 3);
-    countdownEndTimes = previewDeals.map(d => new Date(d.expiresAt).getTime());
-
-    previewDeals.forEach((deal, idx) => {
-      const card = createEl('div', { className: 'deal-card' });
-
-      card.innerHTML = `
-        <span class="deal-badge">${deal.badge}</span>
-        <div class="deal-card-img">
-          <img src="${deal.image}" alt="${deal.name} — limited time adventure deal | Gilgit Adventure Treks" loading="lazy" width="400" height="250">
-        </div>
-        <div class="deal-card-body">
-          <h3 class="deal-card-name">${deal.name}</h3>
-          <p class="deal-card-desc">${deal.description}</p>
-          <a href="book.html" class="deal-book-btn">Book This Package</a>
-        </div>
-      `;
-      dealsGrid.appendChild(card);
-    });
-
-    // Countdown removed - no pressure pricing
-  }
-
-  function updateCountdowns() {
-    $$('.deal-countdown').forEach((el, idx) => {
-      const remaining = Math.max(0, countdownEndTimes[idx] - Date.now());
-      const days = Math.floor(remaining / 86400000);
-      const hours = Math.floor((remaining % 86400000) / 3600000);
-      const mins = Math.floor((remaining % 3600000) / 60000);
-      const secs = Math.floor((remaining % 60000) / 1000);
-
-      const vals = el.querySelectorAll('.countdown-value');
-      vals[0].textContent = String(days).padStart(2, '0');
-      vals[1].textContent = String(hours).padStart(2, '0');
-      vals[2].textContent = String(mins).padStart(2, '0');
-      vals[3].textContent = String(secs).padStart(2, '0');
-    });
-  }
-
-  setInterval(updateCountdowns, 1000);
-
-  /* --------------------------------------------------------
      NEWSLETTER — POST to API
   -------------------------------------------------------- */
   const newsletterForm = $('#newsletterForm');
@@ -1196,8 +1147,7 @@
         team: '#team',
         topDestinations: '#top-destinations',
         map: '#map',
-        reviews: '#reviews',
-        deals: '#deals'
+        reviews: '#reviews'
       };
       for (const [key, selector] of Object.entries(sectionMap)) {
         const section = s.sectionHeaders[key];
@@ -1730,14 +1680,14 @@
   async function init() {
     try {
       // Reuse pre-fetched data (now includes videos & gallery for background loading)
-      const data = (window.__publicDataPromise && await window.__publicDataPromise) || await fetch('/api/page-data?need=destinations,reviews,deals,team,videos,gallery').then(r => r.json());
+      const data = (window.__publicDataPromise && await window.__publicDataPromise) || await fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(r => r.json());
       delete window.__publicDataPromise;
       destinations = data.destinations || [];
       // Build O(1) lookup map
       destMap = {};
       destinations.forEach(d => { destMap[d.id] = d; });
       reviews = data.reviews || [];
-      deals = data.deals || [];
+
       teamMembers = data.team || [];
       videos = data.videos || [];
       galleryImages = data.gallery || [];
@@ -1757,7 +1707,7 @@
     renderCulture();
     renderMapList();
     renderReviews();
-    renderDeals();
+
     renderTeam();
     renderVideos();
     renderGallery();

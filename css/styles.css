@@ -515,7 +515,7 @@ input, select, textarea {
   padding-left: calc(var(--space-2) + 4px);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1256px) {
   .nav-link {
     font-size: var(--fs-xs);
     padding: var(--space-2) var(--space-2);
@@ -3171,8 +3171,8 @@ input, select, textarea {
   }
 }
 
-/* <= 768px */
-@media (max-width: 768px) {
+/* <= 1256px — mobile nav toggle */
+@media (max-width: 1256px) {
   :root {
     --nav-height: 64px;
   }
@@ -3185,7 +3185,7 @@ input, select, textarea {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 280px;
+    width: 320px;
     height: 100vh;
     background: var(--clr-white);
     flex-direction: column;
@@ -3194,6 +3194,7 @@ input, select, textarea {
     box-shadow: var(--shadow-xl);
     transition: right var(--transition-base);
     z-index: 1000;
+    overflow-y: auto;
   }
 
   .nav-links.open {

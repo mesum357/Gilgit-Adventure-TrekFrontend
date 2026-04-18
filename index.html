@@ -210,7 +210,7 @@
   </div>
   <script>
     // Early fetch: update loading screen + store promise for main.js to reuse (includes videos & gallery for background loading)
-    window.__publicDataPromise = fetch('/api/page-data?need=destinations,reviews,deals,team,videos,gallery').then(function(r){return r.json()}).then(function(d){
+    window.__publicDataPromise = fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(function(r){return r.json()}).then(function(d){
       if(d.settings){
         var s=d.settings;
         // DISABLED: Loading screen text updates (always use default from HTML)
@@ -687,24 +687,6 @@
     </div>
   </section>
 
-
-  <!-- ============ DEALS PREVIEW ============ -->
-  <section class="deals section" id="deals">
-    <div class="container">
-      <div class="section-header reveal-up">
-        <span class="section-tag">Limited Time</span>
-        <h2 class="section-title">Seasonal Trek Deals</h2>
-        <p class="section-description">Grab these exclusive Northern Pakistan tour packages before they're fully booked for the season.</p>
-      </div>
-      <div class="deals-grid reveal-up" id="dealsGrid">
-        <!-- Deal cards injected by JS (limited to 3) -->
-      </div>
-      <div style="text-align:center; margin-top:2rem;" class="reveal-up">
-        <a href="deals.html" class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;">View All Deals</a>
-      </div>
-    </div>
-  </section>
-
     <!-- ============ BOOKING FLOW SECTION ============ -->
        <section class="booking section" id="booking">
     <div class="container">
@@ -875,7 +857,7 @@
             <li><a href="destinations.html">All Destinations</a></li>
             <li><a href="jeep-safaris.html">Jeep Safaris</a></li>
             <li><a href="reviews.html">Reviews</a></li>
-            <li><a href="deals.html">Deals</a></li>
+
             <li><a href="trip-planner.html">Trip Planner</a></li>
           </ul>
         </div>
