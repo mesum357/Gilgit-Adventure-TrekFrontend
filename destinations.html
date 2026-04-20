@@ -98,6 +98,31 @@
   </style>
 </head>
 <body>
+
+  <!-- ============ LOADING SCREEN ============ -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-content">
+      <img src="images/logo.png" alt="Gilgit Adventure Treks" class="loading-logo">
+      <h2 class="loading-title">Gilgit Adventure Treks</h2>
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+      </div>
+      <p class="loading-text">Preparing your mountain adventure...</p>
+    </div>
+  </div>
+  <script>
+    window.__loaderStart = Date.now();
+    window.__pageDataPromise = fetch('/api/page-data?need=destinations').then(function(r){return r.json()}).catch(function(){return null;});
+    window.__hideLoader = function() {
+      var elapsed = Date.now() - window.__loaderStart;
+      var delay = Math.max(0, 600 - elapsed);
+      setTimeout(function() {
+        var l = document.getElementById('loadingScreen');
+        if (l) { l.classList.add('hidden'); setTimeout(function() { l.remove(); }, 600); }
+      }, delay);
+    };
+  </script>
+
   <!-- Skip to main content -->
   <a href="#main-content" class="skip-link" style="position:absolute;top:-100%;left:0;background:#2D6A4F;color:#fff;padding:0.5rem 1rem;z-index:99999;font-size:0.9rem;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100%'">Skip to main content</a>
 
@@ -168,30 +193,30 @@
 
         <!-- Treks mega-menu (3 columns) -->
         <li class="nav-dropdown nav-mega nav-mega--3col">
-          <a href="destinations.html" class="nav-link nav-link--dropdown">Treks <span class="nav-caret" aria-hidden="true">▾</span></a>
+          <a href="treks.html" class="nav-link nav-link--dropdown">Treks <span class="nav-caret" aria-hidden="true">▾</span></a>
           <div class="nav-dropdown-menu nav-mega-menu">
             <div class="nav-mega-column">
               <h4 class="nav-mega-heading">Easy Treks</h4>
-              <a href="destinations.html" class="nav-dropdown-item">Fairy Meadows</a>
-              <a href="destinations.html" class="nav-dropdown-item">Rakaposhi BC</a>
-              <a href="destinations.html" class="nav-dropdown-item">Naltar Lakes</a>
-              <a href="destinations.html" class="nav-dropdown-item">Rush Lake</a>
-              <a href="destinations.html" class="nav-dropdown-item">Borith Lake</a>
-              <a href="destinations.html" class="nav-dropdown-item">Patundas</a>
-              <a href="destinations.html" class="nav-dropdown-item">Passu Glacier</a>
+              <a href="treks.html" class="nav-dropdown-item">Fairy Meadows</a>
+              <a href="treks.html" class="nav-dropdown-item">Rakaposhi BC</a>
+              <a href="treks.html" class="nav-dropdown-item">Naltar Lakes</a>
+              <a href="treks.html" class="nav-dropdown-item">Rush Lake</a>
+              <a href="treks.html" class="nav-dropdown-item">Borith Lake</a>
+              <a href="treks.html" class="nav-dropdown-item">Patundas</a>
+              <a href="treks.html" class="nav-dropdown-item">Passu Glacier</a>
             </div>
             <div class="nav-mega-column">
               <h4 class="nav-mega-heading">Advanced Treks</h4>
-              <a href="destinations.html" class="nav-dropdown-item">K2 Base Camp</a>
-              <a href="destinations.html" class="nav-dropdown-item">Nanga Parbat BC</a>
-              <a href="destinations.html" class="nav-dropdown-item">Snow Lake</a>
-              <a href="destinations.html" class="nav-dropdown-item">Gondogoro La</a>
-              <a href="destinations.html" class="nav-dropdown-item">Spantik BC</a>
-              <a href="destinations.html" class="nav-dropdown-item">Biafo-Hispar</a>
+              <a href="treks.html" class="nav-dropdown-item">K2 Base Camp</a>
+              <a href="treks.html" class="nav-dropdown-item">Nanga Parbat BC</a>
+              <a href="treks.html" class="nav-dropdown-item">Snow Lake</a>
+              <a href="treks.html" class="nav-dropdown-item">Gondogoro La</a>
+              <a href="treks.html" class="nav-dropdown-item">Spantik BC</a>
+              <a href="treks.html" class="nav-dropdown-item">Biafo-Hispar</a>
             </div>
             <div class="nav-mega-column">
               <h4 class="nav-mega-heading">Services</h4>
-              <a href="destinations.html" class="nav-dropdown-item">Guides &amp; Equipment</a>
+              <a href="treks.html" class="nav-dropdown-item">Guides &amp; Equipment</a>
             </div>
           </div>
         </li>
@@ -210,34 +235,34 @@
 
         <!-- Culture mega-menu (2 columns) -->
         <li class="nav-dropdown nav-mega nav-mega--2col">
-          <a href="destinations.html" class="nav-link nav-link--dropdown">Culture <span class="nav-caret" aria-hidden="true">▾</span></a>
+          <a href="culture.html" class="nav-link nav-link--dropdown">Culture <span class="nav-caret" aria-hidden="true">▾</span></a>
           <div class="nav-dropdown-menu nav-mega-menu">
             <div class="nav-mega-column">
-              <a href="destinations.html" class="nav-dropdown-item">Village Tours</a>
-              <a href="destinations.html" class="nav-dropdown-item">Heritage Walks</a>
-              <a href="destinations.html" class="nav-dropdown-item">Festivals &amp; Events</a>
-              <a href="destinations.html" class="nav-dropdown-item">Local Food Tours</a>
-              <a href="destinations.html" class="nav-dropdown-item">Handicraft Workshops</a>
-              <a href="destinations.html" class="nav-dropdown-item">Southern Pakistan</a>
+              <a href="culture.html" class="nav-dropdown-item">Village Tours</a>
+              <a href="culture.html" class="nav-dropdown-item">Heritage Walks</a>
+              <a href="culture.html" class="nav-dropdown-item">Festivals &amp; Events</a>
+              <a href="culture.html" class="nav-dropdown-item">Local Food Tours</a>
+              <a href="culture.html" class="nav-dropdown-item">Handicraft Workshops</a>
+              <a href="culture.html" class="nav-dropdown-item">Southern Pakistan</a>
             </div>
             <div class="nav-mega-column">
-              <a href="destinations.html" class="nav-dropdown-item">Camping</a>
-              <a href="destinations.html" class="nav-dropdown-item">Photography Tours</a>
-              <a href="destinations.html" class="nav-dropdown-item">Bird Watching</a>
-              <a href="destinations.html" class="nav-dropdown-item">Fishing Trips</a>
-              <a href="destinations.html" class="nav-dropdown-item">Family Adventures</a>
+              <a href="culture.html" class="nav-dropdown-item">Camping</a>
+              <a href="culture.html" class="nav-dropdown-item">Photography Tours</a>
+              <a href="culture.html" class="nav-dropdown-item">Bird Watching</a>
+              <a href="culture.html" class="nav-dropdown-item">Fishing Trips</a>
+              <a href="culture.html" class="nav-dropdown-item">Family Adventures</a>
             </div>
           </div>
         </li>
 
         <!-- Gallery dropdown -->
         <li class="nav-dropdown">
-          <a href="index.html#gallery" class="nav-link nav-link--dropdown">Gallery <span class="nav-caret" aria-hidden="true">▾</span></a>
+          <a href="gallery.html" class="nav-link nav-link--dropdown">Gallery <span class="nav-caret" aria-hidden="true">▾</span></a>
           <ul class="nav-dropdown-menu" role="list">
-            <li><a href="index.html#gallery" class="nav-dropdown-item">Photos</a></li>
-            <li><a href="index.html#videos" class="nav-dropdown-item">Videos</a></li>
-            <li><a href="index.html#gallery" class="nav-dropdown-item">Client Moments</a></li>
-            <li><a href="index.html#gallery" class="nav-dropdown-item">Highlights</a></li>
+            <li><a href="gallery.html#gallery" class="nav-dropdown-item">Photos</a></li>
+            <li><a href="gallery.html#videos" class="nav-dropdown-item">Videos</a></li>
+            <li><a href="gallery.html#gallery" class="nav-dropdown-item">Client Moments</a></li>
+            <li><a href="gallery.html#gallery" class="nav-dropdown-item">Highlights</a></li>
           </ul>
         </li>
 
@@ -807,8 +832,8 @@
     -------------------------------------------------------- */
     async function init() {
       try {
-        var resp = await fetch('/api/page-data?need=destinations');
-        var data = await resp.json();
+        var data = await (window.__pageDataPromise || fetch('/api/page-data?need=destinations').then(function(r){return r.json()}));
+        if (!data) data = {};
         destinations = data.destinations || [];
 
         // Apply branding from settings
@@ -826,6 +851,9 @@
 
       // Handle highlight URL param
       handleHighlightParam();
+
+      // Hide loading screen
+      if (window.__hideLoader) window.__hideLoader();
     }
 
     init();

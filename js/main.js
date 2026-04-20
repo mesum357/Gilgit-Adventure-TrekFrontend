@@ -95,10 +95,6 @@
     return html;
   }
 
-  function formatPKR(amount) {
-    return 'PKR ' + amount.toLocaleString('en-PK');
-  }
-
   /* --------------------------------------------------------
      NAVIGATION
   -------------------------------------------------------- */
@@ -471,10 +467,14 @@
     });
   }
 
+  var mapListShowAll = false;
+  var MAP_LIST_INITIAL = 8;
+
   function renderMapList() {
     const mapDestList = $('#mapDestList');
     if (!mapDestList) return;
-    mapDestList.innerHTML = destinations.map(dest => `
+    var visible = mapListShowAll ? destinations : destinations.slice(0, MAP_LIST_INITIAL);
+    mapDestList.innerHTML = visible.map(dest => `
       <div class="map-dest-item" role="button" tabindex="0" data-dest-id="${dest.id}">
         <div class="map-dest-pin">
           <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="currentColor"/></svg>
@@ -485,6 +485,22 @@
         </div>
       </div>
     `).join('');
+    // See More / Show Less button
+    var existingBtn = document.getElementById('mapListSeeMoreBtn');
+    if (existingBtn) existingBtn.remove();
+    if (destinations.length > MAP_LIST_INITIAL) {
+      var btn = document.createElement('div');
+      btn.id = 'mapListSeeMoreBtn';
+      btn.style.cssText = 'text-align:center; padding:0.75rem 0;';
+      btn.innerHTML = '<button class="btn btn-primary" style="padding:0.5rem 1.5rem; font-size:0.85rem;">' +
+        (mapListShowAll ? 'Show Less' : 'See More (' + (destinations.length - MAP_LIST_INITIAL) + ' more)') + '</button>';
+      mapDestList.parentNode.insertBefore(btn, mapDestList.nextSibling);
+      btn.querySelector('button').addEventListener('click', function() {
+        mapListShowAll = !mapListShowAll;
+        renderMapList();
+        if (!mapListShowAll) mapDestList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
     // Event delegation for map list
     mapDestList.addEventListener('click', function(e) {
       const item = e.target.closest('.map-dest-item');
@@ -521,20 +537,14 @@
       if (dest.category === 'tour' && dest.duration) {
         tourMeta.style.display = 'block';
         $('#metaDuration').textContent = dest.duration || '';
-        $('#metaPrice').textContent = dest.priceUSD || '';
         $('#metaGroup').textContent = dest.groupSize || '';
         $('#metaDifficulty').textContent = dest.difficulty || '';
         $('#metaSeason').textContent = dest.bestSeason || '';
         $('#metaRoute').textContent = dest.route ? dest.route.join(' → ') : '';
         $('#metaRouteWrap').style.display = dest.route ? 'block' : 'none';
-        $('#modalPrice').style.display = 'inline';
-        $('#modalPrice').textContent = dest.priceUSD;
       } else {
         tourMeta.style.display = 'none';
-        $('#modalPrice').style.display = 'none';
       }
-    } else {
-      $('#modalPrice').style.display = 'none';
     }
 
     $('#modalBookBtn').href = 'book.html?destination=' + dest.id;
@@ -1038,13 +1048,7 @@
       'image': d.image,
       'address': { '@type': 'PostalAddress', 'addressRegion': d.country, 'addressCountry': 'PK' },
       'isAccessibleForFree': false,
-      'touristType': d.category,
-      'offers': {
-        '@type': 'Offer',
-        'price': d.price,
-        'priceCurrency': 'PKR',
-        'availability': 'https://schema.org/InStock'
-      }
+      'touristType': d.category
     }));
     // Aggregate rating from reviews
     if (reviews.length > 0) {
@@ -1448,11 +1452,16 @@
     return true;
   }
 
+  var bookingDestShowAll = false;
+  var BOOKING_DEST_INITIAL = 6;
+
   function renderBookingDestinations() {
     const container = $('#bookingDestinations');
     if (!container || destinations.length === 0) return;
 
-    container.innerHTML = destinations.map(d => `
+    var visible = bookingDestShowAll ? destinations : destinations.slice(0, BOOKING_DEST_INITIAL);
+
+    container.innerHTML = visible.map(d => `
       <div class="booking-dest-card" data-id="${d.id}" data-name="${d.name}">
         <img src="${d.image}" alt="${d.name}" loading="lazy">
         <div class="booking-dest-info">
@@ -1461,6 +1470,23 @@
         </div>
       </div>
     `).join('');
+
+    // See More / Show Less button
+    var existingBtn = document.getElementById('bookingDestSeeMoreBtn');
+    if (existingBtn) existingBtn.remove();
+    if (destinations.length > BOOKING_DEST_INITIAL) {
+      var btn = document.createElement('div');
+      btn.id = 'bookingDestSeeMoreBtn';
+      btn.style.cssText = 'text-align:center; margin-top:1rem;';
+      btn.innerHTML = '<button class="btn btn-primary" style="padding:0.5rem 1.5rem; font-size:0.9rem;">' +
+        (bookingDestShowAll ? 'Show Less' : 'See More (' + (destinations.length - BOOKING_DEST_INITIAL) + ' more)') + '</button>';
+      container.parentNode.insertBefore(btn, container.nextSibling);
+      btn.querySelector('button').addEventListener('click', function() {
+        bookingDestShowAll = !bookingDestShowAll;
+        renderBookingDestinations();
+        if (!bookingDestShowAll) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
 
     // Click handlers
     $$('.booking-dest-card').forEach(card => {

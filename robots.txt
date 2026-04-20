@@ -1,0 +1,16 @@
+# Gilgit Adventure Treks — robots.txt
+
+User-agent: *
+Allow: /
+
+# Block admin panel & API
+Disallow: /admin/
+Disallow: /api/
+
+# Block auth pages from indexing
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /profile.html
+
+# Sitemaps
+Sitemap: https://gilgitadventuretreks.com/sitemap-index.xml
