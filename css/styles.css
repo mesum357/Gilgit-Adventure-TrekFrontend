@@ -69,7 +69,7 @@
   --transition-base: 0.3s ease;
   --transition-slow: 0.5s ease;
 
-  --nav-height: 72px;
+  --nav-height: 85px;
   --container-max: 1280px;
 }
 
@@ -105,8 +105,8 @@
 }
 
 .loading-logo {
-  width: 90px;
-  height: 90px;
+  width: 140px;
+  height: 140px;
   margin: 0 auto 1.2rem;
   border-radius: 50%;
   object-fit: cover;
@@ -339,9 +339,8 @@ input, select, textarea {
 }
 
 .logo-img {
-  width: 44px;
-  height: 44px;
-  max-height: calc(var(--nav-height) - 12px);
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -3174,7 +3173,12 @@ input, select, textarea {
 /* <= 1256px — mobile nav toggle */
 @media (max-width: 1256px) {
   :root {
-    --nav-height: 64px;
+    --nav-height: 75px;
+  }
+
+  .logo-img {
+    width: 65px;
+    height: 65px;
   }
 
   .nav-toggle {
@@ -3374,6 +3378,15 @@ input, select, textarea {
 
 /* <= 480px */
 @media (max-width: 480px) {
+  :root {
+    --nav-height: 68px;
+  }
+
+  .logo-img {
+    width: 55px;
+    height: 55px;
+  }
+
   .hero-title {
     font-size: var(--fs-2xl);
   }
