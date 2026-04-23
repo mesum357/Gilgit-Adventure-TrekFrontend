@@ -73,78 +73,6 @@
   --container-max: 1280px;
 }
 
-/* --- Loading Screen --- */
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--clr-navy-deep);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-
-.loading-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.loading-content {
-  text-align: center;
-  animation: loadingFadeIn 0.8s ease;
-}
-
-@keyframes loadingFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.loading-logo {
-  width: 140px;
-  height: 140px;
-  margin: 0 auto 1.2rem;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--clr-sunset);
-}
-
-.loading-title {
-  font-family: var(--ff-heading);
-  font-size: 1.6rem;
-  color: var(--clr-white);
-  letter-spacing: 1px;
-  margin-bottom: 2rem;
-}
-
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.spinner-ring {
-  width: 48px;
-  height: 48px;
-  border: 4px solid rgba(255,255,255,0.15);
-  border-top-color: var(--clr-sunset);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-text {
-  color: var(--clr-gray-400);
-  font-size: 0.95rem;
-  letter-spacing: 0.5px;
-}
 
 /* --- Reset & Base --- */
 *,
@@ -972,6 +900,7 @@ input, select, textarea {
 
 /* Destination Card */
 .dest-card {
+  position: relative;
   background: var(--clr-white);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -2469,6 +2398,7 @@ input, select, textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   transition: transform 0.6s ease;
 }
 
@@ -2558,6 +2488,72 @@ input, select, textarea {
 
   .team-card-img {
     height: 240px;
+  }
+}
+
+.team-card {
+  cursor: pointer;
+}
+
+.team-card-bio {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Team Modal */
+.team-modal {
+  max-width: 600px;
+}
+
+.team-modal-img {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--clr-gray-100);
+}
+
+.team-modal-body {
+  padding: var(--space-6) var(--space-6) var(--space-8);
+  text-align: center;
+}
+
+.team-modal-name {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--clr-navy-deep);
+  margin-bottom: var(--space-1);
+}
+
+.team-modal-role {
+  display: inline-block;
+  font-family: var(--ff-heading);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--clr-ocean);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-4);
+}
+
+.team-modal-bio {
+  font-size: var(--fs-base);
+  color: var(--clr-gray-600);
+  line-height: 1.8;
+  text-align: left;
+}
+
+@media (max-width: 480px) {
+  .team-modal-img {
+    height: 240px;
+  }
+
+  .team-modal-body {
+    padding: var(--space-4) var(--space-4) var(--space-6);
   }
 }
 
@@ -3038,6 +3034,230 @@ input, select, textarea {
   font-size: var(--fs-sm);
   font-weight: 400;
   color: var(--clr-gray-400);
+}
+
+/* ============================================================
+   NEW TOUR BADGE (brown circle)
+   ============================================================ */
+.new-tour-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #7B4F2A;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(123, 79, 42, 0.4);
+  pointer-events: none;
+}
+
+/* Wider destination modal */
+.modal-content--dest {
+  max-width: 720px;
+}
+
+/* ============================================================
+   MODAL — SECTION TITLE
+   ============================================================ */
+.modal-section-title {
+  font-family: var(--ff-heading);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--clr-navy-deep);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ============================================================
+   MODAL — GALLERY THUMBNAIL STRIP
+   ============================================================ */
+.modal-gallery {
+  margin-bottom: var(--space-5);
+}
+
+.modal-gallery-strip {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-gray-200) transparent;
+}
+
+.modal-gallery-strip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.modal-gallery-strip::-webkit-scrollbar-thumb {
+  background: var(--clr-gray-200);
+  border-radius: 3px;
+}
+
+.modal-gallery-thumb {
+  width: 80px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.75;
+  transition: opacity var(--transition-fast), border-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.modal-gallery-thumb:hover,
+.modal-gallery-thumb.active {
+  opacity: 1;
+  border-color: var(--clr-ocean);
+}
+
+/* ============================================================
+   MODAL — DAY-BY-DAY ITINERARY ACCORDION
+   ============================================================ */
+.modal-itinerary {
+  margin-bottom: var(--space-5);
+}
+
+.modal-itinerary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itinerary-day {
+  border: 1px solid var(--clr-gray-100);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.itinerary-day-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--clr-gray-50);
+  border: none;
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  color: var(--clr-navy-deep);
+  text-align: left;
+  transition: background var(--transition-fast);
+}
+
+.itinerary-day-header:hover {
+  background: var(--clr-gray-100);
+}
+
+.itinerary-day-badge {
+  display: inline-block;
+  background: var(--clr-ocean);
+  color: var(--clr-white);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.itinerary-day-title {
+  flex: 1;
+  font-weight: 600;
+}
+
+.itinerary-chevron {
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+  color: var(--clr-gray-400);
+}
+
+.itinerary-day.open .itinerary-chevron {
+  transform: rotate(180deg);
+}
+
+.itinerary-day-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.itinerary-day.open .itinerary-day-body {
+  max-height: 200px;
+}
+
+.itinerary-day-body p {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-xs);
+  color: var(--clr-gray-600);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================================
+   MODAL — INCLUDES / EXCLUDES POLICIES
+   ============================================================ */
+.modal-policies {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.modal-policies-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.modal-policies-col li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--clr-gray-600);
+  line-height: 1.5;
+}
+
+.modal-policies-col li svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.modal-policies-col--includes li {
+  color: var(--clr-gray-700);
+}
+
+.modal-policies-col--excludes li {
+  color: var(--clr-gray-500);
+}
+
+/* Responsive: stack policies on mobile */
+@media (max-width: 560px) {
+  .modal-content--dest {
+    max-width: 100%;
+  }
+  .modal-policies {
+    grid-template-columns: 1fr;
+  }
+  .modal-gallery-thumb {
+    width: 64px;
+    height: 44px;
+  }
 }
 
 /* ============================================================

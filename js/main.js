@@ -19,43 +19,10 @@
   /* --------------------------------------------------------
      STATIC DATA — Treks, Safaris, Culture
   -------------------------------------------------------- */
-  const trekData = [
-    { name: 'Fairy Meadows', type: 'easy', image: 'https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=600&h=400&fit=crop', rating: 4.8, description: 'A lush green meadow with a stunning view of Nanga Parbat, the 9th highest mountain in the world.' },
-    { name: 'Rakaposhi BC', type: 'easy', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&h=400&fit=crop', rating: 4.7, description: 'Trek to the base camp of Rakaposhi (7,788m) through beautiful alpine meadows and glaciers.' },
-    { name: 'Naltar Lakes', type: 'easy', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&h=400&fit=crop', rating: 4.6, description: 'Crystal-clear lakes surrounded by pine forests at an altitude of 3,200m in Naltar Valley.' },
-    { name: 'Rush Lake', type: 'easy', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&h=400&fit=crop', rating: 4.5, description: 'One of the highest alpine lakes in the world at 4,694m, offering breathtaking panoramic views.' },
-    { name: 'Borith Lake', type: 'easy', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=400&fit=crop', rating: 4.4, description: 'A serene lake near Passu with views of Passu Cones and surrounding glaciers.' },
-    { name: 'Patundas', type: 'easy', image: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=600&h=400&fit=crop', rating: 4.5, description: 'A hidden meadow trek above Passu offering panoramic views of the Karakoram range.' },
-    { name: 'Passu Glacier', type: 'easy', image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=400&fit=crop', rating: 4.6, description: 'Walk across the spectacular Passu Glacier and explore its dramatic ice formations.' },
-    { name: 'K2 Base Camp', type: 'advanced', image: 'https://images.unsplash.com/photo-1585409677983-0f6c41128c4b?w=600&h=400&fit=crop', rating: 4.9, description: 'The ultimate trekking experience to the base of the world\'s second highest mountain (8,611m).' },
-    { name: 'Nanga Parbat BC', type: 'advanced', image: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=600&h=400&fit=crop', rating: 4.8, description: 'Trek to the base camp of the "Killer Mountain" — one of the most dramatic peaks on Earth.' },
-    { name: 'Snow Lake', type: 'advanced', image: 'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=600&h=400&fit=crop', rating: 4.7, description: 'A vast glacial basin at 4,843m, one of the largest glacial systems outside the polar regions.' },
-    { name: 'Gondogoro La', type: 'advanced', image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&h=400&fit=crop', rating: 4.8, description: 'Cross the legendary 5,585m pass with views of K2, Broad Peak, and the Gasherbrum group.' },
-    { name: 'Spantik BC', type: 'advanced', image: 'https://images.unsplash.com/photo-1515876305430-f06edab8282a?w=600&h=400&fit=crop', rating: 4.6, description: 'Trek to the base of the "Golden Peak" (7,027m) through stunning glacial valleys.' },
-    { name: 'Biafo-Hispar', type: 'advanced', image: 'https://images.unsplash.com/photo-1491904768633-2b7e3e7fede5?w=600&h=400&fit=crop', rating: 4.7, description: 'Traverse two of the world\'s longest glaciers in an epic 7-day high-altitude crossing.' }
-  ];
-
-  const safariData = [
-    { name: 'Hunza Valley Safari', image: 'https://images.unsplash.com/photo-1597074866923-dc0589150a53?w=600&h=400&fit=crop', rating: 4.8, description: 'Drive along the Karakoram Highway through Hunza, visiting Karimabad, Passu, and Khunjerab Pass.' },
-    { name: 'Skardu Valley Safari', image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&h=400&fit=crop', rating: 4.7, description: 'Explore Skardu\'s stunning lakes, forts, and desert landscapes by 4x4 jeep.' },
-    { name: 'Deosai Jeep Safari', image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=600&h=400&fit=crop', rating: 4.9, description: 'Traverse the world\'s second-highest plateau — home to Himalayan brown bears and wildflowers.' },
-    { name: 'Off-Road Adventures', image: 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?w=600&h=400&fit=crop', rating: 4.5, description: 'Thrilling 4x4 jeep rides through rugged mountain passes and remote valleys.' },
-    { name: 'Kalash Valley Safari', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop', rating: 4.6, description: 'Visit the unique Kalash people, their ancient festivals, and the beautiful valleys of Chitral.' }
-  ];
-
-  const cultureData = [
-    { name: 'Village Tours', type: 'cultural', image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&h=400&fit=crop', rating: 4.6, description: 'Visit traditional mountain villages and experience the daily life of local communities.' },
-    { name: 'Heritage Walks', type: 'cultural', image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=600&h=400&fit=crop', rating: 4.5, description: 'Walk through ancient forts, sacred sites, and centuries-old settlements of Gilgit-Baltistan.' },
-    { name: 'Festivals & Events', type: 'cultural', image: 'https://images.unsplash.com/photo-1533669955142-6a73332af4db?w=600&h=400&fit=crop', rating: 4.8, description: 'Experience vibrant local festivals — from Shandur Polo to Harvest celebrations and Navroz.' },
-    { name: 'Local Food Tours', type: 'cultural', image: 'https://images.unsplash.com/photo-1567337710282-00832b415979?w=600&h=400&fit=crop', rating: 4.7, description: 'Taste authentic Northern Pakistani cuisine — from chapshoro to apricot dishes and local teas.' },
-    { name: 'Handicraft Workshops', type: 'cultural', image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=400&fit=crop', rating: 4.4, description: 'Learn traditional crafts — gemstone cutting, wool weaving, and woodwork from local artisans.' },
-    { name: 'Southern Pakistan Tours', type: 'cultural', image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&h=400&fit=crop', rating: 4.5, description: 'Explore Lahore, Multan, and Mohenjo-daro — the rich cultural heritage of southern Pakistan.' },
-    { name: 'Camping', type: 'adventure', image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&h=400&fit=crop', rating: 4.7, description: 'Camp under the stars in pristine mountain meadows with full gear and guided setups.' },
-    { name: 'Photography Tours', type: 'adventure', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop', rating: 4.8, description: 'Capture stunning landscapes with expert photography guides at the best viewpoints.' },
-    { name: 'Bird Watching', type: 'adventure', image: 'https://images.unsplash.com/photo-1470114716159-e389f8712fda?w=600&h=400&fit=crop', rating: 4.3, description: 'Spot rare Himalayan birds — golden eagles, snow cocks, and lammergeiers in their habitat.' },
-    { name: 'Fishing Trips', type: 'adventure', image: 'https://images.unsplash.com/photo-1440778303588-435521a205bc?w=600&h=400&fit=crop', rating: 4.4, description: 'Fish for brown and rainbow trout in the crystal-clear rivers and streams of Gilgit-Baltistan.' },
-    { name: 'Family Adventures', type: 'adventure', image: 'https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=600&h=400&fit=crop', rating: 4.6, description: 'Kid-friendly adventures with easy hikes, boat rides, and nature walks for the whole family.' }
-  ];
+  // These are populated from database destinations by category (see init())
+  let trekData = [];
+  let safariData = [];
+  let cultureData = [];
 
   /* --------------------------------------------------------
      UTILITIES
@@ -219,14 +186,15 @@
   function renderTopDestinations(regionFilter) {
     const topGrid = $('#topDestGrid');
     if (!topGrid) return;
+    var tourDests = destinations.filter(d => d.category === 'tour');
     var filtered = (!regionFilter || regionFilter === 'all')
-      ? destinations
-      : destinations.filter(d => d.country && d.country.toLowerCase().includes(regionFilter.toLowerCase()));
+      ? tourDests
+      : tourDests.filter(d => d.country && d.country.toLowerCase().includes(regionFilter.toLowerCase()));
     var visible = topDestShowAll ? filtered : filtered.slice(0, DEST_INITIAL_COUNT);
     // Build all cards as a single HTML string (1 reflow instead of N)
     var html = visible.map(dest => `
       <div class="top-dest-card" role="button" tabindex="0" data-dest-id="${dest.id}">
-        <img src="${dest.image}" alt="${dest.name} — top destination in ${dest.country} | Gilgit Adventure Treks" loading="lazy" width="600" height="400">
+                <img src="${dest.image}" alt="${dest.name} — top destination in ${dest.country} | Gilgit Adventure Treks" loading="lazy" width="600" height="400">
         <div class="top-dest-overlay">
           <span class="top-dest-tag">Top Destination</span>
           <h3 class="top-dest-name">${dest.name}</h3>
@@ -306,16 +274,15 @@
     if (!grid) return;
     var filtered = (!filter || filter === 'all')
       ? trekData
-      : trekData.filter(function(t) { return t.type === filter; });
+      : trekData.filter(function(t) { return t.category === filter; });
     var visible = treksShowAll ? filtered : filtered.slice(0, SECTION_INITIAL_COUNT);
     grid.innerHTML = visible.map(function(item) {
-      var tag = item.type === 'easy' ? 'Easy Trek' : 'Advanced Trek';
+      var tag = item.category === 'trek' ? 'Trek' : (item.category === 'meadow' ? 'Meadow' : 'Glacier');
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
         '<img src="' + item.image + '" alt="' + item.name + ' trek — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">' + tag + '</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
-          '<p class="top-dest-region">' + item.description + '</p>' +
           '<div class="top-dest-meta">' +
             '<span class="top-dest-rating">' +
               '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg> ' +
@@ -354,9 +321,8 @@
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
         '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
         '<div class="top-dest-overlay">' +
-          '<span class="top-dest-tag">Safari</span>' +
+          '<span class="top-dest-tag">Tour</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
-          '<p class="top-dest-region">' + item.description + '</p>' +
           '<div class="top-dest-meta">' +
             '<span class="top-dest-rating">' +
               '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg> ' +
@@ -377,16 +343,15 @@
     if (!grid) return;
     var filtered = (!filter || filter === 'all')
       ? cultureData
-      : cultureData.filter(function(c) { return c.type === filter; });
+      : cultureData.filter(function(c) { return c.category === filter; });
     var visible = cultureShowAll ? filtered : filtered.slice(0, SECTION_INITIAL_COUNT);
     grid.innerHTML = visible.map(function(item) {
-      var tag = item.type === 'cultural' ? 'Cultural Tour' : 'Adventure Activity';
+      var tag = item.category === 'heritage' ? 'Heritage' : 'Fort';
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
         '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">' + tag + '</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
-          '<p class="top-dest-region">' + item.description + '</p>' +
           '<div class="top-dest-meta">' +
             '<span class="top-dest-rating">' +
               '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg> ' +
@@ -467,6 +432,23 @@
     });
   }
 
+  // Gallery filter tabs
+  var galleryFilterTabs = $('#galleryFilterTabs');
+  if (galleryFilterTabs) {
+    galleryFilterTabs.addEventListener('click', function(e) {
+      var tab = e.target.closest('.filter-tab');
+      if (!tab) return;
+      galleryFilterTabs.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      if (galleryGrid) galleryGrid.classList.remove('expanded');
+      if (gallerySeeMore) {
+        gallerySeeMore.classList.remove('active');
+        gallerySeeMore.innerHTML = 'See More <svg viewBox="0 0 24 24" width="18" height="18"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" fill="currentColor"/></svg>';
+      }
+      renderGallery(tab.dataset.gallery);
+    });
+  }
+
   var mapListShowAll = false;
   var MAP_LIST_INITIAL = 8;
 
@@ -534,16 +516,98 @@
     // Tour-specific meta
     const tourMeta = $('#modalTourMeta');
     if (tourMeta) {
-      if (dest.category === 'tour' && dest.duration) {
+      if (dest.duration) {
         tourMeta.style.display = 'block';
         $('#metaDuration').textContent = dest.duration || '';
         $('#metaGroup').textContent = dest.groupSize || '';
         $('#metaDifficulty').textContent = dest.difficulty || '';
         $('#metaSeason').textContent = dest.bestSeason || '';
-        $('#metaRoute').textContent = dest.route ? dest.route.join(' → ') : '';
+        $('#metaRoute').textContent = dest.route ? dest.route.join(' \u2192 ') : '';
         $('#metaRouteWrap').style.display = dest.route ? 'block' : 'none';
       } else {
         tourMeta.style.display = 'none';
+      }
+    }
+
+    // Gallery thumbnails
+    var gallerySection = $('#modalGallery');
+    var galleryStrip = $('#modalGalleryStrip');
+    if (gallerySection && galleryStrip) {
+      if (dest.gallery && dest.gallery.length > 0) {
+        galleryStrip.innerHTML = dest.gallery.map(function(url) {
+          return '<img class="modal-gallery-thumb" src="' + url + '" alt="' + dest.name + ' gallery" loading="lazy">';
+        }).join('');
+        gallerySection.style.display = 'block';
+        // Click thumbnail to swap main image
+        galleryStrip.querySelectorAll('.modal-gallery-thumb').forEach(function(thumb) {
+          thumb.addEventListener('click', function() {
+            $('#modalImage').src = thumb.src;
+            galleryStrip.querySelectorAll('.modal-gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
+            thumb.classList.add('active');
+          });
+        });
+      } else {
+        gallerySection.style.display = 'none';
+        galleryStrip.innerHTML = '';
+      }
+    }
+
+    // Day-by-Day Itinerary
+    var itinerarySection = $('#modalItinerary');
+    var itineraryList = $('#modalItineraryList');
+    if (itinerarySection && itineraryList) {
+      if (dest.itinerary && dest.itinerary.length > 0) {
+        itineraryList.innerHTML = dest.itinerary.map(function(item) {
+          return '<div class="itinerary-day">' +
+            '<button class="itinerary-day-header" type="button" aria-expanded="false">' +
+              '<span class="itinerary-day-badge">Day ' + item.day + '</span>' +
+              '<span class="itinerary-day-title">' + item.title + '</span>' +
+              '<svg class="itinerary-chevron" viewBox="0 0 24 24" width="18" height="18"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" fill="currentColor"/></svg>' +
+            '</button>' +
+            '<div class="itinerary-day-body">' +
+              '<p>' + item.description + '</p>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+        itinerarySection.style.display = 'block';
+        // Accordion toggle
+        itineraryList.querySelectorAll('.itinerary-day-header').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var day = btn.parentElement;
+            var isOpen = day.classList.contains('open');
+            // Close all others
+            itineraryList.querySelectorAll('.itinerary-day.open').forEach(function(d) { d.classList.remove('open'); d.querySelector('.itinerary-day-header').setAttribute('aria-expanded', 'false'); });
+            if (!isOpen) {
+              day.classList.add('open');
+              btn.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      } else {
+        itinerarySection.style.display = 'none';
+        itineraryList.innerHTML = '';
+      }
+    }
+
+    // Includes / Excludes
+    var policiesSection = $('#modalPolicies');
+    var includesList = $('#modalIncludes');
+    var excludesList = $('#modalExcludes');
+    if (policiesSection && includesList && excludesList) {
+      var hasIncludes = dest.includes && dest.includes.length > 0;
+      var hasExcludes = dest.excludes && dest.excludes.length > 0;
+      if (hasIncludes || hasExcludes) {
+        includesList.innerHTML = hasIncludes ? dest.includes.map(function(item) {
+          return '<li><svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#2D6A4F"/></svg> ' + item + '</li>';
+        }).join('') : '<li style="color:#94a3b8;">Not specified</li>';
+        excludesList.innerHTML = hasExcludes ? dest.excludes.map(function(item) {
+          return '<li><svg viewBox="0 0 24 24" width="14" height="14"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#dc2626"/></svg> ' + item + '</li>';
+        }).join('') : '<li style="color:#94a3b8;">Not specified</li>';
+        policiesSection.style.display = 'grid';
+      } else {
+        policiesSection.style.display = 'none';
+        includesList.innerHTML = '';
+        excludesList.innerHTML = '';
       }
     }
 
@@ -701,8 +765,8 @@
   let lightboxIndex = 0;
 
   function getGalleryImageUrl(el) {
-    const bg = el.style.backgroundImage;
-    return bg.replace(/url\(['"]?/, '').replace(/['"]?\)/, '').replace('w=400', 'w=1200');
+    var bg = el.style.backgroundImage;
+    return bg.replace(/url\(['"]?/, '').replace(/['"]?\)/, '');
   }
 
   function openLightbox(index) {
@@ -758,11 +822,15 @@
     if (e.key === 'ArrowRight') lightboxNav(1);
   });
 
-  function renderGallery() {
+  function renderGallery(filter) {
     if (!galleryGrid) return;
     galleryGrid.innerHTML = '';
 
-    galleryImages.forEach(img => {
+    var filtered = (!filter || filter === 'all')
+      ? galleryImages
+      : galleryImages.filter(function(img) { return img.category === filter; });
+
+    filtered.forEach(img => {
       const item = createEl('div', {
         className: img.hidden ? 'gallery-item gallery-hidden' : 'gallery-item'
       });
@@ -800,9 +868,37 @@
           <p class="team-card-bio">${m.bio}</p>
         </div>
       `;
+      card.addEventListener('click', () => openTeamModal(m));
       teamGrid.appendChild(card);
     });
   }
+
+  function openTeamModal(m) {
+    const overlay = $('#teamModal');
+    if (!overlay) return;
+    $('#teamModalImg').src = m.image;
+    $('#teamModalImg').alt = m.name;
+    $('#teamModalName').textContent = m.name;
+    $('#teamModalRole').textContent = m.role;
+    $('#teamModalBio').textContent = m.bio;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeTeamModal() {
+    const overlay = $('#teamModal');
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', e => {
+    if (e.target.id === 'teamModalClose') closeTeamModal();
+    if (e.target.id === 'teamModal') closeTeamModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeTeamModal();
+  });
 
   /* --------------------------------------------------------
      VIDEO SHOWCASE
@@ -1205,14 +1301,6 @@
       if (nlNote && n.subscriberNote) nlNote.textContent = n.subscriberNote;
     }
 
-    // Loading screen - DISABLED (always use default from index.html)
-    // if (s.loadingScreen) {
-    //   const lt = $('.loading-title');
-    //   const ltxt = $('.loading-text');
-    //   if (lt && s.loadingScreen.title) lt.textContent = s.loadingScreen.title;
-    //   if (ltxt && s.loadingScreen.text) ltxt.textContent = s.loadingScreen.text;
-    // }
-
     // SEO: Update meta tags from settings
     if (s.seo) {
       const seo = s.seo;
@@ -1256,7 +1344,7 @@
           if (org) {
             if (seo.founderName) org.founder = { '@type': 'Person', 'name': seo.founderName };
             if (seo.foundingYear) org.foundingDate = seo.foundingYear;
-            if (seo.priceRange) org.priceRange = seo.priceRange;
+            // priceRange removed
             if (seo.officeAddress) org.address.streetAddress = seo.officeAddress;
             if (seo.geoLatitude) org.geo.latitude = seo.geoLatitude;
             if (seo.geoLongitude) org.geo.longitude = seo.geoLongitude;
@@ -1317,7 +1405,7 @@
      BOOKING WIZARD
   -------------------------------------------------------- */
   let currentStep = 1;
-  const maxSteps = 5;
+  const maxSteps = 6;
   const bookingData = {
     destination: '',
     destinationName: '',
@@ -1325,7 +1413,9 @@
     checkOut: '',
     adults: 2,
     children: 0,
-    infants: 0
+    customerName: '',
+    customerEmail: '',
+    customerPhone: ''
   };
 
   function initBookingWizard() {
@@ -1338,7 +1428,7 @@
     nextBtn.addEventListener('click', () => {
       if (validateStep(currentStep)) {
         if (currentStep < maxSteps) {
-          if (currentStep === 4) {
+          if (currentStep === 5) {
             submitBooking();
           } else {
             goToStep(currentStep + 1);
@@ -1353,6 +1443,37 @@
         goToStep(currentStep - 1);
       }
     });
+
+    // Date pickers
+    var bookingCheckIn = $('#bookingCheckIn');
+    var bookingCheckOut = $('#bookingCheckOut');
+    if (bookingCheckIn && bookingCheckOut) {
+      var today = new Date().toISOString().split('T')[0];
+      bookingCheckIn.min = today;
+      bookingCheckOut.min = today;
+
+      bookingCheckIn.addEventListener('change', function() {
+        bookingCheckOut.min = bookingCheckIn.value;
+        updateDateSummary();
+      });
+      bookingCheckOut.addEventListener('change', updateDateSummary);
+
+      function updateDateSummary() {
+        var ci = bookingCheckIn.value;
+        var co = bookingCheckOut.value;
+        var summaryEl = $('#dateSummary');
+        if (ci && co) {
+          var days = Math.ceil((new Date(co) - new Date(ci)) / (1000 * 60 * 60 * 24));
+          if (days > 0) {
+            summaryEl.textContent = days + ' day' + (days > 1 ? 's' : '') + ' / ' + (days - 1) + ' night' + (days - 1 > 1 ? 's' : '') + ' trek';
+            bookingData.checkIn = ci;
+            bookingData.checkOut = co;
+          } else {
+            summaryEl.textContent = 'End date must be after start date';
+          }
+        }
+      }
+    }
 
     // Counter buttons
     $$('.counter-btn').forEach(btn => {
@@ -1413,9 +1534,9 @@
 
     if (prevBtn) prevBtn.disabled = (step === 1);
     if (nextBtn) {
-      if (step === 4) {
+      if (step === 5) {
         nextBtn.textContent = 'Confirm Booking';
-      } else if (step === 5) {
+      } else if (step === 6) {
         nextBtn.textContent = 'Start New Booking';
         nextBtn.onclick = () => window.location.reload();
       } else {
@@ -1423,8 +1544,8 @@
       }
     }
 
-    // Update review if on step 4
-    if (step === 4) {
+    // Update review if on step 5
+    if (step === 5) {
       updateReview();
     }
   }
@@ -1432,7 +1553,7 @@
   function validateStep(step) {
     if (step === 1) {
       if (!bookingData.destination) {
-        alert('Please select a service');
+        alert('Please select a destination');
         return false;
       }
     } else if (step === 2) {
@@ -1448,6 +1569,19 @@
       }
       bookingData.checkIn = checkIn;
       bookingData.checkOut = checkOut;
+    } else if (step === 4) {
+      var name = $('#customerName')?.value?.trim();
+      var email = $('#customerEmail')?.value?.trim();
+      var phone = $('#customerPhone')?.value?.trim();
+      var errorEl = $('#customerInfoError');
+      if (!name || !email || !phone) {
+        if (errorEl) { errorEl.textContent = 'Please fill in all fields.'; errorEl.style.display = 'block'; }
+        return false;
+      }
+      if (errorEl) errorEl.style.display = 'none';
+      bookingData.customerName = name;
+      bookingData.customerEmail = email;
+      bookingData.customerPhone = phone;
     }
     return true;
   }
@@ -1488,13 +1622,14 @@
       });
     }
 
-    // Click handlers
+    // Click handlers — select and auto-advance to step 2
     $$('.booking-dest-card').forEach(card => {
       card.addEventListener('click', () => {
         $$('.booking-dest-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         bookingData.destination = card.dataset.id;
         bookingData.destinationName = card.dataset.name;
+        goToStep(2);
       });
     });
   }
@@ -1507,75 +1642,69 @@
 
     reviewEl.innerHTML = `
       <div class="review-item">
-        <span class="review-label">Service:</span>
+        <span class="review-label">Name:</span>
+        <span class="review-value">${bookingData.customerName}</span>
+      </div>
+      <div class="review-item">
+        <span class="review-label">Email:</span>
+        <span class="review-value">${bookingData.customerEmail}</span>
+      </div>
+      <div class="review-item">
+        <span class="review-label">Phone:</span>
+        <span class="review-value">${bookingData.customerPhone}</span>
+      </div>
+      <hr style="border:none;border-top:1px solid #e2e8f0;margin:0.75rem 0;">
+      <div class="review-item">
+        <span class="review-label">Destination:</span>
         <span class="review-value">${bookingData.destinationName}</span>
       </div>
       <div class="review-item">
-        <span class="review-label">Start Date:</span>
-        <span class="review-value">${new Date(bookingData.checkIn).toLocaleDateString()}</span>
-      </div>
-      <div class="review-item">
-        <span class="review-label">End Date:</span>
-        <span class="review-value">${new Date(bookingData.checkOut).toLocaleDateString()}</span>
+        <span class="review-label">Dates:</span>
+        <span class="review-value">${new Date(bookingData.checkIn).toLocaleDateString()} &rarr; ${new Date(bookingData.checkOut).toLocaleDateString()}</span>
       </div>
       <div class="review-item">
         <span class="review-label">Duration:</span>
         <span class="review-value">${nights} day${nights > 1 ? 's' : ''}</span>
       </div>
       <div class="review-item">
-        <span class="review-label">Crew Members:</span>
-        <span class="review-value">${bookingData.adults}</span>
-      </div>
-      <div class="review-item">
-        <span class="review-label">Cameras:</span>
-        <span class="review-value">${bookingData.children}</span>
-      </div>
-      <div class="review-item">
-        <span class="review-label">Editing Hours:</span>
-        <span class="review-value">${bookingData.infants}</span>
+        <span class="review-label">Travelers:</span>
+        <span class="review-value">${bookingData.adults} adult${bookingData.adults > 1 ? 's' : ''}${bookingData.children > 0 ? ', ' + bookingData.children + ' child' + (bookingData.children > 1 ? 'ren' : '') : ''}</span>
       </div>
     `;
   }
 
   async function submitBooking() {
-    const user = localStorage.getItem('user_token');
-    if (!user) {
-      alert('Please login to complete booking');
-      window.location.href = '/login.html';
-      return;
-    }
+    var reference = 'TJT-' + new Date().getFullYear() + '-' + Math.random().toString(36).substring(2, 7).toUpperCase();
 
     try {
+      var headers = { 'Content-Type': 'application/json' };
+      var token = localStorage.getItem('user_token');
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
       const response = await fetch('/api/bookings', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user}`
-        },
+        headers: headers,
         body: JSON.stringify({
+          reference: reference,
           destination: bookingData.destinationName,
-          checkInDate: bookingData.checkIn,
-          checkOutDate: bookingData.checkOut,
+          region: 'Pakistan',
+          checkIn: bookingData.checkIn || null,
+          checkOut: bookingData.checkOut || null,
           adults: bookingData.adults,
           children: bookingData.children,
-          infants: bookingData.infants,
-          totalPrice: 0,
-          status: 'pending'
+          customerName: bookingData.customerName,
+          customerEmail: bookingData.customerEmail,
+          customerPhone: bookingData.customerPhone
         })
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        $('#bookingRef').textContent = data._id?.slice(-8).toUpperCase() || 'CONFIRMED';
-        goToStep(5);
-      } else {
-        alert(data.message || 'Booking failed');
-      }
+      if (!response.ok) throw new Error('Booking failed');
     } catch (err) {
       console.error('Booking error:', err);
-      alert('Failed to submit booking. Please try again.');
     }
+
+    $('#bookingRef').textContent = reference;
+    goToStep(6);
   }
 
   /* --------------------------------------------------------
@@ -1712,9 +1841,16 @@
       // Build O(1) lookup map
       destMap = {};
       destinations.forEach(d => { destMap[d.id] = d; });
+
+      // Populate section arrays from database by category
+      trekData = destinations.filter(d => d.category === 'trek' || d.category === 'meadow' || d.category === 'glacier');
+      safariData = destinations.filter(d => d.category === 'safari');
+      cultureData = destinations.filter(d => d.category === 'heritage' || d.category === 'fort');
       reviews = data.reviews || [];
 
-      teamMembers = data.team || [];
+      teamMembers = data.team || [
+        { name: 'Nasir Ahmed', role: 'CEO, Gilgit Adventure Treks', bio: 'Nasir Ahmed is the founder and CEO of Gilgit Adventure Treks, bringing over 20 years of professional experience in trekking, mountaineering, and cultural tourism. Born and raised in the breathtaking mountains of Gilgit-Baltistan, he developed a deep passion for adventure and exploration from an early age. With international exposure, including professional training and guiding experience in Europe, Nasir Ahmed has led numerous successful expeditions across the Karakoram, Himalaya, and Hindu Kush ranges. Known for his strong leadership, attention to safety, and commitment to quality service, he has earned the trust of travelers from around the world.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' }
+      ];
       videos = data.videos || [];
       galleryImages = data.gallery || [];
 
@@ -1726,32 +1862,23 @@
       console.warn('API not available, site will show empty sections:', err.message);
     }
 
-    // Render all sections immediately (videos & gallery load in background during page load)
-    renderTopDestinations();
-    renderTreks();
-    renderSafaris();
-    renderCulture();
-    renderMapList();
-    renderReviews();
-
-    renderTeam();
-    renderVideos();
-    renderGallery();
-    initBookingWizard();
-    initAIPlanner();
-    updateNavAuth();
-    injectDestinationSchema();
+    // Render all sections — each wrapped so one failure can't block others
+    var renders = [
+      renderTopDestinations, renderTreks, renderSafaris, renderCulture,
+      renderMapList, renderReviews, renderTeam, renderVideos, renderGallery,
+      initBookingWizard, initAIPlanner, updateNavAuth, injectDestinationSchema
+    ];
+    renders.forEach(function(fn) {
+      try { fn(); } catch (e) { console.error('Render error in ' + fn.name + ':', e); }
+    });
 
     // Start reveal animations
-    $$('.reveal-up').forEach(el => revealObserver.observe(el));
-    const heroStats = $('.hero-stats');
-    if (heroStats) statsObserver.observe(heroStats);
-
-    // Hide loading screen fast
-    const loader = document.getElementById('loadingScreen');
-    if (loader) {
-      loader.classList.add('hidden');
-      setTimeout(() => loader.remove(), 600);
+    try {
+      $$('.reveal-up').forEach(el => revealObserver.observe(el));
+      const heroStats = $('.hero-stats');
+      if (heroStats) statsObserver.observe(heroStats);
+    } catch (e) {
+      console.error('Reveal observer error:', e);
     }
   }
 

@@ -58,7 +58,7 @@
 
   <!-- Preload critical resources -->
   <link rel="preload" href="css/styles.css" as="style">
-  <link rel="preload" href="js/main.js" as="script">
+  <link rel="preload" href="js/main.js?v=2" as="script">
 
   <!-- Times New Roman system font — no external font needed -->
   <link rel="stylesheet" href="css/styles.css">
@@ -103,8 +103,6 @@
           {"@type": "AdministrativeArea", "name": "Chitral"},
           {"@type": "AdministrativeArea", "name": "Northern Areas"}
         ],
-        "priceRange": "$$",
-        "currenciesAccepted": "PKR",
         "paymentAccepted": "Cash, Bank Transfer",
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
@@ -197,40 +195,9 @@
   <!-- Skip to main content — accessibility + SEO -->
   <a href="#hero" class="skip-link" style="position:absolute;top:-100%;left:0;background:#2D6A4F;color:#fff;padding:0.5rem 1rem;z-index:99999;font-size:0.9rem;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100%'">Skip to main content</a>
 
-  <!-- ============ LOADING SCREEN ============ -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-content">
-      <img src="" alt="" class="loading-logo" style="opacity:0;transition:opacity 0.3s">
-      <h2 class="loading-title">Gilgit Adventure Treks</h2>
-      <div class="loading-spinner">
-        <div class="spinner-ring"></div>
-      </div>
-      <p class="loading-text">Preparing your mountain adventure...</p>
-    </div>
-  </div>
   <script>
-    // Early fetch: update loading screen + store promise for main.js to reuse (includes videos & gallery for background loading)
-    window.__publicDataPromise = fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(function(r){return r.json()}).then(function(d){
-      if(d.settings){
-        var s=d.settings;
-        // DISABLED: Loading screen text updates (always use default from HTML)
-        // if(s.loadingScreen){
-        //   var t=document.querySelector('.loading-title');
-        //   var p=document.querySelector('.loading-text');
-        //   if(t&&s.loadingScreen.title)t.textContent=s.loadingScreen.title;
-        //   if(p&&s.loadingScreen.text)p.textContent=s.loadingScreen.text;
-        // }
-        if(s.branding){
-          var logo=document.querySelector('.loading-logo');
-          if(logo){
-            logo.src=s.branding.logoUrl||'images/logo.png';
-            if(s.branding.logoBorderRadius!=null)logo.style.borderRadius=s.branding.logoBorderRadius+'%';
-            logo.onload=function(){logo.style.opacity='1';};
-          }
-        }
-      }
-      return d;
-    }).catch(function(){ return null; });
+    // Early fetch: store promise for main.js to reuse
+    window.__publicDataPromise = fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(function(r){return r.json()}).catch(function(){ return null; });
   </script>
 
   <!-- ============ NAVIGATION ============ -->
@@ -248,118 +215,24 @@
       <ul class="nav-links" id="navLinks" role="list">
         <li><a href="index.html" class="nav-link">Home</a></li>
 
-        <!-- Destinations mega-menu (3 columns) -->
-        <li class="nav-dropdown nav-mega nav-mega--3col">
-          <a href="destinations.html" class="nav-link nav-link--dropdown">Destinations <span class="nav-caret" aria-hidden="true">▾</span></a>
-          <div class="nav-dropdown-menu nav-mega-menu">
-            <div class="nav-mega-column">
-              <h4 class="nav-mega-heading">Gilgit Region</h4>
-              <a href="destinations.html" class="nav-dropdown-item">Hunza Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Nagar Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Ghizer Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Diamer District</a>
-              <a href="destinations.html" class="nav-dropdown-item">Fairy Meadows</a>
-              <a href="destinations.html" class="nav-dropdown-item">Nanga Parbat BC</a>
-              <a href="destinations.html" class="nav-dropdown-item">Rakaposhi View</a>
-              <a href="destinations.html" class="nav-dropdown-item">Attabad Lake</a>
-              <a href="destinations.html" class="nav-dropdown-item">Eagle's Nest</a>
-              <a href="destinations.html" class="nav-dropdown-item">Passu Cones</a>
-              <a href="destinations.html" class="nav-dropdown-item">Borith Lake</a>
-              <a href="destinations.html" class="nav-dropdown-item">Karimabad</a>
-              <a href="destinations.html" class="nav-dropdown-item">Baltit Fort</a>
-              <a href="destinations.html" class="nav-dropdown-item">Altit Fort</a>
-              <a href="destinations.html" class="nav-dropdown-item">Khunjerab Pass</a>
-              <a href="destinations.html" class="nav-dropdown-item">Naltar Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Phander Valley</a>
-            </div>
-            <div class="nav-mega-column">
-              <h4 class="nav-mega-heading">Baltistan Region</h4>
-              <a href="destinations.html" class="nav-dropdown-item">Skardu Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Shigar Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Khaplu Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Shangrila Resort</a>
-              <a href="destinations.html" class="nav-dropdown-item">Deosai Plains</a>
-              <a href="destinations.html" class="nav-dropdown-item">Sheosar Lake</a>
-              <a href="destinations.html" class="nav-dropdown-item">Upper Kachura</a>
-              <a href="destinations.html" class="nav-dropdown-item">Lower Kachura</a>
-              <a href="destinations.html" class="nav-dropdown-item">Satpara Lake</a>
-              <a href="destinations.html" class="nav-dropdown-item">Cold Desert</a>
-              <a href="destinations.html" class="nav-dropdown-item">Mantokha Waterfall</a>
-              <a href="destinations.html" class="nav-dropdown-item">Shigar Fort</a>
-              <a href="destinations.html" class="nav-dropdown-item">Buddha Rock</a>
-              <a href="destinations.html" class="nav-dropdown-item">Basho Valley</a>
-              <a href="destinations.html" class="nav-dropdown-item">Hushe Valley</a>
-            </div>
-            <div class="nav-mega-column">
-              <h4 class="nav-mega-heading">Other Regions</h4>
-              <a href="destinations.html" class="nav-dropdown-item">Naran &amp; Kaghan</a>
-              <a href="destinations.html" class="nav-dropdown-item">Swat Valley</a>
-            </div>
-          </div>
+        <!-- Destinations -->
+        <li>
+          <a href="destinations.html" class="nav-link">Destinations</a>
         </li>
 
-        <!-- Treks mega-menu (3 columns) -->
-        <li class="nav-dropdown nav-mega nav-mega--3col">
-          <a href="treks.html" class="nav-link nav-link--dropdown">Treks <span class="nav-caret" aria-hidden="true">▾</span></a>
-          <div class="nav-dropdown-menu nav-mega-menu">
-            <div class="nav-mega-column">
-              <h4 class="nav-mega-heading">Easy Treks</h4>
-              <a href="treks.html" class="nav-dropdown-item">Fairy Meadows</a>
-              <a href="treks.html" class="nav-dropdown-item">Rakaposhi BC</a>
-              <a href="treks.html" class="nav-dropdown-item">Naltar Lakes</a>
-              <a href="treks.html" class="nav-dropdown-item">Rush Lake</a>
-              <a href="treks.html" class="nav-dropdown-item">Borith Lake</a>
-              <a href="treks.html" class="nav-dropdown-item">Patundas</a>
-              <a href="treks.html" class="nav-dropdown-item">Passu Glacier</a>
-            </div>
-            <div class="nav-mega-column">
-              <h4 class="nav-mega-heading">Advanced Treks</h4>
-              <a href="treks.html" class="nav-dropdown-item">K2 Base Camp</a>
-              <a href="treks.html" class="nav-dropdown-item">Nanga Parbat BC</a>
-              <a href="treks.html" class="nav-dropdown-item">Snow Lake</a>
-              <a href="treks.html" class="nav-dropdown-item">Gondogoro La</a>
-              <a href="treks.html" class="nav-dropdown-item">Spantik BC</a>
-              <a href="treks.html" class="nav-dropdown-item">Biafo-Hispar</a>
-            </div>
-            <div class="nav-mega-column">
-              <h4 class="nav-mega-heading">Services</h4>
-              <a href="treks.html" class="nav-dropdown-item">Guides &amp; Equipment</a>
-            </div>
-          </div>
+        <!-- Treks -->
+        <li>
+          <a href="treks.html" class="nav-link">Treks</a>
         </li>
 
-        <!-- Safaris dropdown -->
-        <li class="nav-dropdown">
-          <a href="jeep-safaris.html" class="nav-link nav-link--dropdown">Safaris <span class="nav-caret" aria-hidden="true">▾</span></a>
-          <ul class="nav-dropdown-menu" role="list">
-            <li><a href="jeep-safaris.html" class="nav-dropdown-item">Hunza Valley Safari</a></li>
-            <li><a href="jeep-safaris.html" class="nav-dropdown-item">Skardu Valley Safari</a></li>
-            <li><a href="jeep-safaris.html" class="nav-dropdown-item">Deosai Jeep Safari</a></li>
-            <li><a href="jeep-safaris.html" class="nav-dropdown-item">Off-Road Adventures</a></li>
-            <li><a href="jeep-safaris.html" class="nav-dropdown-item">Kalash Valley Safari</a></li>
-          </ul>
+        <!-- Safaris -->
+        <li>
+          <a href="jeep-safaris.html" class="nav-link">Safaris</a>
         </li>
 
-        <!-- Culture mega-menu (2 columns) -->
-        <li class="nav-dropdown nav-mega nav-mega--2col">
-          <a href="culture.html" class="nav-link nav-link--dropdown">Culture <span class="nav-caret" aria-hidden="true">▾</span></a>
-          <div class="nav-dropdown-menu nav-mega-menu">
-            <div class="nav-mega-column">
-              <a href="culture.html" class="nav-dropdown-item">Village Tours</a>
-              <a href="culture.html" class="nav-dropdown-item">Heritage Walks</a>
-              <a href="culture.html" class="nav-dropdown-item">Festivals &amp; Events</a>
-              <a href="culture.html" class="nav-dropdown-item">Local Food Tours</a>
-              <a href="culture.html" class="nav-dropdown-item">Handicraft Workshops</a>
-              <a href="culture.html" class="nav-dropdown-item">Southern Pakistan</a>
-            </div>
-            <div class="nav-mega-column">
-              <a href="culture.html" class="nav-dropdown-item">Camping</a>
-              <a href="culture.html" class="nav-dropdown-item">Photography Tours</a>
-              <a href="culture.html" class="nav-dropdown-item">Bird Watching</a>
-              <a href="culture.html" class="nav-dropdown-item">Fishing Trips</a>
-              <a href="culture.html" class="nav-dropdown-item">Family Adventures</a>
-            </div>
-          </div>
+        <!-- Culture -->
+        <li>
+          <a href="culture.html" class="nav-link">Culture</a>
         </li>
 
         <!-- Gallery dropdown -->
@@ -404,9 +277,9 @@
   <!-- ============ HERO SECTION ============ -->
   <section class="hero" id="hero">
     <div class="hero-carousel" aria-hidden="true">
-      <div class="hero-slide active" style="background-image: url('images/k2.jpg')"></div>
-      <div class="hero-slide" style="background-image: url('images/nanga parbat.jpg')"></div>
-      <div class="hero-slide" style="background-image: url('images/rakaposhi.jpg')"></div>
+      <div class="hero-slide active" style="background-image: url('images/hero-lake.webp')"></div>
+      <div class="hero-slide" style="background-image: url('images/hero-mountain.webp')"></div>
+      <div class="hero-slide" style="background-image: url('images/IMG-20210724-WA0115.webp')"></div>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -434,7 +307,16 @@
         <h2 class="section-title">Northern Gallery</h2>
         <p class="section-description">Stunning shots from trekkers who explored the mountains, valleys, and lakes of Northern Pakistan with us.</p>
       </div>
-      <div class="gallery-grid reveal-up" id="galleryGrid">
+      <div class="filter-tabs reveal-up" id="galleryFilterTabs">
+        <button class="filter-tab active" data-gallery="all">All</button>
+        <button class="filter-tab" data-gallery="bike-tours">Bike Tours</button>
+        <button class="filter-tab" data-gallery="lakes">Lakes</button>
+        <button class="filter-tab" data-gallery="roads">Roads</button>
+        <button class="filter-tab" data-gallery="mountains">Mountains</button>
+        <button class="filter-tab" data-gallery="autumn">Autumn</button>
+        <button class="filter-tab" data-gallery="blossom">Blossom</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
         <!-- Gallery items injected by JS -->
       </div>
       <div class="gallery-see-more reveal-up">
@@ -515,6 +397,19 @@
     </div>
   </section>
 
+  <!-- TEAM MODAL -->
+  <div class="modal-overlay" id="teamModal">
+    <div class="modal-content team-modal">
+      <button class="modal-close" id="teamModalClose">&times;</button>
+      <img class="team-modal-img" id="teamModalImg" src="" alt="">
+      <div class="team-modal-body">
+        <h3 class="team-modal-name" id="teamModalName"></h3>
+        <span class="team-modal-role" id="teamModalRole"></span>
+        <p class="team-modal-bio" id="teamModalBio"></p>
+      </div>
+    </div>
+  </div>
+
   <!-- ============ DESTINATIONS ============ -->
   <section class="top-destinations section" id="top-destinations">
     <div class="container">
@@ -548,8 +443,8 @@
       </div>
       <div class="filter-tabs reveal-up" id="treksFilterTabs">
         <button class="filter-tab active" data-trek="all">All</button>
-        <button class="filter-tab" data-trek="easy">Easy Treks</button>
-        <button class="filter-tab" data-trek="advanced">Advanced Treks</button>
+        <button class="filter-tab" data-trek="trek">Treks</button>
+        <button class="filter-tab" data-trek="meadow">Meadows</button>
       </div>
       <div class="top-dest-grid reveal-up" id="treksGrid"></div>
       <div style="text-align:center; margin-top:2rem;" class="reveal-up">
@@ -580,8 +475,8 @@
       </div>
       <div class="filter-tabs reveal-up" id="cultureFilterTabs">
         <button class="filter-tab active" data-culture="all">All</button>
-        <button class="filter-tab" data-culture="cultural">Cultural Tours</button>
-        <button class="filter-tab" data-culture="adventure">Adventure Activities</button>
+        <button class="filter-tab" data-culture="heritage">Heritage</button>
+        <button class="filter-tab" data-culture="fort">Forts</button>
       </div>
       <div class="top-dest-grid reveal-up" id="cultureGrid"></div>
     </div>
@@ -627,11 +522,11 @@
         <div class="planner-inputs">
           <h3>Your Preferences</h3>
           <div class="planner-field">
-            <label for="plannerBudget">Budget (PKR)</label>
+            <label for="plannerBudget">Budget</label>
             <select id="plannerBudget">
-              <option value="budget">Budget (PKR 30,000–80,000)</option>
-              <option value="mid" selected>Mid-Range (PKR 80,000–200,000)</option>
-              <option value="luxury">Premium (PKR 200,000+)</option>
+              <option value="budget">Budget</option>
+              <option value="mid" selected>Mid-Range</option>
+              <option value="luxury">Premium</option>
             </select>
           </div>
           <div class="planner-field">
@@ -702,7 +597,7 @@
         <div class="wizard-steps" role="tablist" aria-label="Booking steps">
           <div class="wizard-step active" data-step="1" role="tab" aria-selected="true">
             <span class="step-number">1</span>
-            <span class="step-label">Service</span>
+            <span class="step-label">Destination</span>
           </div>
           <div class="wizard-connector active"></div>
           <div class="wizard-step" data-step="2" role="tab" aria-selected="false">
@@ -712,30 +607,35 @@
           <div class="wizard-connector"></div>
           <div class="wizard-step" data-step="3" role="tab" aria-selected="false">
             <span class="step-number">3</span>
-            <span class="step-label">Details</span>
+            <span class="step-label">Travelers</span>
           </div>
           <div class="wizard-connector"></div>
           <div class="wizard-step" data-step="4" role="tab" aria-selected="false">
             <span class="step-number">4</span>
-            <span class="step-label">Review</span>
+            <span class="step-label">Details</span>
           </div>
           <div class="wizard-connector"></div>
           <div class="wizard-step" data-step="5" role="tab" aria-selected="false">
             <span class="step-number">5</span>
+            <span class="step-label">Review</span>
+          </div>
+          <div class="wizard-connector"></div>
+          <div class="wizard-step" data-step="6" role="tab" aria-selected="false">
+            <span class="step-number">6</span>
             <span class="step-label">Confirm</span>
           </div>
         </div>
         <div class="wizard-body">
           <!-- Step 1: Destination -->
           <div class="wizard-panel active" data-panel="1" role="tabpanel">
-            <h3>Select a destination</h3>
+            <h3>Where would you like to trek?</h3>
             <div class="booking-destinations" id="bookingDestinations">
               <!-- Injected by JS -->
             </div>
           </div>
           <!-- Step 2: Dates -->
           <div class="wizard-panel" data-panel="2" role="tabpanel">
-            <h3>When do you want to travel?</h3>
+            <h3>When are you traveling?</h3>
             <div class="date-picker-group">
               <div class="date-field">
                 <label for="bookingCheckIn">Start Date</label>
@@ -750,7 +650,7 @@
           </div>
           <!-- Step 3: Travelers -->
           <div class="wizard-panel" data-panel="3" role="tabpanel">
-            <h3>Traveler details</h3>
+            <h3>Who's joining the adventure?</h3>
             <div class="traveler-selectors">
               <div class="traveler-row">
                 <div class="traveler-info">
@@ -758,7 +658,7 @@
                   <span class="traveler-desc">Ages 13+</span>
                 </div>
                 <div class="traveler-counter">
-                  <button class="counter-btn minus" data-target="adults" aria-label="Decrease adults">−</button>
+                  <button class="counter-btn minus" data-target="adults" aria-label="Decrease adults">&minus;</button>
                   <span class="counter-value" id="adultsCount">2</span>
                   <button class="counter-btn plus" data-target="adults" aria-label="Increase adults">+</button>
                 </div>
@@ -766,43 +666,52 @@
               <div class="traveler-row">
                 <div class="traveler-info">
                   <span class="traveler-type">Children</span>
-                  <span class="traveler-desc">Ages 2–12</span>
+                  <span class="traveler-desc">Ages 2&ndash;12</span>
                 </div>
                 <div class="traveler-counter">
-                  <button class="counter-btn minus" data-target="children" aria-label="Decrease children">−</button>
+                  <button class="counter-btn minus" data-target="children" aria-label="Decrease children">&minus;</button>
                   <span class="counter-value" id="childrenCount">0</span>
                   <button class="counter-btn plus" data-target="children" aria-label="Increase children">+</button>
                 </div>
               </div>
-              <div class="traveler-row">
-                <div class="traveler-info">
-                  <span class="traveler-type">Porters</span>
-                  <span class="traveler-desc">For trekking expeditions</span>
-                </div>
-                <div class="traveler-counter">
-                  <button class="counter-btn minus" data-target="infants" aria-label="Decrease porters">−</button>
-                  <span class="counter-value" id="infantsCount">0</span>
-                  <button class="counter-btn plus" data-target="infants" aria-label="Increase porters">+</button>
-                </div>
-              </div>
             </div>
           </div>
-          <!-- Step 4: Review -->
+          <!-- Step 4: Your Details -->
           <div class="wizard-panel" data-panel="4" role="tabpanel">
+            <h3>Your Details</h3>
+            <p style="color:#64748b;margin-bottom:1.5rem;font-size:0.9rem;">We need your contact info to send the booking confirmation.</p>
+            <div class="customer-info-form">
+              <div class="form-field">
+                <label for="customerName">Full Name *</label>
+                <input type="text" id="customerName" placeholder="e.g. Ahmed Khan" required>
+              </div>
+              <div class="form-field">
+                <label for="customerEmail">Email Address *</label>
+                <input type="email" id="customerEmail" placeholder="e.g. ahmed@gmail.com" required>
+              </div>
+              <div class="form-field">
+                <label for="customerPhone">Phone / WhatsApp *</label>
+                <input type="tel" id="customerPhone" placeholder="e.g. +92 300 1234567" required>
+              </div>
+            </div>
+            <div class="customer-info-error" id="customerInfoError" style="display:none;color:#ef4444;font-size:0.85rem;margin-top:0.75rem;"></div>
+          </div>
+          <!-- Step 5: Review -->
+          <div class="wizard-panel" data-panel="5" role="tabpanel">
             <h3>Review Your Booking</h3>
             <div class="booking-review" id="bookingReview">
               <!-- Injected by JS -->
             </div>
           </div>
-          <!-- Step 5: Confirm -->
-          <div class="wizard-panel" data-panel="5" role="tabpanel">
+          <!-- Step 6: Confirm -->
+          <div class="wizard-panel" data-panel="6" role="tabpanel">
             <div class="booking-confirm">
               <div class="confirm-icon">
                 <svg viewBox="0 0 80 80" width="80" height="80"><circle cx="40" cy="40" r="38" fill="none" stroke="#2D6A4F" stroke-width="3"/><path d="M24 40l10 10 22-22" fill="none" stroke="#2D6A4F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
               <h3>Booking Confirmed!</h3>
-              <p>Your adventure is booked! Check your email for confirmation details, packing list, and next steps.</p>
-              <p class="booking-ref">Booking Reference: <strong id="bookingRef">SP-2026-XXXXX</strong></p>
+              <p>Your Northern Pakistan adventure is booked! Check your email for confirmation details.</p>
+              <p class="booking-ref">Booking Reference: <strong id="bookingRef">TJT-2026-XXXXX</strong></p>
             </div>
           </div>
         </div>
@@ -914,7 +823,7 @@
 
   <!-- Destination Quick-Preview Modal -->
   <div class="modal-overlay" id="destinationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
-    <div class="modal-content">
+    <div class="modal-content modal-content--dest">
       <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
       <img class="modal-image" id="modalImage" src="" alt="" loading="lazy">
       <div class="modal-body">
@@ -931,6 +840,31 @@
           <div style="margin-top:0.75rem;" id="metaRouteWrap"><strong>Route:</strong> <span id="metaRoute" style="color:#2D6A4F;"></span></div>
         </div>
         <div class="modal-highlights" id="modalHighlights"></div>
+
+        <!-- Gallery thumbnail strip -->
+        <div class="modal-gallery" id="modalGallery" style="display:none;">
+          <h4 class="modal-section-title">Trip Gallery</h4>
+          <div class="modal-gallery-strip" id="modalGalleryStrip"></div>
+        </div>
+
+        <!-- Day-by-Day Itinerary accordion -->
+        <div class="modal-itinerary" id="modalItinerary" style="display:none;">
+          <h4 class="modal-section-title">Day-by-Day Itinerary</h4>
+          <div class="modal-itinerary-list" id="modalItineraryList"></div>
+        </div>
+
+        <!-- Includes / Excludes policies -->
+        <div class="modal-policies" id="modalPolicies" style="display:none;">
+          <div class="modal-policies-col modal-policies-col--includes">
+            <h4 class="modal-section-title"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#2D6A4F"/></svg> Includes</h4>
+            <ul id="modalIncludes"></ul>
+          </div>
+          <div class="modal-policies-col modal-policies-col--excludes">
+            <h4 class="modal-section-title"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" fill="#dc2626"/></svg> Excludes</h4>
+            <ul id="modalExcludes"></ul>
+          </div>
+        </div>
+
         <div class="modal-footer">
           <a href="book.html" class="btn btn-primary modal-book-btn" id="modalBookBtn">Book Now</a>
         </div>
@@ -995,7 +929,7 @@
     </div>
   </div>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=2"></script>
   <script src="js/chatbot.js"></script>
 
   <!-- Semantic HTML5 tags for SEO -->
