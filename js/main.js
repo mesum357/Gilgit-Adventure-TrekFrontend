@@ -830,9 +830,9 @@
       ? galleryImages
       : galleryImages.filter(function(img) { return img.category === filter; });
 
-    filtered.forEach(img => {
+    filtered.forEach(function(img, index) {
       const item = createEl('div', {
-        className: img.hidden ? 'gallery-item gallery-hidden' : 'gallery-item'
+        className: (index >= 11) ? 'gallery-item gallery-hidden' : 'gallery-item'
       });
       item.style.backgroundImage = `url('${img.imageUrl}')`;
       // Hidden img tag for SEO crawlability (background-image isn't indexed)
