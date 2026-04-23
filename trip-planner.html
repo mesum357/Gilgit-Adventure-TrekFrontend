@@ -76,28 +76,8 @@
 </head>
 <body>
 
-  <!-- ============ LOADING SCREEN ============ -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-content">
-      <img src="images/logo.png" alt="Gilgit Adventure Treks" class="loading-logo">
-      <h2 class="loading-title">Gilgit Adventure Treks</h2>
-      <div class="loading-spinner">
-        <div class="spinner-ring"></div>
-      </div>
-      <p class="loading-text">Preparing your mountain adventure...</p>
-    </div>
-  </div>
   <script>
-    window.__loaderStart = Date.now();
     window.__pageDataPromise = fetch('/api/page-data?need=destinations').then(function(r){return r.json()}).catch(function(){return null;});
-    window.__hideLoader = function() {
-      var elapsed = Date.now() - window.__loaderStart;
-      var delay = Math.max(0, 600 - elapsed);
-      setTimeout(function() {
-        var l = document.getElementById('loadingScreen');
-        if (l) { l.classList.add('hidden'); setTimeout(function() { l.remove(); }, 600); }
-      }, delay);
-    };
   </script>
 
   <!-- Skip to main content -->
@@ -342,7 +322,7 @@
       'salam': 'Walaikum Assalam! Welcome to Gilgit Adventure Treks. We have multiple tour packages — what season are you planning for?',
       'help': 'Set your preferences on the left and click Generate My Trek! Or ask me about our packages: Blossom Safari, Autumn Colors, Summer Trek, October Explorer, or K2 Base Camp.',
       'price': 'For pricing details, please contact us on WhatsApp at +92 346 5001043. All tours include transport, meals, and accommodation!',
-      'cheap': 'Our most affordable tour is the Blossom Jeep Safari — 10 days including Fairy Meadows, Hunza, and Khunjerab Pass! Contact us for pricing.',
+      'cheap': 'Our shortest tour is the Fairy Meadows Jeep Safari — 6 days including Fairy Meadows and Beyal Camp! Contact us on WhatsApp at +92 346 5001043 for pricing.',
       'blossom': 'The Blossom Jeep Safari is 10 days in spring. Cherry blossoms, Fairy Meadows, Hunza Valley, Khunjerab Pass, and Phandar Lake. All meals and transport included!',
       'k2': 'Our K2 Base Camp & Gondogoro La Trek is 18-21 days. You\'ll trek through Concordia, stand at K2 Base Camp, and cross the 5,585m Gondogoro La pass. The ultimate adventure!',
       'autumn': 'The Autumn Colors Tour is 11 days. Fly into Skardu, drive through golden Hunza, visit Fairy Meadows, and end in Naran. October-November is peak season!',
@@ -354,7 +334,7 @@
       'hunza': 'Hunza Valley is featured in many of our tours! See Baltit Fort, Eagle\'s Nest, and the famous Passu Cones.',
       'easy': 'Several of our tours are rated Easy: Blossom Jeep Safari, Autumn Colors Tour, and October Explorer. No trekking experience needed!',
       'difficult': 'For a challenge, try the Summer Trekking & Tour (Challenging) or the K2 Base Camp expedition (Extreme).',
-      'budget': 'For detailed pricing, contact us on WhatsApp at +92 346 5001043. All tours include transport, hotels, all meals, and guide.',
+      'budget': 'For pricing details, contact us on WhatsApp at +92 346 5001043. All tours include transport, hotels, all meals, and guide.',
       'weather': 'Spring (Mar-Apr): Blossom Safari. Summer (Jun-Aug): K2 Trek & Summer Tour. Autumn (Oct-Nov): Autumn Colors & October Explorer.',
       'include': 'All tours include: transport, accommodation, all meals, experienced guide, and permits. K2 trek also includes camping gear, porters, and climbing equipment.',
       'default': 'We have multiple tour packages covering spring blossoms to K2 Base Camp! Set your preferences and click Generate My Trek, or ask about a specific tour.'
@@ -807,8 +787,6 @@
         })
         .then(function() {
           updateNavAuth();
-          // Hide loading screen
-          if (window.__hideLoader) window.__hideLoader();
         });
     }
 

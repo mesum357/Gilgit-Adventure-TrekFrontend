@@ -116,7 +116,4 @@
 
   $$('.reveal-up').forEach(function (el) { revealObserver.observe(el); });
 
-  // Hide loading screen
-  if (window.__hideLoader) window.__hideLoader();
-
 })();

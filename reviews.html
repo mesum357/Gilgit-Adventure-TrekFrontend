@@ -122,31 +122,11 @@
 </head>
 <body>
 
-  <!-- ============ LOADING SCREEN ============ -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-content">
-      <img src="images/logo.png" alt="Gilgit Adventure Treks" class="loading-logo">
-      <h2 class="loading-title">Gilgit Adventure Treks</h2>
-      <div class="loading-spinner">
-        <div class="spinner-ring"></div>
-      </div>
-      <p class="loading-text">Preparing your mountain adventure...</p>
-    </div>
-  </div>
   <script>
-    window.__loaderStart = Date.now();
     window.__pageDataPromise = Promise.all([
       fetch('/api/reviews').then(function(r){return r.json()}).catch(function(){return [];}),
       fetch('/api/page-data?need=destinations').then(function(r){return r.json()}).catch(function(){return {};})
     ]);
-    window.__hideLoader = function() {
-      var elapsed = Date.now() - window.__loaderStart;
-      var delay = Math.max(0, 600 - elapsed);
-      setTimeout(function() {
-        var l = document.getElementById('loadingScreen');
-        if (l) { l.classList.add('hidden'); setTimeout(function() { l.remove(); }, 600); }
-      }, delay);
-    };
   </script>
 
   <!-- Skip to content -->
@@ -801,8 +781,6 @@
       renderReviews();
       updateNavAuth();
 
-      // Hide loading screen
-      if (window.__hideLoader) window.__hideLoader();
     }
 
     init();
