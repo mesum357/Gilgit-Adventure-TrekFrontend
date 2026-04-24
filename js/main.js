@@ -1832,37 +1832,46 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  async function init() {
+  // --- localStorage cache helpers ---
+  var CACHE_KEY = 'gat_pageData';
+  var CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+  function getCachedData() {
     try {
-      // Reuse pre-fetched data (now includes videos & gallery for background loading)
-      const data = (window.__publicDataPromise && await window.__publicDataPromise) || await fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(r => r.json());
-      delete window.__publicDataPromise;
-      destinations = data.destinations || [];
-      // Build O(1) lookup map
-      destMap = {};
-      destinations.forEach(d => { destMap[d.id] = d; });
-
-      // Populate section arrays from database by category
-      trekData = destinations.filter(d => d.category === 'trek' || d.category === 'meadow' || d.category === 'glacier');
-      safariData = destinations.filter(d => d.category === 'safari');
-      cultureData = destinations.filter(d => d.category === 'heritage' || d.category === 'fort');
-      reviews = data.reviews || [];
-
-      teamMembers = data.team || [
-        { name: 'Nasir Ahmed', role: 'CEO, Gilgit Adventure Treks', bio: 'Nasir Ahmed is the founder and CEO of Gilgit Adventure Treks, bringing over 20 years of professional experience in trekking, mountaineering, and cultural tourism. Born and raised in the breathtaking mountains of Gilgit-Baltistan, he developed a deep passion for adventure and exploration from an early age. With international exposure, including professional training and guiding experience in Europe, Nasir Ahmed has led numerous successful expeditions across the Karakoram, Himalaya, and Hindu Kush ranges. Known for his strong leadership, attention to safety, and commitment to quality service, he has earned the trust of travelers from around the world.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' }
-      ];
-      videos = data.videos || [];
-      galleryImages = data.gallery || [];
-
-      // Apply site settings before rendering
-      if (data.settings) {
-        applySiteSettings(data.settings);
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      var cached = JSON.parse(raw);
+      if (Date.now() - cached.ts > CACHE_TTL) {
+        localStorage.removeItem(CACHE_KEY);
+        return null;
       }
-    } catch (err) {
-      console.warn('API not available, site will show empty sections:', err.message);
-    }
+      return cached.data;
+    } catch (e) { return null; }
+  }
 
-    // Render all sections — each wrapped so one failure can't block others
+  function setCachedData(data) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: data }));
+    } catch (e) { /* quota exceeded — ignore */ }
+  }
+
+  function applyData(data) {
+    destinations = data.destinations || [];
+    destMap = {};
+    destinations.forEach(function(d) { destMap[d.id] = d; });
+    trekData = destinations.filter(function(d) { return d.category === 'trek' || d.category === 'meadow' || d.category === 'glacier'; });
+    safariData = destinations.filter(function(d) { return d.category === 'safari'; });
+    cultureData = destinations.filter(function(d) { return d.category === 'heritage' || d.category === 'fort'; });
+    reviews = data.reviews || [];
+    teamMembers = data.team || [
+      { name: 'Nasir Ahmed', role: 'CEO, Gilgit Adventure Treks', bio: 'Nasir Ahmed is the founder and CEO of Gilgit Adventure Treks, bringing over 20 years of professional experience in trekking, mountaineering, and cultural tourism. Born and raised in the breathtaking mountains of Gilgit-Baltistan, he developed a deep passion for adventure and exploration from an early age. With international exposure, including professional training and guiding experience in Europe, Nasir Ahmed has led numerous successful expeditions across the Karakoram, Himalaya, and Hindu Kush ranges. Known for his strong leadership, attention to safety, and commitment to quality service, he has earned the trust of travelers from around the world.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' }
+    ];
+    videos = data.videos || [];
+    galleryImages = data.gallery || [];
+    if (data.settings) { applySiteSettings(data.settings); }
+  }
+
+  function renderAll() {
     var renders = [
       renderTopDestinations, renderTreks, renderSafaris, renderCulture,
       renderMapList, renderReviews, renderTeam, renderVideos, renderGallery,
@@ -1871,15 +1880,54 @@
     renders.forEach(function(fn) {
       try { fn(); } catch (e) { console.error('Render error in ' + fn.name + ':', e); }
     });
+  }
 
-    // Start reveal animations
+  function startRevealObservers() {
     try {
-      $$('.reveal-up').forEach(el => revealObserver.observe(el));
-      const heroStats = $('.hero-stats');
+      $$('.reveal-up').forEach(function(el) { revealObserver.observe(el); });
+      var heroStats = $('.hero-stats');
       if (heroStats) statsObserver.observe(heroStats);
     } catch (e) {
       console.error('Reveal observer error:', e);
     }
+  }
+
+  async function init() {
+    var cached = getCachedData();
+
+    // Instant render from cache if available
+    if (cached) {
+      applyData(cached);
+      renderAll();
+      startRevealObservers();
+    }
+
+    // Fetch fresh data from API
+    try {
+      var data = (window.__publicDataPromise && await window.__publicDataPromise) || await fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(function(r) { return r.json(); });
+      delete window.__publicDataPromise;
+
+      // Save to cache for next visit
+      setCachedData(data);
+
+      // Re-render with fresh data (always, to pick up any changes)
+      applyData(data);
+      renderAll();
+      if (!cached) startRevealObservers();
+    } catch (err) {
+      if (!cached) {
+        console.warn('API not available, site will show empty sections:', err.message);
+      }
+    }
+
+    // Fallback: force reveal all sections after 1.5s to prevent blank page
+    setTimeout(function() {
+      $$('.reveal-up').forEach(function(el) {
+        if (!el.classList.contains('revealed')) {
+          el.classList.add('revealed');
+        }
+      });
+    }, 1500);
   }
 
   init();
