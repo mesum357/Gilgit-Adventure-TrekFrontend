@@ -146,20 +146,18 @@ input, select, textarea {
 }
 
 /* --- Reveal Animations --- */
-@keyframes revealFallback {
-  to { opacity: 1; transform: translateY(0); }
+.reveal-up {
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.reveal-up {
+.reveal-up.reveal-hidden {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  animation: revealFallback 0.7s ease 0.3s forwards;
 }
 
 .reveal-up.revealed {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
   animation: none;
 }
 
@@ -283,8 +281,8 @@ input, select, textarea {
 }
 
 .logo-img {
-  width: 121px;
-  height: 121px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -951,7 +949,7 @@ input, select, textarea {
 
 .dest-card-img {
   position: relative;
-  height: 200px;
+  height: 240px;
   overflow: hidden;
 }
 
@@ -1877,6 +1875,19 @@ input, select, textarea {
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid transparent;
+  animation: avatar-pulse 2s ease-in-out infinite;
+}
+
+@keyframes avatar-pulse {
+  0%, 100% {
+    border-color: transparent;
+    box-shadow: 0 0 0 0 rgba(2, 119, 189, 0);
+  }
+  50% {
+    border-color: #0277BD;
+    box-shadow: 0 0 10px 3px rgba(2, 119, 189, 0.4);
+  }
 }
 
 .review-author {
@@ -2245,6 +2256,39 @@ input, select, textarea {
   border-radius: 20px;
 }
 
+.reels-arrow {
+  position: fixed;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3002;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.reels-arrow:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.1);
+}
+
+.reels-up {
+  top: 50%;
+  margin-top: -60px;
+}
+
+.reels-down {
+  top: 50%;
+  margin-top: 12px;
+}
+
 .reels-track {
   height: 100vh;
   overflow-y: scroll;
@@ -2266,6 +2310,17 @@ input, select, textarea {
   justify-content: center;
   background: #000;
   overflow: hidden;
+}
+
+.reel-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .reel-slide video {
@@ -2375,6 +2430,119 @@ input, select, textarea {
   font-size: var(--fs-lg);
   line-height: 1.8;
   color: var(--clr-gray-600);
+}
+
+/* About Us – Split Layout */
+.about-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-10, 3rem);
+  align-items: center;
+  margin-top: var(--space-8, 2rem);
+}
+
+.about-split-img {
+  position: relative;
+  border-radius: var(--radius-lg, 12px);
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.about-split-img img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+.about-exp-badge {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: var(--clr-primary, #0277BD);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: var(--radius-md, 8px);
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(2, 119, 189, 0.4);
+}
+
+.about-exp-badge span {
+  font-size: 1.8rem;
+  font-weight: 800;
+  display: block;
+  line-height: 1;
+}
+
+.about-split-text p {
+  font-size: var(--fs-base, 1rem);
+  line-height: 1.8;
+  color: var(--clr-gray-600, #555);
+  margin-bottom: 1rem;
+}
+
+.about-mini-stats {
+  display: flex;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.about-mini-stat {
+  text-align: center;
+}
+
+.about-mini-stat strong {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--clr-primary, #0277BD);
+  line-height: 1.2;
+}
+
+.about-mini-stat span {
+  font-size: 0.85rem;
+  color: var(--clr-gray-500, #777);
+}
+
+.about-read-more {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--clr-primary, #0277BD);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.about-read-more:hover {
+  color: #01579B;
+  letter-spacing: 0.5px;
+}
+
+/* About Us Split – Responsive */
+@media (max-width: 768px) {
+  .about-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-split-img img {
+    height: 280px;
+  }
+
+  .about-mini-stats {
+    justify-content: center;
+  }
+
+  .about-split-text {
+    text-align: center;
+  }
+
+  .about-read-more {
+    display: block;
+    text-align: center;
+  }
 }
 
 /* ============================================================
@@ -2829,7 +2997,8 @@ input, select, textarea {
 
 .modal-image {
   width: 100%;
-  height: 260px;
+  height: auto;
+  max-height: 450px;
   object-fit: cover;
 }
 
@@ -3218,6 +3387,31 @@ input, select, textarea {
   background: rgba(0, 0, 0, 0.4);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
+}
+
+.lightbox-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.spinner-ring {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.lightbox-img.loading {
+  opacity: 0.3;
 }
 
 @media (max-width: 480px) {

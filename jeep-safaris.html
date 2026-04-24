@@ -88,7 +88,7 @@
   <!-- Navigation -->
   <nav class="navbar scrolled" id="navbar">
     <div class="nav-container">
-      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
+      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
         <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
       </button>
@@ -178,7 +178,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
+          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
           <p>Pakistan's trusted adventure company since 2018. Specializing in treks, tours, and cultural expeditions across Gilgit-Baltistan, Skardu, and the Karakoram.</p>
           <div class="social-links">
             <a href="https://www.facebook.com/gilgitadventuretreks" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/></svg></a>
@@ -232,6 +232,51 @@
     </div>
   </footer>
 
+  <!-- Destination Modal -->
+  <div class="modal-overlay" id="destinationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal-content modal-content--dest">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+      <img class="modal-image" id="modalImage" src="" alt="" loading="lazy">
+      <div class="modal-body">
+        <h3 class="modal-title" id="modalTitle"></h3>
+        <div class="modal-rating" id="modalRating"></div>
+        <p class="modal-description" id="modalDescription"></p>
+        <div class="modal-tour-meta" id="modalTourMeta" style="display:none;margin:1rem 0;padding:1rem;background:#f0fdf4;border-radius:8px;font-size:0.9rem;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem;">
+            <div><strong>Duration:</strong> <span id="metaDuration"></span></div>
+            <div><strong>Group Size:</strong> <span id="metaGroup"></span></div>
+            <div><strong>Difficulty:</strong> <span id="metaDifficulty"></span></div>
+            <div><strong>Best Season:</strong> <span id="metaSeason"></span></div>
+          </div>
+          <div style="margin-top:0.75rem;" id="metaRouteWrap"><strong>Route:</strong> <span id="metaRoute" style="color:#2D6A4F;"></span></div>
+        </div>
+        <div class="modal-highlights" id="modalHighlights"></div>
+        <div class="modal-gallery" id="modalGallery" style="display:none;">
+          <h4 class="modal-section-title">Trip Gallery</h4>
+          <div class="modal-gallery-strip" id="modalGalleryStrip"></div>
+        </div>
+        <div class="modal-itinerary" id="modalItinerarySection" style="display:none;">
+          <h4 class="modal-section-title">Day-by-Day Itinerary</h4>
+          <div class="modal-itinerary-list" id="modalItineraryList"></div>
+        </div>
+        <div class="modal-policies" id="modalPolicies" style="display:none;">
+          <div class="modal-policies-col modal-policies-col--includes">
+            <h4 class="modal-section-title"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#2D6A4F"/></svg> Includes</h4>
+            <ul id="modalIncludes"></ul>
+          </div>
+          <div class="modal-policies-col modal-policies-col--excludes">
+            <h4 class="modal-section-title"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" fill="#dc2626"/></svg> Excludes</h4>
+            <ul id="modalExcludes"></ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span class="modal-price" id="modalPrice"></span>
+          <a class="btn btn-primary modal-book-btn" id="modalBookBtn" href="book.html">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
   (function() {
     'use strict';
@@ -265,6 +310,18 @@
       });
     });
 
+    /* ── Star Rating Generator ── */
+    function generateStars(rating) {
+      var full = Math.floor(rating);
+      var half = rating % 1 >= 0.5 ? 1 : 0;
+      var empty = 5 - full - half;
+      var html = '';
+      for (var i = 0; i < full; i++) html += '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>';
+      if (half) html += '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor" opacity="0.4"/></svg>';
+      for (var i = 0; i < empty; i++) html += '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor" opacity="0.15"/></svg>';
+      return html;
+    }
+
     /* ── Render Safari Cards ── */
     function renderSafaris() {
       var grid = document.getElementById('safariGrid');
@@ -282,22 +339,148 @@
       }
 
       grid.innerHTML = safariData.map(function(item) {
-        return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
+        return '<div class="top-dest-card" role="button" tabindex="0" data-id="' + (item.id || item._id) + '">' +
           '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
           '<div class="top-dest-overlay">' +
             '<span class="top-dest-tag">' + (item.duration || 'Safari') + '</span>' +
             '<h3 class="top-dest-name">' + item.name + '</h3>' +
-            '' +
             '<div class="top-dest-meta">' +
               '<span class="top-dest-rating">' +
                 '<svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg> ' +
                 item.rating +
               '</span>' +
             '</div>' +
-            '<a href="book.html?destination=' + item.id + '" class="top-dest-btn">Book Now</a>' +
+            '<a href="book.html?destination=' + (item.id || item._id) + '" class="top-dest-btn">Book Now</a>' +
           '</div>' +
         '</div>';
       }).join('');
+    }
+
+    /* ── Modal ── */
+    var modal = document.getElementById('destinationModal');
+    var modalCloseBtn = document.getElementById('modalClose');
+
+    function openModal(dest) {
+      if (!dest) return;
+      document.getElementById('modalImage').src = dest.image;
+      document.getElementById('modalImage').alt = dest.name;
+      document.getElementById('modalTitle').textContent = dest.name;
+      document.getElementById('modalRating').innerHTML = '<span class="stars">' + generateStars(dest.rating) + '</span> ' + dest.rating + ' (' + (dest.reviews || 0).toLocaleString() + ' reviews)';
+      document.getElementById('modalDescription').textContent = dest.description || '';
+
+      document.getElementById('modalHighlights').innerHTML = (dest.highlights || []).map(function(h) { return '<span class="highlight-tag">' + h + '</span>'; }).join('');
+
+      var tourMeta = document.getElementById('modalTourMeta');
+      if (dest.duration) {
+        tourMeta.style.display = 'block';
+        document.getElementById('metaDuration').textContent = dest.duration || '';
+        document.getElementById('metaGroup').textContent = dest.groupSize || '';
+        document.getElementById('metaDifficulty').textContent = dest.difficulty || '';
+        document.getElementById('metaSeason').textContent = dest.bestSeason || '';
+        document.getElementById('metaRoute').textContent = dest.route ? dest.route.join(' \u2192 ') : '';
+        document.getElementById('metaRouteWrap').style.display = dest.route ? 'block' : 'none';
+      } else {
+        tourMeta.style.display = 'none';
+      }
+
+      var gallerySection = document.getElementById('modalGallery');
+      var galleryStrip = document.getElementById('modalGalleryStrip');
+      if (dest.gallery && dest.gallery.length > 0) {
+        galleryStrip.innerHTML = dest.gallery.map(function(url) {
+          return '<img class="modal-gallery-thumb" src="' + url + '" alt="' + dest.name + ' gallery" loading="lazy">';
+        }).join('');
+        gallerySection.style.display = 'block';
+        galleryStrip.querySelectorAll('.modal-gallery-thumb').forEach(function(thumb) {
+          thumb.addEventListener('click', function() {
+            document.getElementById('modalImage').src = thumb.src;
+            galleryStrip.querySelectorAll('.modal-gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
+            thumb.classList.add('active');
+          });
+        });
+      } else {
+        gallerySection.style.display = 'none';
+        galleryStrip.innerHTML = '';
+      }
+
+      var itinSection = document.getElementById('modalItinerarySection');
+      var itinList = document.getElementById('modalItineraryList');
+      if (dest.itinerary && dest.itinerary.length > 0) {
+        itinList.innerHTML = dest.itinerary.map(function(item) {
+          return '<div class="itinerary-day">' +
+            '<button class="itinerary-day-header" type="button" aria-expanded="false">' +
+              '<span class="itinerary-day-badge">Day ' + item.day + '</span>' +
+              '<span class="itinerary-day-title">' + item.title + '</span>' +
+              '<svg class="itinerary-chevron" viewBox="0 0 24 24" width="18" height="18"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" fill="currentColor"/></svg>' +
+            '</button>' +
+            '<div class="itinerary-day-body"><p>' + item.description + '</p></div>' +
+          '</div>';
+        }).join('');
+        itinSection.style.display = 'block';
+        itinList.querySelectorAll('.itinerary-day-header').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var day = btn.parentElement;
+            var isOpen = day.classList.contains('open');
+            itinList.querySelectorAll('.itinerary-day.open').forEach(function(d) { d.classList.remove('open'); d.querySelector('.itinerary-day-header').setAttribute('aria-expanded', 'false'); });
+            if (!isOpen) { day.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+          });
+        });
+      } else {
+        itinSection.style.display = 'none';
+        itinList.innerHTML = '';
+      }
+
+      var policiesSection = document.getElementById('modalPolicies');
+      var incEl = document.getElementById('modalIncludes');
+      var excEl = document.getElementById('modalExcludes');
+      var hasInc = dest.includes && dest.includes.length > 0;
+      var hasExc = dest.excludes && dest.excludes.length > 0;
+      if (hasInc || hasExc) {
+        incEl.innerHTML = hasInc ? dest.includes.map(function(i) {
+          return '<li><svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#2D6A4F"/></svg> ' + i + '</li>';
+        }).join('') : '<li style="color:#94a3b8;">Not specified</li>';
+        excEl.innerHTML = hasExc ? dest.excludes.map(function(i) {
+          return '<li><svg viewBox="0 0 24 24" width="14" height="14"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#dc2626"/></svg> ' + i + '</li>';
+        }).join('') : '<li style="color:#94a3b8;">Not specified</li>';
+        policiesSection.style.display = 'grid';
+      } else {
+        policiesSection.style.display = 'none';
+      }
+
+      document.getElementById('modalPrice').style.display = 'none';
+      document.getElementById('modalBookBtn').href = 'book.html?destination=' + (dest.id || dest._id);
+
+      modal.hidden = false;
+      requestAnimationFrame(function() { modal.classList.add('open'); });
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      setTimeout(function() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+    if (modal) {
+      modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
+    });
+
+    // Card click delegation
+    var safariGrid = document.getElementById('safariGrid');
+    if (safariGrid) {
+      safariGrid.addEventListener('click', function(e) {
+        if (e.target.closest('.top-dest-btn')) return;
+        var card = e.target.closest('.top-dest-card');
+        if (!card) return;
+        var cardId = card.dataset.id;
+        var dest = safariData.find(function(d) { return String(d.id || d._id) === String(cardId); });
+        if (dest) openModal(dest);
+      });
     }
 
     /* ── Fetch from API & Init ── */

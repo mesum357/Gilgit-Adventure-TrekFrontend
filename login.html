@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login — Gilgit Adventure Treks</title>
   <link rel="icon" type="image/png" href="images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #2D6A4F;
@@ -46,8 +47,8 @@
       margin-bottom: 1.5rem;
     }
     .login-card .logo-area img {
-      width: 60px;
-      height: 60px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       margin-bottom: 0.5rem;
     }
@@ -116,19 +117,79 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
-    .links {
-      text-align: center;
-      margin-top: 1.25rem;
-      font-size: 0.875rem;
-      color: var(--text-light);
+    .forgot-link {
+      text-align: right;
+      margin-top: -0.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.8rem;
     }
-    .links a {
+    .forgot-link a {
       color: var(--primary);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
     }
-    .links a:hover {
+    .forgot-link a:hover {
       text-decoration: underline;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+      color: var(--text-light);
+      font-size: 0.8rem;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .register-section {
+      text-align: center;
+    }
+    .register-section p {
+      color: #000;
+      font-family: 'Roboto', sans-serif;
+      font-size: 18px;
+      margin-bottom: 0.75rem;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .btn-register {
+      display: block;
+      width: 100%;
+      padding: 0.65rem;
+      background: #0277BD;
+      color: #fff;
+      border: 2px solid #0277BD;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.2s;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+    .btn-register:hover {
+      background: #01579B;
+      color: #fff;
+    }
+    .home-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-decoration: none;
+    }
+    .home-link:hover {
+      color: var(--primary);
     }
     .password-wrapper {
       position: relative;
@@ -188,14 +249,21 @@
             </button>
           </div>
         </div>
+        <div class="forgot-link">
+          <a href="forgot-password.html">Forgot Password?</a>
+        </div>
         <button type="submit" class="btn-primary" id="submitBtn">Sign In</button>
       </form>
 
-      <div class="links">
-        <p><a href="forgot-password.html">Forgot Password?</a></p>
-        <p style="margin-top:0.5rem;">Don't have an account? <a href="register.html">Create one</a></p>
-        <p style="margin-top:0.5rem;"><a href="index.html">Back to Home</a></p>
+      <div class="divider">or</div>
+
+      <div class="register-section">
+        <p>Don't have an account?</p>
+        <p>Create an account to submit your review.</p>
+        <a href="register.html" class="btn-register">Create Account</a>
       </div>
+
+      <a href="index.html" class="home-link">&larr; Back to Home</a>
     </div>
   </div>
 

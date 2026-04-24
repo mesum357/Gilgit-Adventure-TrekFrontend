@@ -46,21 +46,318 @@
 
   <!-- About Page Styles -->
   <style>
-    .page-header { background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%); color: #fff; padding: 6rem 0 3rem; text-align: center; }
-    .page-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    .page-header p { opacity: 0.85; max-width: 600px; margin: 0 auto; }
-    .breadcrumb { font-size: 0.85rem; opacity: 0.7; margin-bottom: 1rem; }
-    .breadcrumb a { color: #fff; text-decoration: none; }
-    .breadcrumb a:hover { text-decoration: underline; }
-    .about-section { padding: 4rem 0; background: #f8fafc; }
-    .about-card { background: #fff; border-radius: 12px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 800px; margin: 0 auto; }
-    .about-card p { font-size: 1.1rem; line-height: 1.9; color: #374151; margin-bottom: 1.5rem; }
-    .about-card p:last-child { margin-bottom: 0; }
-    .about-highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
-    .about-highlight { text-align: center; padding: 1.5rem; background: #f0fdf4; border-radius: 10px; }
-    .about-highlight .icon { width: 48px; height: 48px; background: #2D6A4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; color: #fff; }
-    .about-highlight h4 { font-size: 1.1rem; color: #1B4332; margin: 0 0 0.25rem; }
-    .about-highlight p { font-size: 0.85rem; color: #64748b; margin: 0; }
+    /* Hero */
+    .about-hero {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+    .about-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/k2.jpg') center/cover no-repeat;
+      filter: brightness(0.4);
+      z-index: 0;
+    }
+    .about-hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 1rem 3rem;
+    }
+    .about-hero-content .breadcrumb {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+    .about-hero-content .breadcrumb a { color: #fff; text-decoration: none; }
+    .about-hero-content .breadcrumb a:hover { text-decoration: underline; }
+    .about-hero-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+    .about-hero-content p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Story Section — Split Layout */
+    .about-story {
+      padding: 5rem 0;
+      background: #fff;
+    }
+    .about-story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .about-story-img {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    .about-story-img img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+    .about-story-img .exp-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: #2D6A4F;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(45,106,79,0.4);
+    }
+    .about-story-img .exp-badge span {
+      display: block;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+    .about-story-text h2 {
+      font-size: 2rem;
+      color: #1B4332;
+      margin-bottom: 0.5rem;
+    }
+    .about-story-text .subtitle {
+      color: #D4A03C;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .about-story-text p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #374151;
+      margin-bottom: 1.25rem;
+    }
+    .about-story-text .signature {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    .about-story-text .signature strong {
+      display: block;
+      color: #1B4332;
+      font-size: 1.1rem;
+    }
+    .about-story-text .signature span {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Stats */
+    .about-stats {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, #1B4332, #2D6A4F);
+      color: #fff;
+    }
+    .about-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      text-align: center;
+    }
+    .stat-item .stat-number {
+      font-size: 2.75rem;
+      font-weight: 700;
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      color: #D4A03C;
+    }
+    .stat-item .stat-label {
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    /* Mission & Vision */
+    .about-mv {
+      padding: 5rem 0;
+      background: #f8fafc;
+    }
+    .about-mv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .mv-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border-top: 4px solid #2D6A4F;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .mv-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+    }
+    .mv-card .mv-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #2D6A4F, #40916C);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+    .mv-card h3 {
+      font-size: 1.35rem;
+      color: #1B4332;
+      margin-bottom: 0.75rem;
+    }
+    .mv-card p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #4b5563;
+    }
+
+    /* Why Choose Us */
+    .about-why {
+      padding: 5rem 0;
+      background: #fff;
+    }
+    .about-why h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #1B4332;
+      margin-bottom: 0.5rem;
+    }
+    .about-why .section-subtitle {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+    .about-why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .why-card {
+      text-align: center;
+      padding: 2rem 1.25rem;
+      background: #f0fdf4;
+      border-radius: 12px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .why-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    .why-card .why-icon {
+      width: 56px;
+      height: 56px;
+      background: #2D6A4F;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: #fff;
+    }
+    .why-card h4 {
+      font-size: 1.05rem;
+      color: #1B4332;
+      margin-bottom: 0.5rem;
+    }
+    .why-card p {
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .about-cta {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, #1B4332, #2D6A4F);
+      text-align: center;
+      color: #fff;
+    }
+    .about-cta h2 {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .about-cta p {
+      opacity: 0.85;
+      max-width: 550px;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+    }
+    .about-cta-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .about-cta-btns a {
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-cta-primary {
+      background: #D4A03C;
+      color: #1B4332;
+    }
+    .btn-cta-primary:hover { background: #c4922e; }
+    .btn-cta-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+    .btn-cta-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .about-hero-content h1 { font-size: 2rem; }
+      .about-story-grid { grid-template-columns: 1fr; }
+      .about-story-img img { height: 300px; }
+      .about-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-mv-grid { grid-template-columns: 1fr; }
+      .about-why-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .about-hero { min-height: 320px; }
+      .about-hero-content h1 { font-size: 1.6rem; }
+      .about-stats-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+      .about-why-grid { grid-template-columns: 1fr; }
+      .stat-item .stat-number { font-size: 2rem; }
+    }
   </style>
 
   <!-- Schema.org Structured Data — AboutPage -->
@@ -102,7 +399,7 @@
   <!-- ============ NAVIGATION ============ -->
   <nav class="navbar scrolled" id="navbar">
     <div class="nav-container">
-      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
+      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
         <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
       </button>
@@ -159,70 +456,137 @@
 
   <main>
 
-  <!-- ============ PAGE HEADER ============ -->
-  <section class="page-header">
-    <div class="container">
-      <div class="breadcrumb">
-        <a href="/">Home</a> &rsaquo; About Us
-      </div>
-      <h1>About Us</h1>
-      <p>Discover the story behind Pakistan's trusted adventure and trekking company.</p>
+  <!-- ============ HERO ============ -->
+  <section class="about-hero">
+    <div class="about-hero-bg"></div>
+    <div class="about-hero-content">
+      <div class="breadcrumb"><a href="/">Home</a> &rsaquo; About Us</div>
+      <h1>Who We Are</h1>
+      <p>Discover the story behind Pakistan's most trusted adventure and trekking company.</p>
     </div>
   </section>
 
-  <!-- ============ ABOUT SECTION ============ -->
-  <section class="about-section">
-    <div class="container">
-      <div class="about-card">
-        <p>We are a professional tourism service based in Pakistan, offering guided tours across Gilgit-Baltistan. With nearly 20 years of experience, we provide safe, comfortable, and unforgettable travel experiences. Our expert team ensures every journey is well-planned, enjoyable, and tailored to our clients' needs.</p>
-
-        <p>From the towering peaks of K2 and Nanga Parbat to the serene valleys of Hunza and Skardu, we take pride in showcasing the breathtaking beauty of northern Pakistan to travelers from around the world. Our deep knowledge of the region, combined with strong local connections, allows us to offer authentic experiences that go beyond ordinary tourism.</p>
-
-        <p>Whether you're seeking an adrenaline-pumping trek, a peaceful jeep safari through mountain passes, or a cultural immersion into local traditions, our team is here to make it happen — safely, comfortably, and memorably.</p>
-
-        <div class="about-highlights">
-          <div class="about-highlight">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </div>
-            <h4>20 Years Experience</h4>
-            <p>Nearly two decades of professional tourism in Pakistan</p>
-          </div>
-          <div class="about-highlight">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                <path d="M16 3.13a4 4 0 010 7.75"/>
-              </svg>
-            </div>
-            <h4>Expert Local Guides</h4>
-            <p>Experienced guides who know every trail and valley</p>
-          </div>
-          <div class="about-highlight">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <h4>Safety First</h4>
-            <p>Your safety and comfort are our top priority</p>
-          </div>
-          <div class="about-highlight">
-            <div class="icon">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-              </svg>
-            </div>
-            <h4>Tailored Experiences</h4>
-            <p>Every journey customized to your preferences</p>
-          </div>
+  <!-- ============ OUR STORY ============ -->
+  <section class="about-story">
+    <div class="about-story-grid">
+      <div class="about-story-img">
+        <img src="images/k2.jpg" alt="Gilgit Adventure Treks team in the Karakoram mountains" loading="lazy">
+        <div class="exp-badge">
+          <span>20+</span>
+          Years of Adventure
         </div>
       </div>
+      <div class="about-story-text">
+        <div class="subtitle">Our Story</div>
+        <h2>Born in the Heart of the Mountains</h2>
+        <p>We are a professional tourism service based in Gilgit, Pakistan, offering guided tours across Gilgit-Baltistan. With nearly 20 years of experience, we provide safe, comfortable, and unforgettable travel experiences.</p>
+        <p>From the towering peaks of K2 and Nanga Parbat to the serene valleys of Hunza and Skardu, we take pride in showcasing the breathtaking beauty of northern Pakistan to travelers from around the world.</p>
+        <p>Our deep knowledge of the region, combined with strong local connections, allows us to offer authentic experiences that go beyond ordinary tourism.</p>
+        <div class="signature">
+          <strong>Gilgit Adventure Treks</strong>
+          <span>Est. 2007 &mdash; Gilgit, Pakistan</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="about-stats">
+    <div class="about-stats-grid">
+      <div class="stat-item">
+        <span class="stat-number">20+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">5000+</span>
+        <span class="stat-label">Happy Travelers</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Destinations</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">100%</span>
+        <span class="stat-label">Safety Record</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MISSION & VISION ============ -->
+  <section class="about-mv">
+    <div class="about-mv-grid">
+      <div class="mv-card">
+        <div class="mv-icon">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+          </svg>
+        </div>
+        <h3>Our Mission</h3>
+        <p>To showcase the breathtaking beauty of northern Pakistan to the world by providing safe, affordable, and unforgettable adventure experiences. We believe every traveler deserves to witness the magic of the Karakoram, and we make it possible with expert guidance and genuine hospitality.</p>
+      </div>
+      <div class="mv-card">
+        <div class="mv-icon">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <h3>Our Vision</h3>
+        <p>To become the leading adventure tourism company in Pakistan, recognized globally for responsible tourism, community empowerment, and world-class trekking experiences. We envision a future where northern Pakistan is among the top adventure destinations in the world.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY CHOOSE US ============ -->
+  <section class="about-why">
+    <h2>Why Choose Us</h2>
+    <p class="section-subtitle">What makes Gilgit Adventure Treks different</p>
+    <div class="about-why-grid">
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h4>20 Years Experience</h4>
+        <p>Nearly two decades of professional tourism across Gilgit-Baltistan</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <h4>Expert Local Guides</h4>
+        <p>Experienced guides who know every trail, pass, and valley</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h4>Safety First</h4>
+        <p>Your safety and comfort are always our top priority</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </div>
+        <h4>Tailored Experiences</h4>
+        <p>Every journey customized to your preferences</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="about-cta">
+    <h2>Ready for Your Next Adventure?</h2>
+    <p>Let us plan the perfect trek, tour, or safari for you across the stunning landscapes of northern Pakistan.</p>
+    <div class="about-cta-btns">
+      <a href="book.html" class="btn-cta-primary">Book Your Adventure</a>
+      <a href="contact.html" class="btn-cta-outline">Contact Us</a>
     </div>
   </section>
 
@@ -255,7 +619,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
+          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
           <p>Pakistan's trusted adventure company since 2018. Specializing in treks, tours, and cultural expeditions across Gilgit-Baltistan, Skardu, and the Karakoram.</p>
           <div class="social-links">
             <a href="https://www.facebook.com/gilgitadventuretreks" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/></svg></a>

@@ -159,6 +159,7 @@
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        entry.target.classList.remove('reveal-hidden');
         entry.target.classList.add('revealed');
         revealObserver.unobserve(entry.target);
       }
@@ -969,6 +970,15 @@
       video.preload = 'none';
       video.src = v.videoUrl;
 
+      const spinner = document.createElement('div');
+      spinner.className = 'reel-spinner';
+      spinner.innerHTML = '<div class="spinner-ring"></div>';
+
+      video.addEventListener('waiting', () => { spinner.style.display = 'flex'; });
+      video.addEventListener('canplay', () => { spinner.style.display = 'none'; });
+      video.addEventListener('playing', () => { spinner.style.display = 'none'; });
+      video.addEventListener('error', () => { spinner.style.display = 'none'; });
+
       video.addEventListener('click', () => {
         if (video.paused) {
           video.play().catch(() => {});
@@ -988,6 +998,7 @@
       info.innerHTML = '<h3>' + v.title + '</h3><p>' + v.description + '</p>';
 
       slide.appendChild(video);
+      slide.appendChild(spinner);
       slide.appendChild(playBtn);
       slide.appendChild(info);
       reelsTrack.appendChild(slide);
@@ -1044,6 +1055,24 @@
   }
 
   if (reelsClose) reelsClose.addEventListener('click', closeReels);
+
+  const reelsUp = $('#reelsUp');
+  const reelsDown = $('#reelsDown');
+  if (reelsUp) {
+    reelsUp.addEventListener('click', () => {
+      const slides = reelsTrack.querySelectorAll('.reel-slide');
+      const currentIndex = Math.round(reelsTrack.scrollTop / window.innerHeight);
+      if (currentIndex > 0) slides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+  if (reelsDown) {
+    reelsDown.addEventListener('click', () => {
+      const slides = reelsTrack.querySelectorAll('.reel-slide');
+      const currentIndex = Math.round(reelsTrack.scrollTop / window.innerHeight);
+      if (currentIndex < slides.length - 1) slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
   if (reelsViewer) {
     document.addEventListener('keydown', (e) => {
       if (!reelsViewer.hidden && e.key === 'Escape') closeReels();
@@ -1884,7 +1913,17 @@
 
   function startRevealObservers() {
     try {
-      $$('.reveal-up').forEach(function(el) { revealObserver.observe(el); });
+      $$('.reveal-up:not(.revealed)').forEach(function(el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top > window.innerHeight) {
+          // Only hide elements below the viewport — they animate on scroll
+          el.classList.add('reveal-hidden');
+        } else {
+          // Elements already in viewport — mark as revealed immediately
+          el.classList.add('revealed');
+        }
+        revealObserver.observe(el);
+      });
       var heroStats = $('.hero-stats');
       if (heroStats) statsObserver.observe(heroStats);
     } catch (e) {

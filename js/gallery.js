@@ -42,6 +42,7 @@
   var revealObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
+        entry.target.classList.remove('reveal-hidden');
         entry.target.classList.add('revealed');
         revealObserver.unobserve(entry.target);
       }
@@ -64,18 +65,42 @@
     return bg.replace(/url\(['"]?/, '').replace(/['"]?\)/, '').replace('w=400', 'w=1200');
   }
 
+  var lightboxSpinner = $('#lightboxSpinner');
+
+  function showLightboxLoading() {
+    lightboxImg.classList.add('loading');
+    if (lightboxSpinner) lightboxSpinner.style.display = 'block';
+  }
+
+  function hideLightboxLoading() {
+    lightboxImg.classList.remove('loading');
+    if (lightboxSpinner) lightboxSpinner.style.display = 'none';
+  }
+
+  function loadLightboxImage(url) {
+    showLightboxLoading();
+    lightboxImg.src = url;
+  }
+
+  lightboxImg.addEventListener('load', hideLightboxLoading);
+  lightboxImg.addEventListener('error', function () {
+    hideLightboxLoading();
+    lightboxImg.alt = 'Failed to load image';
+  });
+
   function openLightbox(index) {
     lightboxIndex = index;
     var url = getGalleryImageUrl(galleryItems[index]);
-    lightboxImg.src = url;
     lightboxCounter.textContent = (index + 1) + ' / ' + galleryItems.length;
     lightbox.hidden = false;
     requestAnimationFrame(function () { lightbox.classList.add('open'); });
     document.body.style.overflow = 'hidden';
+    loadLightboxImage(url);
   }
 
   function closeLightbox() {
     lightbox.classList.remove('open');
+    hideLightboxLoading();
     setTimeout(function () {
       lightbox.hidden = true;
       lightboxImg.src = '';
@@ -85,8 +110,8 @@
 
   function lightboxNav(dir) {
     lightboxIndex = (lightboxIndex + dir + galleryItems.length) % galleryItems.length;
-    lightboxImg.src = getGalleryImageUrl(galleryItems[lightboxIndex]);
     lightboxCounter.textContent = (lightboxIndex + 1) + ' / ' + galleryItems.length;
+    loadLightboxImage(getGalleryImageUrl(galleryItems[lightboxIndex]));
   }
 
   function initLightboxBindings() {
@@ -235,6 +260,15 @@
       video.preload = 'none';
       video.src = v.videoUrl;
 
+      var spinner = document.createElement('div');
+      spinner.className = 'reel-spinner';
+      spinner.innerHTML = '<div class="spinner-ring"></div>';
+
+      video.addEventListener('waiting', function () { spinner.style.display = 'flex'; });
+      video.addEventListener('canplay', function () { spinner.style.display = 'none'; });
+      video.addEventListener('playing', function () { spinner.style.display = 'none'; });
+      video.addEventListener('error', function () { spinner.style.display = 'none'; });
+
       video.addEventListener('click', function () {
         if (video.paused) {
           video.play().catch(function () {});
@@ -254,6 +288,7 @@
       info.innerHTML = '<h3>' + v.title + '</h3><p>' + (v.description || '') + '</p>';
 
       slide.appendChild(video);
+      slide.appendChild(spinner);
       slide.appendChild(playBtn);
       slide.appendChild(info);
       reelsTrack.appendChild(slide);
@@ -310,6 +345,28 @@
   }
 
   if (reelsClose) reelsClose.addEventListener('click', closeReels);
+
+  var reelsUp = $('#reelsUp');
+  var reelsDown = $('#reelsDown');
+  if (reelsUp) {
+    reelsUp.addEventListener('click', function () {
+      var slides = reelsTrack.querySelectorAll('.reel-slide');
+      var currentIndex = Math.round(reelsTrack.scrollTop / window.innerHeight);
+      if (currentIndex > 0) {
+        slides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+  if (reelsDown) {
+    reelsDown.addEventListener('click', function () {
+      var slides = reelsTrack.querySelectorAll('.reel-slide');
+      var currentIndex = Math.round(reelsTrack.scrollTop / window.innerHeight);
+      if (currentIndex < slides.length - 1) {
+        slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+
   if (reelsViewer) {
     document.addEventListener('keydown', function (e) {
       if (!reelsViewer.hidden && e.key === 'Escape') closeReels();
@@ -376,7 +433,15 @@
     }
 
     // Start reveal animations after rendering
-    $$('.reveal-up').forEach(function (el) { revealObserver.observe(el); });
+    $$('.reveal-up:not(.revealed)').forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top > window.innerHeight) {
+        el.classList.add('reveal-hidden');
+      } else {
+        el.classList.add('revealed');
+      }
+      revealObserver.observe(el);
+    });
 
   }
 
