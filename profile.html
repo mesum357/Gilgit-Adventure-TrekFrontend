@@ -371,6 +371,29 @@
       color: var(--text-light);
     }
 
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper .form-control {
+      padding-right: 2.5rem;
+    }
+    .eye-toggle {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    .eye-toggle:hover {
+      color: var(--primary);
+    }
+
     @media (max-width: 600px) {
       .form-row { grid-template-columns: 1fr; }
       .profile-header { flex-direction: column; text-align: center; }
@@ -448,15 +471,9 @@
         <div class="alert alert-success" id="profileSuccess"></div>
 
         <form id="profileForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="editName">Name</label>
-              <input type="text" id="editName" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label for="editPhone">Phone</label>
-              <input type="tel" id="editPhone" class="form-control">
-            </div>
+          <div class="form-group">
+            <label for="editName">Name</label>
+            <input type="text" id="editName" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="editLocation">Location</label>
@@ -465,7 +482,19 @@
           <input type="hidden" id="editAvatar">
           <div class="form-group">
             <label for="editPassword">New Password <span style="font-weight:400;color:var(--text-light);font-size:0.8rem">(leave blank to keep current)</span></label>
-            <input type="password" id="editPassword" class="form-control" placeholder="Min 6 characters" minlength="6">
+            <div class="password-wrapper">
+              <input type="password" id="editPassword" class="form-control" placeholder="New password" minlength="6">
+              <button type="button" class="eye-toggle" id="eyeToggle" aria-label="Show password">
+                <svg id="eyeOpen" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg id="eyeClosed" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary" id="profileSaveBtn">Save & Return</button>
         </form>
@@ -487,24 +516,16 @@
         <div class="alert alert-error" id="reviewError"></div>
         <div class="alert alert-success" id="reviewSuccess"></div>
         <form id="reviewForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="reviewDest">Destination</label>
-              <select id="reviewDest" class="form-control" required>
-                <option value="">Select a destination...</option>
-              </select>
+          <div class="form-group">
+            <label>Rating</label>
+            <div class="star-rating" id="starRating">
+              <svg class="star" data-value="1" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
+              <svg class="star" data-value="2" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
+              <svg class="star" data-value="3" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
+              <svg class="star" data-value="4" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
+              <svg class="star" data-value="5" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
             </div>
-            <div class="form-group">
-              <label>Rating</label>
-              <div class="star-rating" id="starRating">
-                <svg class="star" data-value="1" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
-                <svg class="star" data-value="2" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
-                <svg class="star" data-value="3" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
-                <svg class="star" data-value="4" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
-                <svg class="star" data-value="5" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
-              </div>
-              <input type="hidden" id="reviewRating" value="0">
-            </div>
+            <input type="hidden" id="reviewRating" value="0">
           </div>
           <div class="form-group">
             <label for="reviewText">Your Review</label>
@@ -522,6 +543,22 @@
   </div>
 
   <script>
+    // Toggle password visibility
+    document.getElementById('eyeToggle').addEventListener('click', function() {
+      var pwd = document.getElementById('editPassword');
+      var open = document.getElementById('eyeOpen');
+      var closed = document.getElementById('eyeClosed');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        open.style.display = 'none';
+        closed.style.display = 'block';
+      } else {
+        pwd.type = 'password';
+        open.style.display = 'block';
+        closed.style.display = 'none';
+      }
+    });
+
     const TOKEN = localStorage.getItem('user_token');
     if (!TOKEN) {
       window.location.href = 'login.html';
@@ -740,7 +777,6 @@
 
         // Fill edit form
         document.getElementById('editName').value = user.name;
-        document.getElementById('editPhone').value = user.phone || '';
         document.getElementById('editLocation').value = user.location || '';
         document.getElementById('editAvatar').value = user.avatar || '';
 
@@ -764,7 +800,6 @@
 
       const body = {
         name: document.getElementById('editName').value.trim(),
-        phone: document.getElementById('editPhone').value.trim(),
         location: document.getElementById('editLocation').value.trim(),
         avatar: document.getElementById('editAvatar').value.trim()
       };
@@ -854,23 +889,6 @@
       }
     }
 
-    // --- Load destinations for review form ---
-    async function loadDestinations() {
-      try {
-        const res = await fetch('/api/page-data?need=destinations');
-        const data = await res.json();
-        const select = document.getElementById('reviewDest');
-        (data.destinations || []).forEach(d => {
-          const opt = document.createElement('option');
-          opt.value = d.name;
-          opt.textContent = d.name;
-          select.appendChild(opt);
-        });
-      } catch (err) {
-        // Destinations unavailable
-      }
-    }
-
     // --- Submit review ---
     document.getElementById('reviewForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -880,15 +898,9 @@
       errorEl.style.display = 'none';
       successEl.style.display = 'none';
 
-      const destination = document.getElementById('reviewDest').value;
       const rating = parseInt(document.getElementById('reviewRating').value);
       const text = document.getElementById('reviewText').value.trim();
 
-      if (!destination) {
-        errorEl.textContent = 'Please select a destination';
-        errorEl.style.display = 'block';
-        return;
-      }
       if (!rating || rating < 1) {
         errorEl.textContent = 'Please select a star rating';
         errorEl.style.display = 'block';
@@ -905,7 +917,7 @@
         const res = await fetch('/api/reviews/user', {
           method: 'POST',
           headers: API_HEADERS,
-          body: JSON.stringify({ destination, rating, text })
+          body: JSON.stringify({ rating, text })
         });
         const data = await res.json();
         if (!res.ok) {
@@ -930,7 +942,6 @@
     loadProfile();
     loadBookings();
     loadReviews();
-    loadDestinations();
 
     // Dynamic branding from site settings
     fetch('/api/page-data?need=').then(function(r){ return r.json(); }).then(function(d) {

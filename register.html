@@ -145,6 +145,85 @@
     .links a:hover {
       text-decoration: underline;
     }
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper .form-control {
+      padding-right: 2.5rem;
+    }
+    .eye-toggle {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    .eye-toggle:hover {
+      color: var(--primary);
+    }
+    .avatar-upload {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.35rem;
+    }
+    .avatar-preview {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--bg);
+    }
+    .avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .avatar-preview svg {
+      color: var(--text-light);
+    }
+    .avatar-preview.has-image {
+      border-style: solid;
+      border-color: var(--primary);
+    }
+    .avatar-preview.has-image svg {
+      display: none;
+    }
+    .avatar-preview.has-image img {
+      display: block;
+    }
+    .avatar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .avatar-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
   </style>
 </head>
 <body>
@@ -169,21 +248,50 @@
           <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
         </div>
         <div class="form-group">
-          <label for="phone">Phone <span class="optional">(optional)</span></label>
-          <input type="tel" id="phone" class="form-control" placeholder="e.g. +92 300 1234567">
-        </div>
-        <div class="form-group">
-          <label for="avatarFile">Profile Picture <span class="optional">(optional)</span></label>
-          <input type="file" id="avatarFile" class="form-control" accept="image/*" style="padding:0.4rem 0.5rem;">
-          <img id="avatarPreview" src="" alt="" style="display:none;width:50px;height:50px;border-radius:50%;object-fit:cover;margin-top:0.5rem;">
+          <label>Profile Picture</label>
+          <div class="avatar-upload">
+            <div class="avatar-preview" id="avatarPreviewWrap">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <img id="avatarPreview" src="" alt="">
+            </div>
+            <button type="button" class="avatar-btn" id="avatarBtn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Photo
+            </button>
+            <input type="file" id="avatarFile" accept="image/*" style="display:none;">
+          </div>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" class="form-control" placeholder="Min 6 characters" required minlength="6">
+          <div class="password-wrapper">
+            <input type="password" id="password" class="form-control" placeholder="New password" required minlength="6">
+            <button type="button" class="eye-toggle" data-target="password" aria-label="Show password">
+              <svg class="eye-open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg class="eye-closed" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" required>
+          <div class="password-wrapper">
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" required>
+            <button type="button" class="eye-toggle" data-target="confirmPassword" aria-label="Show password">
+              <svg class="eye-open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg class="eye-closed" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
         </div>
         <button type="submit" class="btn-primary" id="submitBtn">Create Account</button>
       </form>
@@ -196,6 +304,24 @@
   </div>
 
   <script>
+    // Toggle password visibility
+    document.querySelectorAll('.eye-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var input = document.getElementById(btn.getAttribute('data-target'));
+        var open = btn.querySelector('.eye-open');
+        var closed = btn.querySelector('.eye-closed');
+        if (input.type === 'password') {
+          input.type = 'text';
+          open.style.display = 'none';
+          closed.style.display = 'block';
+        } else {
+          input.type = 'password';
+          open.style.display = 'block';
+          closed.style.display = 'none';
+        }
+      });
+    });
+
     // If already logged in, redirect
     if (localStorage.getItem('user_token')) {
       window.location.href = 'profile.html';
@@ -224,13 +350,20 @@
       });
     }
 
+    document.getElementById('avatarBtn').addEventListener('click', function() {
+      document.getElementById('avatarFile').click();
+    });
+
     document.getElementById('avatarFile').addEventListener('change', async function() {
       var file = this.files[0];
       if (!file) return;
       avatarBase64 = await resizeImage(file, 200);
       var preview = document.getElementById('avatarPreview');
+      var wrap = document.getElementById('avatarPreviewWrap');
       preview.src = avatarBase64;
-      preview.style.display = 'block';
+      wrap.classList.add('has-image');
+      document.getElementById('avatarBtn').innerHTML =
+        '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Change Photo';
     });
 
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
@@ -243,7 +376,6 @@
 
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
 
@@ -265,7 +397,7 @@
         const res = await fetch('/api/users/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password, phone, avatar: avatarBase64 })
+          body: JSON.stringify({ name, email, password, avatar: avatarBase64 })
         });
 
         const data = await res.json();
