@@ -2564,159 +2564,6 @@ input, select, textarea {
 }
 
 /* ============================================================
-   DEALS
-   ============================================================ */
-.deals {
-  background: linear-gradient(180deg, var(--clr-gray-50) 0%, var(--clr-white) 100%);
-}
-
-.deals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-6);
-}
-
-.deal-card {
-  background: var(--clr-white);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  transition: all var(--transition-base);
-  position: relative;
-}
-
-.deal-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-}
-
-.deal-badge {
-  position: absolute;
-  top: var(--space-3);
-  left: var(--space-3);
-  z-index: 2;
-  font-family: var(--ff-heading);
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full);
-  background: var(--clr-sunset);
-  color: var(--clr-white);
-}
-
-.deal-card-img {
-  height: 200px;
-  overflow: hidden;
-}
-
-.deal-card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.deal-card:hover .deal-card-img img {
-  transform: scale(1.1);
-}
-
-.deal-card-body {
-  padding: var(--space-5);
-}
-
-.deal-card-name {
-  font-family: var(--ff-heading);
-  font-size: var(--fs-lg);
-  font-weight: 600;
-  color: var(--clr-gray-900);
-  margin-bottom: var(--space-2);
-}
-
-.deal-card-desc {
-  font-size: var(--fs-sm);
-  color: var(--clr-gray-500);
-  margin-bottom: var(--space-4);
-}
-
-.deal-pricing {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-
-.deal-old-price {
-  font-size: var(--fs-sm);
-  color: var(--clr-gray-400);
-  text-decoration: line-through;
-}
-
-.deal-new-price {
-  font-family: var(--ff-heading);
-  font-size: var(--fs-xl);
-  font-weight: 700;
-  color: var(--clr-ocean);
-}
-
-.deal-save {
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  color: var(--clr-success);
-  background: rgba(16, 185, 129, 0.1);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-}
-
-.deal-countdown {
-  display: flex;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.countdown-unit {
-  text-align: center;
-  background: var(--clr-gray-50);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  min-width: 52px;
-}
-
-.countdown-value {
-  display: block;
-  font-family: var(--ff-heading);
-  font-size: var(--fs-lg);
-  font-weight: 700;
-  color: var(--clr-navy-deep);
-}
-
-.countdown-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--clr-gray-400);
-}
-
-.deal-book-btn {
-  display: block;
-  width: 100%;
-  text-align: center;
-  font-family: var(--ff-heading);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  padding: var(--space-3);
-  border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, var(--clr-ocean), var(--clr-ocean-light));
-  color: var(--clr-white);
-  transition: all var(--transition-fast);
-}
-
-.deal-book-btn:hover {
-  box-shadow: 0 4px 16px rgba(0, 119, 182, 0.3);
-  transform: translateY(-1px);
-}
-
-/* ============================================================
    NEWSLETTER
    ============================================================ */
 .newsletter {
@@ -3595,11 +3442,6 @@ input, select, textarea {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .deals-grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    margin: 0 auto;
-  }
 }
 
 /* <= 480px */
@@ -3968,6 +3810,163 @@ select:focus-visible {
   .chat-widget {
     bottom: 16px;
     right: 16px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — 768px (Tablets & large phones like Google Pixel)
+   ============================================================ */
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-12) 0;
+  }
+
+  .section-title {
+    font-size: var(--fs-xl);
+  }
+
+  .section-description {
+    font-size: var(--fs-sm);
+  }
+
+  /* Hero */
+  .hero-slide {
+    background-attachment: scroll;
+  }
+
+  .hero-title {
+    font-size: var(--fs-2xl);
+  }
+
+  .hero-description {
+    font-size: var(--fs-sm);
+  }
+
+  .hero-stats {
+    gap: var(--space-4);
+  }
+
+  .stat-number {
+    font-size: var(--fs-xl);
+  }
+
+  /* Top Destinations */
+  .top-dest-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .top-dest-card {
+    height: 300px;
+  }
+
+  .top-dest-btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Destination cards */
+  .destinations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Gallery */
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 150px;
+  }
+
+  /* Videos */
+  .video-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 260px;
+  }
+
+  .video-card:nth-child(4n+1),
+  .video-card:nth-child(4n+2),
+  .video-card:nth-child(4n+3),
+  .video-card:nth-child(4n+4) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  /* Team */
+  .team-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .team-card-img {
+    height: 260px;
+  }
+
+  .team-card-socials {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .trust-badges {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  /* Newsletter */
+  .newsletter-input-wrapper {
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    padding: 0;
+    gap: var(--space-3);
+  }
+
+  .newsletter-input-wrapper input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .newsletter-input-wrapper input + input {
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .newsletter-btn {
+    width: 100%;
+    padding: var(--space-4);
+  }
+
+  /* Booking */
+  .booking-destinations {
+    grid-template-columns: 1fr;
+  }
+
+  /* Nav drawer */
+  .nav-links {
+    width: min(320px, 85vw);
+  }
+
+  /* Page header */
+  .page-header h1 {
+    font-size: var(--fs-2xl);
+  }
+
+  /* Reviews carousel */
+  .review-card {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  /* About highlights */
+  .about-highlights {
+    grid-template-columns: 1fr;
   }
 }
 

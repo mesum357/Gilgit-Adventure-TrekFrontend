@@ -24,6 +24,9 @@
   <meta property="og:title" content="Culture & Activities — Gilgit Adventure Treks">
   <meta property="og:description" content="Immerse yourself in local traditions, festivals, and outdoor adventures across Northern Pakistan.">
   <meta property="og:image" content="https://gilgitadventuretreks.com/images/k2.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="K2 and Karakoram mountains — Gilgit Adventure Treks">
   <meta property="og:site_name" content="Gilgit Adventure Treks">
 
   <!-- Twitter Card -->
@@ -56,71 +59,40 @@
 <body>
 
   <!-- ============ NAVIGATION ============ -->
-  <nav class="navbar" id="navbar" aria-label="Main navigation">
+  <nav class="navbar scrolled" id="navbar">
     <div class="nav-container">
-      <a href="/" class="nav-logo" aria-label="Gilgit Adventure Treks Home">
-        <img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img">
-        <span>Gilgit Adventure Treks  </span>
-      </a>
+      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
       </button>
-      <ul class="nav-links" id="navLinks" role="list">
+      <ul class="nav-links" id="navLinks">
         <li><a href="index.html" class="nav-link">Home</a></li>
-
-        <!-- Destinations -->
-        <li>
-          <a href="destinations.html" class="nav-link">Destinations</a>
-        </li>
-
-        <!-- Treks -->
-        <li>
-          <a href="treks.html" class="nav-link">Treks</a>
-        </li>
-
-        <!-- Safaris -->
-        <li>
-          <a href="jeep-safaris.html" class="nav-link">Safaris</a>
-        </li>
-
-        <!-- Culture -->
-        <li>
-          <a href="culture.html" class="nav-link">Culture</a>
-        </li>
-
-        <!-- Gallery dropdown -->
-        <li class="nav-dropdown">
-          <a href="gallery.html" class="nav-link nav-link--dropdown">Gallery <span class="nav-caret" aria-hidden="true">&#9662;</span></a>
-          <ul class="nav-dropdown-menu" role="list">
+        <li><a href="destinations.html" class="nav-link">Destinations</a></li>
+        <li><a href="treks.html" class="nav-link">Treks</a></li>
+        <li><a href="jeep-safaris.html" class="nav-link">Safaris</a></li>
+        <li><a href="culture.html" class="nav-link">Culture</a></li>
+        <li class="nav-dropdown"><a href="gallery.html" class="nav-link nav-link--dropdown">Gallery <span class="nav-caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
             <li><a href="gallery.html#gallery" class="nav-dropdown-item">Photos</a></li>
             <li><a href="gallery.html#videos" class="nav-dropdown-item">Videos</a></li>
             <li><a href="gallery.html#gallery" class="nav-dropdown-item">Client Moments</a></li>
             <li><a href="gallery.html#gallery" class="nav-dropdown-item">Highlights</a></li>
           </ul>
         </li>
-
-        <!-- Plan Trip dropdown -->
-        <li class="nav-dropdown">
-          <a href="trip-planner.html" class="nav-link nav-link--dropdown">Plan Trip <span class="nav-caret" aria-hidden="true">&#9662;</span></a>
-          <ul class="nav-dropdown-menu" role="list">
+        <li class="nav-dropdown"><a href="trip-planner.html" class="nav-link nav-link--dropdown">Plan Trip <span class="nav-caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
             <li><a href="trip-planner.html" class="nav-dropdown-item">Customize Your Trip</a></li>
             <li><a href="trip-planner.html" class="nav-dropdown-item">Tour Packages</a></li>
             <li><a href="trip-planner.html" class="nav-dropdown-item">Transport Options</a></li>
           </ul>
         </li>
-
-        <!-- Contact dropdown -->
-        <li class="nav-dropdown">
-          <a href="contact.html" class="nav-link nav-link--dropdown">Contact <span class="nav-caret" aria-hidden="true">&#9662;</span></a>
-          <ul class="nav-dropdown-menu" role="list">
+        <li class="nav-dropdown"><a href="contact.html" class="nav-link nav-link--dropdown">Contact <span class="nav-caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
             <li><a href="contact.html" class="nav-dropdown-item">Contact Us</a></li>
             <li><a href="contact.html" class="nav-dropdown-item">WhatsApp / Call</a></li>
             <li><a href="contact.html" class="nav-dropdown-item">Email Us</a></li>
           </ul>
         </li>
-
         <li><a href="about.html" class="nav-link">About Us</a></li>
         <li><a href="book.html" class="nav-link nav-link--cta">Book Now</a></li>
         <li id="navAuthLinks"></li>
@@ -158,10 +130,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="nav-logo">
-            <img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img">
-            <span>Gilgit Adventure Treks</span>
-          </a>
+          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
           <p>Pakistan's trusted adventure company since 2018. Specializing in treks, tours, and cultural expeditions across Gilgit-Baltistan, Skardu, and the Karakoram.</p>
           <div class="social-links">
             <a href="https://www.facebook.com/gilgitadventuretreks" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/></svg></a>
@@ -175,8 +144,7 @@
           <ul>
             <li><a href="destinations.html">All Destinations</a></li>
             <li><a href="treks.html">Treks</a></li>
-            <li><a href="jeep-safaris.html">Safaris</a></li>
-            <li><a href="culture.html">Culture</a></li>
+            <li><a href="jeep-safaris.html">Jeep Safaris</a></li>
             <li><a href="reviews.html">Reviews</a></li>
             <li><a href="trip-planner.html">Trip Planner</a></li>
           </ul>
@@ -184,9 +152,9 @@
         <div class="footer-links">
           <h4>Company</h4>
           <ul>
-            <li><a href="index.html#team">Our Team</a></li>
-            <li><a href="index.html#gallery">Gallery</a></li>
-            <li><a href="index.html#videos">Videos</a></li>
+            <li><a href="/#team">Our Team</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="gallery.html#videos">Videos</a></li>
             <li><a href="contact.html">Contact Us</a></li>
             <li><a href="book.html">Book Now</a></li>
           </ul>
@@ -204,22 +172,10 @@
       </div>
       <div class="footer-trust">
         <div class="trust-badges">
-          <span class="trust-badge">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/></svg>
-            PTDC Registered
-          </span>
-          <span class="trust-badge">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/></svg>
-            Licensed Tour Operator
-          </span>
-          <span class="trust-badge">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" fill="currentColor"/></svg>
-            Best Price Guarantee
-          </span>
-          <span class="trust-badge">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/></svg>
-            24/7 WhatsApp Support
-          </span>
+          <span class="trust-badge"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/></svg> PTDC Registered</span>
+          <span class="trust-badge"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/></svg> Licensed Tour Operator</span>
+          <span class="trust-badge"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" fill="currentColor"/></svg> Best Price Guarantee</span>
+          <span class="trust-badge"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/></svg> 24/7 WhatsApp Support</span>
         </div>
       </div>
       <div class="footer-bottom">
