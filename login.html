@@ -216,9 +216,12 @@
       }
     });
 
+    // Get redirect destination from URL params
+    var redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'profile.html';
+
     // If already logged in, redirect
     if (localStorage.getItem('user_token')) {
-      window.location.href = 'profile.html';
+      window.location.href = redirectUrl;
     }
 
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -254,7 +257,7 @@
         localStorage.setItem('user_name', data.name);
         localStorage.setItem('user_email', data.email);
         localStorage.setItem('user_avatar', data.avatar || '');
-        window.location.href = 'profile.html';
+        window.location.href = redirectUrl;
       } catch (err) {
         errorEl.textContent = 'Network error. Is the server running?';
         errorEl.style.display = 'block';

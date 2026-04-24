@@ -1895,11 +1895,13 @@
   async function init() {
     var cached = getCachedData();
 
+    // Start reveal observers immediately so sections animate as user scrolls
+    startRevealObservers();
+
     // Instant render from cache if available
     if (cached) {
       applyData(cached);
       renderAll();
-      startRevealObservers();
     }
 
     // Fetch fresh data from API
@@ -1913,22 +1915,17 @@
       // Re-render with fresh data (always, to pick up any changes)
       applyData(data);
       renderAll();
-      if (!cached) startRevealObservers();
+      // Re-observe any new elements added by renderAll
+      startRevealObservers();
     } catch (err) {
       if (!cached) {
         console.warn('API not available, site will show empty sections:', err.message);
       }
     }
-
-    // Fallback: force reveal all sections after 1.5s to prevent blank page
-    setTimeout(function() {
-      $$('.reveal-up').forEach(function(el) {
-        if (!el.classList.contains('revealed')) {
-          el.classList.add('revealed');
-        }
-      });
-    }, 1500);
   }
+
+  // Show auth icon immediately (no need to wait for API)
+  updateNavAuth();
 
   init();
 

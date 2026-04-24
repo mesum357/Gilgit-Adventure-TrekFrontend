@@ -268,7 +268,7 @@
 
         <li><a href="about.html" class="nav-link">About Us</a></li>
         <li><a href="book.html" class="nav-link nav-link--cta">Book Now</a></li>
-        <li id="navAuthLinks"></li>
+        <li id="navAuthLinks"><a href="login.html" class="nav-link" style="display:inline-flex;align-items:center;padding:0.25rem;" title="Login"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:currentColor;"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></a></li>
       </ul>
     </div>
   </nav>
@@ -283,9 +283,9 @@
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <p class="hero-subtitle reveal-up">Pakistan's Premier Adventure Company</p>
-      <h1 class="hero-title reveal-up">Pakistan's Best Treks, Tours &<br>Mountain Adventures</h1>
-      <p class="hero-description reveal-up">From the magical Fairy Meadows to the mighty K2 Base Camp — experience the world's most spectacular mountain landscapes with expert local guides.</p>
+      <p class="hero-subtitle">Pakistan's Premier Adventure Company</p>
+      <h1 class="hero-title">Pakistan's Best Treks, Tours &<br>Mountain Adventures</h1>
+      <p class="hero-description">From the magical Fairy Meadows to the mighty K2 Base Camp — experience the world's most spectacular mountain landscapes with expert local guides.</p>
 
   
     </div>
@@ -365,7 +365,7 @@
       </div>
       <div class="carousel-dots" id="reviewsDots" role="tablist" aria-label="Review navigation"></div>
       <div style="text-align:center; margin-top:1.5rem;" class="reveal-up">
-        <a href="reviews.html" class="btn btn-primary" style="padding:0.75rem 2rem; font-size:1rem;">Read All Reviews</a>
+        <a href="#" id="writeReviewBtn" class="btn btn-primary btn-blink" style="padding:0.75rem 2rem; font-size:1rem;" onclick="if(localStorage.getItem('user_token')){location.href='profile.html#tab-reviews'}else{location.href='login.html?redirect=profile.html%23tab-reviews'};return false;">Write a Review</a>
       </div>
     </div>
   </section>
