@@ -83,7 +83,7 @@
     grid.innerHTML = filtered.map(function (item) {
       var tag = item.duration || 'Cultural Tour';
       return '<div class="top-dest-card" role="button" tabindex="0" data-id="' + (item.id || item._id) + '">' +
-        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" width="600" height="400">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">' + tag + '</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
@@ -137,7 +137,7 @@
     var galleryStrip = $('#modalGalleryStrip');
     if (dest.gallery && dest.gallery.length > 0) {
       galleryStrip.innerHTML = dest.gallery.map(function (url) {
-        return '<img class="modal-gallery-thumb" src="' + url + '" alt="' + dest.name + ' gallery" loading="lazy">';
+        return '<img class="modal-gallery-thumb" src="' + url + '" alt="' + dest.name + ' gallery">';
       }).join('');
       gallerySection.style.display = 'block';
       galleryStrip.querySelectorAll('.modal-gallery-thumb').forEach(function (thumb) {

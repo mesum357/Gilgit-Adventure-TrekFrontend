@@ -1,5 +1,5 @@
-/* ============================================================
-   THE JOURNEY TEAM — STYLES
+﻿/* ============================================================
+   THE JOURNEY TEAM â€” STYLES
    ============================================================ */
 
 /* --- CSS Custom Properties --- */
@@ -253,8 +253,8 @@ input, select, textarea {
 
 .navbar.scrolled {
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   box-shadow: var(--shadow-md);
 }
 
@@ -325,6 +325,7 @@ input, select, textarea {
 
 .nav-link--cta {
   background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-xl);
@@ -506,19 +507,20 @@ input, select, textarea {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: #1B4332;
 }
 
 .hero-carousel {
   position: absolute;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
 }
 
 .hero-slide {
   position: absolute;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  /* background-attachment: fixed removed â€” breaks iOS Safari */
   opacity: 0;
   transition: opacity 1.5s ease;
 }
@@ -529,7 +531,7 @@ input, select, textarea {
 
 .hero-overlay {
   position: absolute;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 100%);
   z-index: 1;
 }
@@ -575,6 +577,7 @@ input, select, textarea {
 .hero-search {
   display: flex;
   background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border-radius: var(--radius-xl);
   padding: var(--space-2);
@@ -757,7 +760,7 @@ input, select, textarea {
 
 .top-dest-overlay {
   position: absolute;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background: linear-gradient(0deg, rgba(11, 38, 24, 0.9) 0%, rgba(11, 38, 24, 0.3) 40%, transparent 70%);
   display: flex;
   flex-direction: column;
@@ -975,6 +978,7 @@ input, select, textarea {
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: var(--clr-ocean);
 }
@@ -1002,6 +1006,7 @@ input, select, textarea {
   height: 36px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -1999,7 +2004,7 @@ input, select, textarea {
 .gallery-item::after {
   content: '';
   position: absolute;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background: rgba(0, 0, 0, 0);
   pointer-events: none;
   transition: background var(--transition-base);
@@ -2059,7 +2064,7 @@ input, select, textarea {
   gap: var(--space-4);
 }
 
-/* Bento pattern: tall | short short | tall — repeats every 4 cards */
+/* Bento pattern: tall | short short | tall â€” repeats every 4 cards */
 .video-card:nth-child(4n+1) {
   grid-column: 1;
   grid-row: span 2;
@@ -2104,7 +2109,7 @@ input, select, textarea {
 
 .video-card-overlay {
   position: absolute;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -2200,7 +2205,7 @@ input, select, textarea {
 /* Reels-Style Video Viewer */
 .reels-viewer {
   position: fixed;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background: #000;
   z-index: 3000;
   opacity: 0;
@@ -2225,6 +2230,7 @@ input, select, textarea {
   height: 44px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #fff;
   font-size: 28px;
@@ -2251,6 +2257,7 @@ input, select, textarea {
   font-weight: 600;
   z-index: 3010;
   background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   padding: 6px 14px;
   border-radius: 20px;
@@ -2263,6 +2270,7 @@ input, select, textarea {
   height: 48px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #fff;
   border: none;
@@ -2370,6 +2378,7 @@ input, select, textarea {
   height: 64px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -2413,6 +2422,27 @@ input, select, textarea {
   }
 }
 
+@media (max-width: 639px) {
+  .reels-up,
+  .reels-down,
+  .reels-counter {
+    display: none;
+  }
+
+  .reel-slide video {
+    height: 100vh;
+    width: 100vw;
+    border-radius: 0;
+  }
+
+  .reel-info {
+    bottom: 0;
+    width: 100vw;
+    border-radius: 0;
+    padding: 60px 16px 24px;
+  }
+}
+
 /* ============================================================
    ABOUT US
    ============================================================ */
@@ -2432,7 +2462,7 @@ input, select, textarea {
   color: var(--clr-gray-600);
 }
 
-/* About Us – Split Layout */
+/* About Us â€“ Split Layout */
 .about-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2520,7 +2550,7 @@ input, select, textarea {
   letter-spacing: 0.5px;
 }
 
-/* About Us Split – Responsive */
+/* About Us Split â€“ Responsive */
 @media (max-width: 768px) {
   .about-split {
     grid-template-columns: 1fr;
@@ -2574,7 +2604,7 @@ input, select, textarea {
 
 .team-card-img {
   position: relative;
-  height: 280px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
 }
 
@@ -2615,6 +2645,7 @@ input, select, textarea {
   height: 36px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -2670,9 +2701,6 @@ input, select, textarea {
     margin: 0 auto;
   }
 
-  .team-card-img {
-    height: 240px;
-  }
 }
 
 .team-card {
@@ -2729,15 +2757,69 @@ input, select, textarea {
   color: var(--clr-gray-600);
   line-height: 1.8;
   text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-@media (max-width: 480px) {
+.team-modal-bio.expanded {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+.team-modal-read-more {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--clr-ocean);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.team-modal-read-more:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 639px) {
+  #teamModal {
+    padding: 0;
+  }
+
+  .team-modal {
+    max-width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
   .team-modal-img {
-    height: 240px;
+    height: 45vh;
+    min-height: 250px;
+    object-fit: cover;
+    border-radius: 0;
+    flex-shrink: 0;
   }
 
   .team-modal-body {
-    padding: var(--space-4) var(--space-4) var(--space-6);
+    padding: var(--space-4) var(--space-5) var(--space-6);
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .team-modal .modal-close {
+    top: var(--space-3);
+    right: var(--space-3);
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    font-size: var(--fs-2xl);
   }
 }
 
@@ -2773,6 +2855,7 @@ input, select, textarea {
 .newsletter-input-wrapper {
   display: flex;
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-xl);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -2936,8 +3019,9 @@ input, select, textarea {
    ============================================================ */
 .modal-overlay {
   position: fixed;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   z-index: 2000;
   display: flex;
@@ -3098,7 +3182,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-   MODAL — SECTION TITLE
+   MODAL â€” SECTION TITLE
    ============================================================ */
 .modal-section-title {
   font-family: var(--ff-heading);
@@ -3112,7 +3196,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-   MODAL — GALLERY THUMBNAIL STRIP
+   MODAL â€” GALLERY THUMBNAIL STRIP
    ============================================================ */
 .modal-gallery {
   margin-bottom: var(--space-5);
@@ -3155,7 +3239,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-   MODAL — DAY-BY-DAY ITINERARY ACCORDION
+   MODAL â€” DAY-BY-DAY ITINERARY ACCORDION
    ============================================================ */
 .modal-itinerary {
   margin-bottom: var(--space-5);
@@ -3238,7 +3322,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-   MODAL — INCLUDES / EXCLUDES POLICIES
+   MODAL â€” INCLUDES / EXCLUDES POLICIES
    ============================================================ */
 .modal-policies {
   display: grid;
@@ -3297,7 +3381,7 @@ input, select, textarea {
    ============================================================ */
 .lightbox {
   position: fixed;
-  inset: 0;
+  top:0;right:0;bottom:0;left:0;
   background: rgba(0, 0, 0, 0.92);
   z-index: 3000;
   display: flex;
@@ -3447,7 +3531,7 @@ input, select, textarea {
   }
 }
 
-/* <= 1256px — mobile nav toggle */
+/* <= 1256px â€” mobile nav toggle */
 @media (max-width: 1256px) {
   :root {
     --nav-height: 75px;
@@ -3456,6 +3540,10 @@ input, select, textarea {
   .logo-img {
     width: 65px;
     height: 65px;
+  }
+
+  .nav-logo {
+    font-size: var(--fs-lg);
   }
 
   .nav-toggle {
@@ -3606,6 +3694,30 @@ input, select, textarea {
     bottom: 80px;
   }
 
+  .carousel-arrow {
+    display: none;
+  }
+
+  .reviews-track-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .reviews-track-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reviews-track {
+    transition: none;
+  }
+
+  .review-card {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
   .section-title {
     font-size: var(--fs-2xl);
   }
@@ -3651,12 +3763,16 @@ input, select, textarea {
 /* <= 480px */
 @media (max-width: 480px) {
   :root {
-    --nav-height: 68px;
+    --nav-height: 60px;
   }
 
   .logo-img {
-    width: 55px;
-    height: 55px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .nav-logo {
+    font-size: var(--fs-sm);
   }
 
   .hero-title {
@@ -3697,6 +3813,7 @@ input, select, textarea {
     flex-direction: column;
     background: transparent;
     border: none;
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
     padding: 0;
     gap: var(--space-3);
@@ -4018,7 +4135,7 @@ select:focus-visible {
 }
 
 /* ============================================================
-   RESPONSIVE — 768px (Tablets & large phones like Google Pixel)
+   RESPONSIVE â€” 768px (Tablets & large phones like Google Pixel)
    ============================================================ */
 @media (max-width: 768px) {
   .section {
@@ -4100,10 +4217,6 @@ select:focus-visible {
     margin: 0 auto;
   }
 
-  .team-card-img {
-    height: 260px;
-  }
-
   .team-card-socials {
     opacity: 1;
     transform: translateY(0);
@@ -4126,6 +4239,7 @@ select:focus-visible {
     flex-direction: column;
     background: transparent;
     border: none;
+    -webkit-backdrop-filter: none;
     backdrop-filter: none;
     padding: 0;
     gap: var(--space-3);

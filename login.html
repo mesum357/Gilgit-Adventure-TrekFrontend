@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login — Gilgit Adventure Treks</title>
-  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="images/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -334,18 +335,6 @@
       }
     });
 
-    // Dynamic branding from site settings
-    fetch('/api/page-data?need=').then(r => r.json()).then(d => {
-      if (d.settings && d.settings.branding) {
-        var b = d.settings.branding;
-        if (b.logoUrl) document.querySelector('.logo-area img').src = b.logoUrl;
-        if (b.companyName) {
-          document.querySelector('.login-card h1').textContent = b.companyName;
-          document.title = 'Login — ' + b.companyName;
-        }
-        if (b.faviconUrl) document.querySelector('link[rel="icon"]').href = b.faviconUrl;
-      }
-    }).catch(function(){});
   </script>
 </body>
 </html>

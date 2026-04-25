@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Profile — Gilgit Adventure Treks</title>
-  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="images/logo.png">
   <style>
     :root {
       --primary: #2D6A4F;
@@ -199,7 +200,7 @@
     .crop-modal {
       display: none;
       position: fixed;
-      inset: 0;
+      top:0;right:0;bottom:0;left:0;
       background: rgba(0,0,0,0.6);
       z-index: 200;
       align-items: center;
@@ -934,18 +935,6 @@
     loadBookings();
     loadReviews();
 
-    // Dynamic branding from site settings
-    fetch('/api/page-data?need=').then(function(r){ return r.json(); }).then(function(d) {
-      if (d.settings && d.settings.branding) {
-        var b = d.settings.branding;
-        if (b.companyName) {
-          var topH1 = document.querySelector('.topbar h1 a');
-          if (topH1) topH1.textContent = b.companyName;
-          document.title = 'My Profile — ' + b.companyName;
-        }
-        if (b.faviconUrl) document.querySelector('link[rel="icon"]').href = b.faviconUrl;
-      }
-    }).catch(function(){});
   </script>
 </body>
 </html>

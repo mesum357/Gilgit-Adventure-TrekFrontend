@@ -41,7 +41,8 @@
   <meta name="twitter:image:alt" content="Trekker reviews — Gilgit Adventure Treks">
 
   <!-- Favicon & Web App Manifest -->
-  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="images/logo.png">
   <link rel="apple-touch-icon" href="images/logo.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2D6A4F">
@@ -82,8 +83,8 @@
   </script>
 
   <style>
-    .page-header { position: relative; color: #fff; padding: 6rem 0 3rem; text-align: center; overflow: hidden; }
-    .page-header::before { content: ''; position: absolute; inset: 0; background: url('images/IMG_20191126_132124_018.jpg') center/cover no-repeat; filter: brightness(0.4); z-index: 0; }
+    .page-header { position: relative; color: #fff; padding: 6rem 0 3rem; text-align: center; overflow: hidden; background: #1B4332; }
+    .page-header::before { content: ''; position: absolute; top:0;right:0;bottom:0;left:0; background: url('images/IMG_20191126_132124_018.jpg') center/cover no-repeat; filter: brightness(0.4); z-index: 0; }
     .page-header > * { position: relative; z-index: 1; }
     .page-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
     .page-header p { opacity: 0.85; max-width: 600px; margin: 0 auto; }
@@ -137,7 +138,7 @@
   <!-- ============ NAVBAR ============ -->
   <nav class="navbar scrolled" id="navbar">
     <div class="nav-container">
-      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
+      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
         <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
       </button>
@@ -246,7 +247,7 @@
 
   <!-- ============ REVIEW MODAL ============ -->
   <style>
-    .rm-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); z-index:9999; align-items:center; justify-content:center; }
+    .rm-overlay { display:none; position:fixed; top:0;right:0;bottom:0;left:0; background:rgba(0,0,0,0.55); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); z-index:9999; align-items:center; justify-content:center; }
     .rm-card { background:#fff; border-radius:16px; width:460px; max-width:94vw; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 25px 60px rgba(0,0,0,0.25); animation: rmSlideUp 0.3s ease; }
     @keyframes rmSlideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
     .rm-header { background:linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%); padding:1.5rem 2rem 1.25rem; border-radius:16px 16px 0 0; text-align:center; position:relative; }
@@ -273,7 +274,7 @@
     .rm-rating-label { font-size:0.85rem; color:#94a3b8; font-weight:500; min-width:70px; }
     .rm-photo-area { border:2px dashed #e2e8f0; border-radius:12px; padding:1.25rem; text-align:center; cursor:pointer; transition:border-color 0.2s, background 0.2s; position:relative; }
     .rm-photo-area:hover { border-color:#2D6A4F; background:#f0fdf4; }
-    .rm-photo-area input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+    .rm-photo-area input[type="file"] { position:absolute; top:0;right:0;bottom:0;left:0; opacity:0; cursor:pointer; }
     .rm-photo-icon { color:#94a3b8; margin-bottom:0.35rem; }
     .rm-photo-text { font-size:0.85rem; color:#64748b; }
     .rm-photo-text strong { color:#2D6A4F; }
@@ -376,7 +377,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
+          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
           <p>Pakistan's trusted adventure company since 2018. Specializing in treks, tours, and cultural expeditions across Gilgit-Baltistan, Skardu, and the Karakoram.</p>
           <div class="social-links">
             <a href="https://www.facebook.com/gilgitadventuretreks" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/></svg></a>
@@ -530,44 +531,10 @@
     }
 
     /* --------------------------------------------------------
-       APPLY BRANDING FROM SETTINGS
+       APPLY SETTINGS (social links)
     -------------------------------------------------------- */
-    function applyBranding(s) {
+    function applySettings(s) {
       if (!s) return;
-
-      // Branding
-      if (s.branding) {
-        var b = s.branding;
-        if (b.logoUrl) {
-          document.querySelectorAll('.logo-img').forEach(function(img) {
-            img.src = b.logoUrl;
-            img.alt = b.companyName || '';
-            if (b.logoSize) { img.style.width = b.logoSize + 'px'; img.style.height = b.logoSize + 'px'; }
-            if (b.logoBorderRadius != null) img.style.borderRadius = b.logoBorderRadius + '%';
-          });
-        }
-        if (b.companyName) {
-          var logoSpan = document.querySelector('.nav-logo span');
-          if (logoSpan) logoSpan.textContent = b.companyName;
-        }
-        if (b.faviconUrl) {
-          var favicon = document.querySelector('link[rel="icon"]');
-          if (favicon) favicon.href = b.faviconUrl;
-        }
-        if (b.companyShortName) {
-          var footerLogoSpan = document.querySelector('.footer-brand .nav-logo span');
-          if (footerLogoSpan) footerLogoSpan.textContent = b.companyShortName;
-        }
-      }
-
-      // Footer
-      if (s.footer) {
-        var f = s.footer;
-        var footerDesc = document.querySelector('.footer-brand > p');
-        if (footerDesc && f.description) footerDesc.textContent = f.description;
-        var copyright = document.querySelector('.footer-bottom p');
-        if (copyright && f.copyrightText) copyright.innerHTML = f.copyrightText;
-      }
 
       // Social links
       if (s.seo && s.seo.socialProfiles) {
@@ -712,7 +679,7 @@
         html +=
           '<div class="review-card">' +
             '<div class="review-card-header">' +
-              '<img class="review-avatar" src="' + escapeHtml(avatarSrc) + '" alt="' + escapeHtml(r.name) + '" loading="lazy" onerror="this.src=\'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>') + '\'">' +
+              '<img class="review-avatar" src="' + escapeHtml(avatarSrc) + '" alt="' + escapeHtml(r.name) + '" onerror="this.src=\'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2394a3b8"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>') + '\'">' +
               '<div>' +
                 '<div class="review-author">' + escapeHtml(r.name) + '</div>' +
                 '<div class="review-meta">' + escapeHtml(r.location || '') + verifiedBadge + '</div>' +
@@ -921,7 +888,7 @@
     }
 
     /* --------------------------------------------------------
-       INIT — Fetch data, apply branding, render
+       INIT — Fetch data, apply settings, render
     -------------------------------------------------------- */
     async function init() {
       var loadingEl = document.getElementById('reviewsLoading');
@@ -937,9 +904,9 @@
         var publicData = results[1] || {};
         destinations = publicData.destinations || [];
 
-        // Apply branding from settings
+        // Apply settings (footer, social)
         if (publicData.settings) {
-          applyBranding(publicData.settings);
+          applySettings(publicData.settings);
         }
       } catch (err) {
         console.warn('API not available:', err.message);

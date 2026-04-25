@@ -35,6 +35,11 @@
     return [...context.querySelectorAll(selector)];
   }
 
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
   function createEl(tag, attrs = {}, children = []) {
     const el = document.createElement(tag);
     for (const [key, val] of Object.entries(attrs)) {
@@ -156,27 +161,30 @@
   /* --------------------------------------------------------
      SCROLL REVEAL (IntersectionObserver)
   -------------------------------------------------------- */
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.remove('reveal-hidden');
-        entry.target.classList.add('revealed');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  var revealObserver;
+  if (typeof IntersectionObserver !== 'undefined') {
+    revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('reveal-hidden');
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+  }
 
   // NOTE: .reveal-up observers are started inside init() AFTER applySiteSettings()
   // to prevent flash of old hardcoded content before dynamic settings are applied.
 
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  var statsObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
       if (entry.isIntersecting) {
         animateCounters();
         statsObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.1 });
 
   /* --------------------------------------------------------
      DESTINATION CARDS
@@ -195,7 +203,7 @@
     // Build all cards as a single HTML string (1 reflow instead of N)
     var html = visible.map(dest => `
       <div class="top-dest-card" role="button" tabindex="0" data-dest-id="${dest.id}">
-                <img src="${dest.image}" alt="${dest.name} — top destination in ${dest.country} | Gilgit Adventure Treks" loading="lazy" width="600" height="400">
+                <img src="${dest.image}" alt="${dest.name} — top destination in ${dest.country} | Gilgit Adventure Treks" width="600" height="400">
         <div class="top-dest-overlay">
           <span class="top-dest-tag">Top Destination</span>
           <h3 class="top-dest-name">${dest.name}</h3>
@@ -280,7 +288,7 @@
     grid.innerHTML = visible.map(function(item) {
       var tag = item.category === 'trek' ? 'Trek' : (item.category === 'meadow' ? 'Meadow' : 'Glacier');
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
-        '<img src="' + item.image + '" alt="' + item.name + ' trek — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' trek — Gilgit Adventure Treks" width="600" height="400">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">' + tag + '</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
@@ -320,7 +328,7 @@
     if (!grid) return;
     grid.innerHTML = safariData.map(function(item) {
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
-        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" width="600" height="400">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">Tour</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
@@ -349,7 +357,7 @@
     grid.innerHTML = visible.map(function(item) {
       var tag = item.category === 'heritage' ? 'Heritage' : 'Fort';
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
-        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" loading="lazy" width="600" height="400">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" width="600" height="400">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">' + tag + '</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
@@ -536,7 +544,7 @@
     if (gallerySection && galleryStrip) {
       if (dest.gallery && dest.gallery.length > 0) {
         galleryStrip.innerHTML = dest.gallery.map(function(url) {
-          return '<img class="modal-gallery-thumb" src="' + url + '" alt="' + dest.name + ' gallery" loading="lazy">';
+          return '<img class="modal-gallery-thumb" src="' + url + '" alt="' + dest.name + ' gallery">';
         }).join('');
         gallerySection.style.display = 'block';
         // Click thumbnail to swap main image
@@ -652,18 +660,18 @@
       const avatarSrc = rev.avatar || defaultAvatarSvg;
       card.innerHTML = `
         <div class="review-card-header">
-          <img class="review-avatar" src="${avatarSrc}" alt="${rev.name}" loading="lazy">
+          <img class="review-avatar" src="${escapeHtml(avatarSrc)}" alt="${escapeHtml(rev.name)}">
           <div>
-            <div class="review-author">${rev.name}</div>
+            <div class="review-author">${escapeHtml(rev.name)}</div>
             <div class="review-meta">
-              ${rev.location}
+              ${escapeHtml(rev.location)}
               ${rev.verified ? '<span class="verified-badge"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/></svg> Verified</span>' : ''}
             </div>
           </div>
         </div>
         <div class="review-stars">${generateStars(rev.rating)}</div>
-        <p class="review-text">"${rev.text}"</p>
-        <span class="review-destination">${rev.destination}</span>
+        <p class="review-text">"${escapeHtml(rev.text)}"</p>
+        <span class="review-destination">${escapeHtml(rev.destination)}</span>
       `;
       reviewsTrack.appendChild(card);
     });
@@ -684,7 +692,16 @@
   function updateReviewsCarousel() {
     const cardWidth = reviewsTrack.children[0]?.offsetWidth || 300;
     const gap = 24;
-    reviewsTrack.style.transform = `translateX(-${reviewIndex * (cardWidth + gap)}px)`;
+    const isMobile = window.innerWidth <= 1256;
+
+    if (isMobile) {
+      // Scroll the wrapper natively instead of using transform
+      reviewsTrack.style.transform = '';
+      const wrapper = reviewsTrack.parentElement;
+      if (wrapper) wrapper.scrollTo({ left: reviewIndex * (cardWidth + gap), behavior: 'smooth' });
+    } else {
+      reviewsTrack.style.transform = `translateX(-${reviewIndex * (cardWidth + gap)}px)`;
+    }
 
     const totalDots = getMaxReviewIndex() + 1;
     reviewsDots.innerHTML = '';
@@ -716,6 +733,26 @@
     updateReviewsCarousel();
   });
 
+  // Update active dot when user swipes on mobile
+  const reviewsWrapper = reviewsTrack.parentElement;
+  if (reviewsWrapper) {
+    let scrollTimer;
+    reviewsWrapper.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        const cardWidth = reviewsTrack.children[0]?.offsetWidth || 300;
+        const gap = 24;
+        const newIndex = Math.round(reviewsWrapper.scrollLeft / (cardWidth + gap));
+        if (newIndex !== reviewIndex) {
+          reviewIndex = newIndex;
+          // Update dots without scrolling again
+          const dots = reviewsDots.querySelectorAll('.carousel-dot');
+          dots.forEach((d, i) => d.classList.toggle('active', i === reviewIndex));
+        }
+      }, 100);
+    });
+  }
+
   /* --------------------------------------------------------
      NEWSLETTER — POST to API
   -------------------------------------------------------- */
@@ -729,16 +766,17 @@
     const name = nameInput ? nameInput.value : '';
     if (email) {
       try {
-        await fetch('/api/subscribers', {
+        var res = await fetch('/api/subscribers', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, name })
         });
+        if (!res.ok) throw new Error('Failed');
+        newsletterForm.style.display = 'none';
+        newsletterSuccess.hidden = false;
       } catch (err) {
-        // Silently fail — UI still shows success
+        alert('Subscription failed. Please try again.');
       }
-      newsletterForm.style.display = 'none';
-      newsletterSuccess.hidden = false;
     }
   });
 
@@ -924,12 +962,12 @@
       const card = createEl('div', { className: 'team-card' });
       card.innerHTML = `
         <div class="team-card-img">
-          <img src="${m.image}" alt="${m.name} — ${m.role} at Gilgit Adventure Treks" loading="lazy" width="300" height="300">
+          <img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)} — ${escapeHtml(m.role)} at Gilgit Adventure Treks" width="300" height="300">
         </div>
         <div class="team-card-body">
-          <h3 class="team-card-name">${m.name}</h3>
-          <span class="team-card-role">${m.role}</span>
-          <p class="team-card-bio">${m.bio}</p>
+          <h3 class="team-card-name">${escapeHtml(m.name)}</h3>
+          <span class="team-card-role">${escapeHtml(m.role)}</span>
+          <p class="team-card-bio">${escapeHtml(m.bio)}</p>
         </div>
       `;
       // Smart focus: detect face after image loads
@@ -951,7 +989,17 @@
     $('#teamModalImg').alt = m.name;
     $('#teamModalName').textContent = m.name;
     $('#teamModalRole').textContent = m.role;
-    $('#teamModalBio').textContent = m.bio;
+    const bioEl = $('#teamModalBio');
+    const readMoreBtn = $('#teamModalReadMore');
+    bioEl.textContent = m.bio;
+    bioEl.classList.remove('expanded');
+    if (readMoreBtn) {
+      readMoreBtn.textContent = 'Read more';
+      // Show button only if text is actually clamped
+      requestAnimationFrame(() => {
+        readMoreBtn.style.display = bioEl.scrollHeight > bioEl.clientHeight ? 'inline-block' : 'none';
+      });
+    }
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -966,6 +1014,11 @@
   document.addEventListener('click', e => {
     if (e.target.id === 'teamModalClose') closeTeamModal();
     if (e.target.id === 'teamModal') closeTeamModal();
+    if (e.target.id === 'teamModalReadMore') {
+      const bioEl = $('#teamModalBio');
+      const isExpanded = bioEl.classList.toggle('expanded');
+      e.target.textContent = isExpanded ? 'Read less' : 'Read more';
+    }
   });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeTeamModal();
@@ -1065,7 +1118,7 @@
 
       const info = document.createElement('div');
       info.className = 'reel-info';
-      info.innerHTML = '<h3>' + v.title + '</h3><p>' + v.description + '</p>';
+      info.innerHTML = '<h3>' + escapeHtml(v.title) + '</h3><p>' + escapeHtml(v.description) + '</p>';
 
       slide.appendChild(video);
       slide.appendChild(spinner);
@@ -1166,7 +1219,7 @@
       // Use thumbnail image for fast loading, fallback to video preview
       if (v.thumbnailUrl) {
         card.innerHTML = `
-          <img src="${v.thumbnailUrl}" alt="${v.title}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          <img src="${v.thumbnailUrl}" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;">
           <div class="video-card-overlay">
             <span class="${tagClass}">${v.tag}</span>
             <h3 class="video-card-title">${v.title}</h3>
@@ -1217,10 +1270,12 @@
     if (token && name) {
       var avatar = localStorage.getItem('user_avatar');
       var avatarSrc = avatar || '';
+      var safeName = escapeHtml(name);
+      var safeAvatar = escapeHtml(avatarSrc);
       container.innerHTML =
-        '<a href="profile.html" class="nav-link" style="display:inline-flex;align-items:center;padding:0.25rem;" title="' + name + '">' +
-          (avatarSrc
-            ? '<img src="' + avatarSrc + '" alt="' + name + '" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.4);" onerror="this.outerHTML=\'<svg viewBox=\\\'0 0 24 24\\\' width=\\\'24\\\' height=\\\'24\\\' style=\\\'fill:currentColor\\\'><path d=\\\'M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z\\\'/></svg>\'">'
+        '<a href="profile.html" class="nav-link" style="display:inline-flex;align-items:center;padding:0.25rem;" title="' + safeName + '">' +
+          (safeAvatar
+            ? '<img src="' + safeAvatar + '" alt="' + safeName + '" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.4);" onerror="this.outerHTML=\'<svg viewBox=\\\'0 0 24 24\\\' width=\\\'24\\\' height=\\\'24\\\' style=\\\'fill:currentColor\\\'><path d=\\\'M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z\\\'/></svg>\'">'
             : '<svg viewBox="0 0 24 24" width="24" height="24" style="fill:currentColor;"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>') +
         '</a>';
     } else {
@@ -1267,137 +1322,28 @@
   }
 
   /* --------------------------------------------------------
-     APPLY SITE SETTINGS — Dynamic content from developer panel
+     APPLY SITE SETTINGS — Social links, SEO, analytics
   -------------------------------------------------------- */
   function applySiteSettings(s) {
     if (!s) return;
 
-    // Branding
-    if (s.branding) {
-      const b = s.branding;
-      if (b.logoUrl) {
-        $$('.logo-img').forEach(img => {
-          img.src = b.logoUrl;
-          img.alt = b.companyName || '';
-          if (b.logoSize) { img.style.width = b.logoSize + 'px'; img.style.height = b.logoSize + 'px'; }
-          if (b.logoBorderRadius != null) img.style.borderRadius = b.logoBorderRadius + '%';
-        });
-      }
-      if (b.companyName) {
-        const logoSpan = $('.nav-logo span');
-        if (logoSpan) logoSpan.textContent = b.companyName;
-        document.title = b.companyName;
-      }
-      if (b.faviconUrl) {
-        // Apply border-radius by rendering favicon through canvas
-        if (b.faviconBorderRadius > 0) {
-          const fImg = new Image();
-          fImg.crossOrigin = 'anonymous';
-          fImg.onload = function() {
-            const size = 64;
-            const c = document.createElement('canvas');
-            c.width = size; c.height = size;
-            const ctx = c.getContext('2d');
-            const r = (b.faviconBorderRadius / 100) * (size / 2);
-            ctx.beginPath();
-            ctx.moveTo(r, 0);
-            ctx.lineTo(size - r, 0);
-            ctx.quadraticCurveTo(size, 0, size, r);
-            ctx.lineTo(size, size - r);
-            ctx.quadraticCurveTo(size, size, size - r, size);
-            ctx.lineTo(r, size);
-            ctx.quadraticCurveTo(0, size, 0, size - r);
-            ctx.lineTo(0, r);
-            ctx.quadraticCurveTo(0, 0, r, 0);
-            ctx.closePath();
-            ctx.clip();
-            ctx.drawImage(fImg, 0, 0, size, size);
-            const favicon = $('link[rel="icon"]');
-            if (favicon) favicon.href = c.toDataURL('image/png');
-          };
-          fImg.src = b.faviconUrl;
-        } else {
-          const favicon = $('link[rel="icon"]');
-          if (favicon) favicon.href = b.faviconUrl;
+    // Social links
+    if (s.seo && s.seo.socialProfiles) {
+      const sp = s.seo.socialProfiles;
+      const socialLinks = $$('.social-links .social-link');
+      const socialMap = ['facebook', 'instagram', 'whatsapp', 'youtube'];
+      socialLinks.forEach((link, i) => {
+        const platform = socialMap[i];
+        if (platform === 'whatsapp' && s.contact && s.contact.whatsappUrl) {
+          link.href = s.contact.whatsappUrl;
+          link.setAttribute('rel', 'noopener noreferrer');
+          link.setAttribute('target', '_blank');
+        } else if (sp[platform]) {
+          link.href = sp[platform];
+          link.setAttribute('rel', 'noopener noreferrer');
+          link.setAttribute('target', '_blank');
         }
-      }
-      if (b.companyShortName) {
-        const footerLogoSpan = $('.footer-brand .nav-logo span');
-        if (footerLogoSpan) footerLogoSpan.textContent = b.companyShortName;
-      }
-    }
-
-    // Hero text
-    if (s.hero) {
-      const h = s.hero;
-      const heroSubtitle = $('.hero-subtitle');
-      const heroTitle = $('.hero-title');
-      const heroDesc = $('.hero-description');
-      if (heroSubtitle && h.subtitle) heroSubtitle.textContent = h.subtitle;
-      if (heroTitle && h.title) heroTitle.innerHTML = h.title;
-      if (heroDesc && h.description) heroDesc.textContent = h.description;
-    }
-
-    // Section headers
-    if (s.sectionHeaders) {
-      const sectionMap = {
-        gallery: '#gallery',
-        videos: '#videos',
-        team: '#team',
-        topDestinations: '#top-destinations',
-        map: '#map',
-        reviews: '#reviews'
-      };
-      for (const [key, selector] of Object.entries(sectionMap)) {
-        const section = s.sectionHeaders[key];
-        if (!section) continue;
-        const el = $(selector);
-        if (!el) continue;
-        const tag = $('.section-tag', el);
-        const title = $('.section-title', el);
-        const desc = $('.section-description', el);
-        if (tag && section.tag) tag.textContent = section.tag;
-        if (title && section.title) title.textContent = section.title;
-        if (desc && section.description) desc.textContent = section.description;
-      }
-    }
-
-    // Footer
-    if (s.footer) {
-      const f = s.footer;
-      const footerDesc = $('.footer-brand > p');
-      if (footerDesc && f.description) footerDesc.textContent = f.description;
-      const copyright = $('.footer-bottom p');
-      if (copyright && f.copyrightText) copyright.innerHTML = f.copyrightText;
-      // Update social links from SEO social profiles
-      if (s.seo && s.seo.socialProfiles) {
-        const sp = s.seo.socialProfiles;
-        const socialLinks = $$('.social-links .social-link');
-        const socialMap = ['facebook', 'instagram', 'whatsapp', 'youtube'];
-        socialLinks.forEach((link, i) => {
-          const platform = socialMap[i];
-          if (platform === 'whatsapp' && s.contact && s.contact.whatsappUrl) {
-            link.href = s.contact.whatsappUrl;
-            link.setAttribute('rel', 'noopener noreferrer');
-            link.setAttribute('target', '_blank');
-          } else if (sp[platform]) {
-            link.href = sp[platform];
-            link.setAttribute('rel', 'noopener noreferrer');
-            link.setAttribute('target', '_blank');
-          }
-        });
-      }
-    }
-
-    // Newsletter
-    if (s.newsletter) {
-      const n = s.newsletter;
-      const nlHeading = $('.newsletter-content h2');
-      const nlDesc = $('.newsletter-content > p');
-      const nlNote = $('.newsletter-note');
-      if (nlHeading && n.heading) nlHeading.textContent = n.heading;
-      if (nlDesc && n.description) nlDesc.textContent = n.description;
-      if (nlNote && n.subscriberNote) nlNote.textContent = n.subscriberNote;
+      });
     }
 
     // SEO: Update meta tags from settings
@@ -1696,7 +1642,7 @@
 
     container.innerHTML = visible.map(d => `
       <div class="booking-dest-card" data-id="${d.id}" data-name="${d.name}">
-        <img src="${d.image}" alt="${d.name}" loading="lazy">
+        <img src="${d.image}" alt="${d.name}">
         <div class="booking-dest-info">
           <h4>${d.name}</h4>
           <p>${d.country}</p>
@@ -1800,6 +1746,8 @@
       if (!response.ok) throw new Error('Booking failed');
     } catch (err) {
       console.error('Booking error:', err);
+      alert('Booking submission failed. Please try again or contact us on WhatsApp.');
+      return;
     }
 
     $('#bookingRef').textContent = reference;
@@ -1983,21 +1931,34 @@
 
   function startRevealObservers() {
     try {
+      // If IntersectionObserver not available, show everything immediately
+      if (!revealObserver) {
+        $$('.reveal-up').forEach(function(el) { el.classList.add('revealed'); });
+        return;
+      }
       $$('.reveal-up:not(.revealed)').forEach(function(el) {
         var rect = el.getBoundingClientRect();
         if (rect.top > window.innerHeight) {
-          // Only hide elements below the viewport — they animate on scroll
           el.classList.add('reveal-hidden');
         } else {
-          // Elements already in viewport — mark as revealed immediately
           el.classList.add('revealed');
         }
         revealObserver.observe(el);
       });
       var heroStats = $('.hero-stats');
       if (heroStats) statsObserver.observe(heroStats);
+
+      // Safety fallback: force-reveal everything after 4 seconds
+      // in case IntersectionObserver fails on some iOS versions
+      setTimeout(function() {
+        $$('.reveal-up.reveal-hidden').forEach(function(el) {
+          el.classList.remove('reveal-hidden');
+          el.classList.add('revealed');
+        });
+      }, 4000);
     } catch (e) {
-      console.error('Reveal observer error:', e);
+      // If anything fails, show all content immediately
+      $$('.reveal-up').forEach(function(el) { el.classList.add('revealed'); });
     }
   }
 

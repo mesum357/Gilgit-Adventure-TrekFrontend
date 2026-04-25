@@ -39,15 +39,18 @@
   });
 
   /* ── Scroll Reveal ── */
-  var revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.remove('reveal-hidden');
-        entry.target.classList.add('revealed');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  var revealObserver;
+  if (typeof IntersectionObserver !== 'undefined') {
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('reveal-hidden');
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+  }
 
   /* ── Gallery Variables ── */
   var galleryGrid = $('#galleryGrid');
@@ -387,7 +390,7 @@
       card.dataset.video = v.videoUrl;
 
       if (v.thumbnailUrl) {
-        card.innerHTML = '<img src="' + v.thumbnailUrl + '" alt="' + v.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;">' +
+        card.innerHTML = '<img src="' + v.thumbnailUrl + '" alt="' + v.title + '" style="width:100%;height:100%;object-fit:cover;">' +
           '<div class="video-card-overlay">' +
             '<span class="' + tagClass + '">' + v.tag + '</span>' +
             '<h3 class="video-card-title">' + v.title + '</h3>' +
@@ -433,15 +436,30 @@
     }
 
     // Start reveal animations after rendering
-    $$('.reveal-up:not(.revealed)').forEach(function (el) {
-      var rect = el.getBoundingClientRect();
-      if (rect.top > window.innerHeight) {
-        el.classList.add('reveal-hidden');
+    try {
+      if (!revealObserver) {
+        $$('.reveal-up').forEach(function (el) { el.classList.add('revealed'); });
       } else {
-        el.classList.add('revealed');
+        $$('.reveal-up:not(.revealed)').forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top > window.innerHeight) {
+            el.classList.add('reveal-hidden');
+          } else {
+            el.classList.add('revealed');
+          }
+          revealObserver.observe(el);
+        });
+        // Safety fallback — force-reveal after 4 seconds
+        setTimeout(function () {
+          $$('.reveal-up.reveal-hidden').forEach(function (el) {
+            el.classList.remove('reveal-hidden');
+            el.classList.add('revealed');
+          });
+        }, 4000);
       }
-      revealObserver.observe(el);
-    });
+    } catch (e) {
+      $$('.reveal-up').forEach(function (el) { el.classList.add('revealed'); });
+    }
 
   }
 

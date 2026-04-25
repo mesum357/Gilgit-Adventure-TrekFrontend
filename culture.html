@@ -36,7 +36,8 @@
   <meta name="twitter:image" content="https://gilgitadventuretreks.com/images/k2.jpg">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="images/logo.png">
   <link rel="apple-touch-icon" href="images/logo.png">
   <meta name="theme-color" content="#2D6A4F">
 
@@ -48,8 +49,8 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <style>
-    .page-header { position: relative; color: #fff; padding: 6rem 0 3rem; text-align: center; overflow: hidden; }
-    .page-header::before { content: ''; position: absolute; inset: 0; background: url('images/IMG-20210724-WA0115.webp') center/cover no-repeat; filter: brightness(0.4); z-index: 0; }
+    .page-header { position: relative; color: #fff; padding: 6rem 0 3rem; text-align: center; overflow: hidden; background: #1B4332; }
+    .page-header::before { content: ''; position: absolute; top:0;right:0;bottom:0;left:0; background: url('images/IMG-20210724-WA0115.webp') center/cover no-repeat; filter: brightness(0.4); z-index: 0; }
     .page-header > * { position: relative; z-index: 1; }
     .page-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
     .page-header p { opacity: 0.85; max-width: 600px; margin: 0 auto; }
@@ -63,7 +64,7 @@
   <!-- ============ NAVIGATION ============ -->
   <nav class="navbar scrolled" id="navbar">
     <div class="nav-container">
-      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
+      <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
         <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
       </button>
@@ -148,7 +149,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img" style="width:100px;height:100px;"><span>Gilgit Adventure Treks</span></a>
+          <a href="/" class="nav-logo"><img src="images/logo.png" alt="Gilgit Adventure Treks" class="logo-img"><span>Gilgit Adventure Treks</span></a>
           <p>Pakistan's trusted adventure company since 2018. Specializing in treks, tours, and cultural expeditions across Gilgit-Baltistan, Skardu, and the Karakoram.</p>
           <div class="social-links">
             <a href="https://www.facebook.com/gilgitadventuretreks" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/></svg></a>
@@ -206,7 +207,7 @@
   <div class="modal-overlay" id="destinationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
     <div class="modal-content modal-content--dest">
       <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
-      <img class="modal-image" id="modalImage" src="" alt="" loading="lazy">
+      <img class="modal-image" id="modalImage" src="" alt="">
       <div class="modal-body">
         <h3 class="modal-title" id="modalTitle"></h3>
         <div class="modal-rating" id="modalRating"></div>
