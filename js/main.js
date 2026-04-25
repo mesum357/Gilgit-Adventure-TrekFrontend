@@ -854,6 +854,67 @@
     initLightboxBindings();
   }
 
+  // Smart face-focus: detect face position and adjust object-position
+  function smartFocusImage(img) {
+    function applyPosition(xPct, yPct) {
+      img.style.objectPosition = xPct + '% ' + yPct + '%';
+    }
+
+    // Try native FaceDetector (Chrome/Edge)
+    if (typeof FaceDetector !== 'undefined') {
+      var detector = new FaceDetector();
+      detector.detect(img).then(function(faces) {
+        if (faces.length > 0) {
+          var face = faces[0].boundingBox;
+          var cx = face.x + face.width / 2;
+          var cy = face.y + face.height / 2;
+          applyPosition(
+            Math.round(cx / img.naturalWidth * 100),
+            Math.round(cy / img.naturalHeight * 100)
+          );
+        }
+      }).catch(function() {});
+      return;
+    }
+
+    // Fallback: canvas skin-tone detection
+    try {
+      var canvas = document.createElement('canvas');
+      var s = 80; // small sample for speed
+      var ratio = img.naturalWidth / img.naturalHeight;
+      var w = ratio >= 1 ? s : Math.round(s * ratio);
+      var h = ratio >= 1 ? Math.round(s / ratio) : s;
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      var data = ctx.getImageData(0, 0, w, h).data;
+      var sumX = 0, sumY = 0, count = 0;
+      for (var i = 0; i < data.length; i += 16) { // sample every 4th pixel
+        var r = data[i], g = data[i+1], b = data[i+2];
+        // Skin tone detection (works across skin colors)
+        if (r > 60 && g > 40 && b > 20 &&
+            r > g && r > b &&
+            r - g > 10 && r - g < 100 &&
+            Math.abs(g - b) < 80) {
+          var px = (i / 4) % w;
+          var py = Math.floor((i / 4) / w);
+          // Weight upper half more (face > body)
+          var weight = py < h * 0.5 ? 3 : 1;
+          sumX += px * weight;
+          sumY += py * weight;
+          count += weight;
+        }
+      }
+      if (count > 10) {
+        applyPosition(
+          Math.min(80, Math.max(20, Math.round(sumX / count / w * 100))),
+          Math.min(75, Math.max(15, Math.round(sumY / count / h * 100)))
+        );
+      }
+    } catch(e) {}
+  }
+
   function renderTeam() {
     const teamGrid = $('#teamGrid');
     if (!teamGrid) return;
@@ -871,6 +932,13 @@
           <p class="team-card-bio">${m.bio}</p>
         </div>
       `;
+      // Smart focus: detect face after image loads
+      var cardImg = card.querySelector('.team-card-img img');
+      if (cardImg.complete && cardImg.naturalWidth > 0) {
+        smartFocusImage(cardImg);
+      } else {
+        cardImg.addEventListener('load', function() { smartFocusImage(this); });
+      }
       card.addEventListener('click', () => openTeamModal(m));
       teamGrid.appendChild(card);
     });
