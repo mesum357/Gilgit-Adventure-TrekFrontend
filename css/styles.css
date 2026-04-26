@@ -2910,6 +2910,86 @@ input, select, textarea {
 }
 
 /* ============================================================
+   SKELETON LOADING PLACEHOLDERS
+   ============================================================ */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton-card {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 37%, #e0e0e0 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: var(--radius-lg);
+}
+
+/* Destination / trek / safari / culture cards — matches .top-dest-card height */
+.top-dest-grid .skeleton-card {
+  height: 420px;
+}
+
+/* Gallery items — matches grid-auto-rows: 200px */
+.gallery-grid .skeleton-card {
+  height: 200px;
+  border-radius: var(--radius-sm);
+}
+.gallery-grid .skeleton-card:first-child {
+  grid-row: span 2;
+}
+
+/* Video cards — matches grid-auto-rows: 220px, bento pattern */
+.video-grid .skeleton-card {
+  height: 220px;
+  border-radius: 20px;
+}
+.video-grid .skeleton-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: span 2;
+}
+.video-grid .skeleton-card:nth-child(2),
+.video-grid .skeleton-card:nth-child(3) {
+  grid-column: 2;
+}
+
+/* Review cards — matches .review-card width/padding */
+.reviews-track .skeleton-card {
+  width: 348px;
+  min-width: 348px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+/* Team cards — square image + text area */
+.team-grid .skeleton-card {
+  height: 340px;
+}
+
+/* Destinations page cards */
+.destinations-grid .skeleton-card {
+  height: 360px;
+}
+
+/* Booking cards */
+.booking-destinations .skeleton-card {
+  height: 80px;
+  border-radius: var(--radius-md);
+}
+
+/* Reviews page grid */
+.reviews-grid .skeleton-card {
+  height: 200px;
+}
+
+@media (max-width: 1024px) {
+  .top-dest-grid .skeleton-card { height: 360px; }
+}
+@media (max-width: 480px) {
+  .top-dest-grid .skeleton-card { height: 320px; }
+  .reviews-track .skeleton-card { width: 280px; min-width: 280px; }
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 .footer {

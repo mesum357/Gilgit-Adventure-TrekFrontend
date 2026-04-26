@@ -117,6 +117,18 @@
     loadLightboxImage(getGalleryImageUrl(galleryItems[lightboxIndex]));
   }
 
+  /* ── Preload full-size images so lightbox opens instantly ── */
+  var preloadCache = [];
+  function preloadFullSizeImages() {
+    galleryItems.forEach(function (el) {
+      var url = getGalleryImageUrl(el);
+      if (!url) return;
+      var img = new Image();
+      img.src = url;
+      preloadCache.push(img);
+    });
+  }
+
   function initLightboxBindings() {
     galleryItems = $$('.gallery-item');
     galleryItems.forEach(function (item, i) {
@@ -128,6 +140,8 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); }
       });
     });
+    // Start preloading full-size images in background
+    preloadFullSizeImages();
   }
 
   $('#lightboxClose').addEventListener('click', closeLightbox);
@@ -260,7 +274,7 @@
       var video = document.createElement('video');
       video.playsInline = true;
       video.loop = true;
-      video.preload = 'none';
+      video.preload = 'auto';
       video.src = v.videoUrl;
 
       var spinner = document.createElement('div');
@@ -418,6 +432,16 @@
     // Observe videos section for preloading before user reaches it
     var videosSection = $('#videos');
     if (videosSection) videoSectionObserver.observe(videosSection);
+
+    // Preload video URLs so reels viewer opens faster
+    videos.forEach(function (v) {
+      if (!v.videoUrl) return;
+      var link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'video';
+      link.href = v.videoUrl;
+      document.head.appendChild(link);
+    });
   }
 
   /* ── Init — Fetch from API ── */

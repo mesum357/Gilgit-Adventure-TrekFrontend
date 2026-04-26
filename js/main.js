@@ -835,6 +835,18 @@
     lightboxCounter.textContent = `${lightboxIndex + 1} / ${galleryItems.length}`;
   }
 
+  /* Preload full-size images so lightbox opens instantly */
+  const preloadCache = [];
+  function preloadFullSizeImages() {
+    galleryItems.forEach(el => {
+      const url = getGalleryImageUrl(el);
+      if (!url) return;
+      const img = new Image();
+      img.src = url;
+      preloadCache.push(img);
+    });
+  }
+
   function initLightboxBindings() {
     galleryItems = $$('.gallery-item');
     galleryItems.forEach((item, i) => {
@@ -846,6 +858,7 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); }
       });
     });
+    preloadFullSizeImages();
   }
 
   $('#lightboxClose').addEventListener('click', closeLightbox);
@@ -1090,7 +1103,7 @@
       const video = document.createElement('video');
       video.playsInline = true;
       video.loop = true;
-      video.preload = 'none';
+      video.preload = 'auto';
       video.src = v.videoUrl;
 
       const spinner = document.createElement('div');
@@ -1252,6 +1265,16 @@
     if (videosSection) {
       videoSectionObserver.observe(videosSection);
     }
+
+    // Preload video URLs so reels viewer opens faster
+    videos.forEach(v => {
+      if (!v.videoUrl) return;
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'video';
+      link.href = v.videoUrl;
+      document.head.appendChild(link);
+    });
   }
 
   /* --------------------------------------------------------
@@ -1881,7 +1904,7 @@
 
   // --- localStorage cache helpers ---
   var CACHE_KEY = 'gat_pageData';
-  var CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+  var CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 
   function getCachedData() {
     try {
@@ -1963,12 +1986,23 @@
   }
 
   async function init() {
-    var cached = getCachedData();
+    // Priority 1: Server-injected inline data (fastest — zero fetch needed)
+    var inline = window.__inlineData || null;
+    var cached = inline ? null : getCachedData();
 
     // Start reveal observers immediately so sections animate as user scrolls
     startRevealObservers();
 
-    // Instant render from cache if available
+    // Instant render from inline data or localStorage cache
+    if (inline) {
+      applyData(inline);
+      renderAll();
+      setCachedData(inline);
+      delete window.__inlineData;
+      startRevealObservers();
+      return; // No need to fetch — data is already fresh from server
+    }
+
     if (cached) {
       applyData(cached);
       renderAll();

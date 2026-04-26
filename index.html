@@ -225,8 +225,10 @@
   <a href="#hero" class="skip-link" style="position:absolute;top:-100%;left:0;background:#2D6A4F;color:#fff;padding:0.5rem 1rem;z-index:99999;font-size:0.9rem;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-100%'">Skip to main content</a>
 
   <script>
-    // Early fetch: store promise for main.js to reuse
-    window.__publicDataPromise = fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(function(r){return r.json()}).catch(function(){ return null; });
+    // Early fetch: store promise for main.js to reuse (skipped if server injected inline data)
+    if (!window.__inlineData) {
+      window.__publicDataPromise = fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(function(r){return r.json()}).catch(function(){ return null; });
+    }
   </script>
 
   <!-- ============ NAVIGATION ============ -->
@@ -344,7 +346,7 @@
         <button class="filter-tab" data-gallery="blossom">Blossom</button>
       </div>
       <div class="gallery-grid" id="galleryGrid">
-        <!-- Gallery items injected by JS -->
+        <div class="skeleton-card skeleton-card--small"></div><div class="skeleton-card skeleton-card--small"></div><div class="skeleton-card skeleton-card--small"></div><div class="skeleton-card skeleton-card--small"></div><div class="skeleton-card skeleton-card--small"></div><div class="skeleton-card skeleton-card--small"></div>
       </div>
       <div class="gallery-see-more reveal-up">
         <button class="btn btn-outline gallery-toggle-btn" id="gallerySeeMore">
@@ -364,7 +366,7 @@
         <p class="section-description">Watch real adventures from our trekkers and cinematic views of the world's most dramatic mountain landscapes.</p>
       </div>
       <div class="video-grid reveal-up" id="videoGrid">
-        <!-- Video cards injected by JS -->
+        <div class="skeleton-card skeleton-card--wide"></div><div class="skeleton-card skeleton-card--wide"></div><div class="skeleton-card skeleton-card--wide"></div>
       </div>
     </div>
   </section>
@@ -383,7 +385,7 @@
         </button>
         <div class="reviews-track-wrapper">
           <div class="reviews-track" id="reviewsTrack">
-            <!-- Review cards injected by JS -->
+            <div class="skeleton-card skeleton-card--review"></div><div class="skeleton-card skeleton-card--review"></div><div class="skeleton-card skeleton-card--review"></div>
           </div>
         </div>
         <button class="carousel-arrow carousel-next" id="reviewsNext" aria-label="Next review">
@@ -443,7 +445,7 @@
         <p class="section-description">Local experts, seasoned mountaineers, and passionate storytellers — the people who make your Northern Pakistan adventure unforgettable.</p>
       </div>
       <div class="team-grid reveal-up" id="teamGrid">
-        <!-- Team cards injected by JS -->
+        <div class="skeleton-card skeleton-card--small"></div><div class="skeleton-card skeleton-card--small"></div><div class="skeleton-card skeleton-card--small"></div>
       </div>
     </div>
   </section>
@@ -477,7 +479,7 @@
         <button class="filter-tab" data-region="Other Region">Other Regions</button>
       </div>
       <div class="top-dest-grid reveal-up" id="topDestGrid">
-        <!-- Featured cards injected by JS -->
+        <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
       </div>
       <div style="text-align:center; margin-top:2rem;" class="reveal-up">
         <a href="destinations.html" class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;">View All Destinations</a>
@@ -498,7 +500,7 @@
         <button class="filter-tab" data-trek="trek">Treks</button>
         <button class="filter-tab" data-trek="meadow">Meadows</button>
       </div>
-      <div class="top-dest-grid reveal-up" id="treksGrid"></div>
+      <div class="top-dest-grid reveal-up" id="treksGrid"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
       <div style="text-align:center; margin-top:2rem;" class="reveal-up">
         <a href="treks.html" class="btn btn-primary" style="padding:0.75rem 2.5rem; font-size:1rem;">View All Treks</a>
       </div>
@@ -513,7 +515,7 @@
         <h2 class="section-title">Safaris</h2>
         <p class="section-description">Thrilling jeep safaris through the most scenic mountain roads in Pakistan.</p>
       </div>
-      <div class="top-dest-grid reveal-up" id="safarisGrid"></div>
+      <div class="top-dest-grid reveal-up" id="safarisGrid"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
     </div>
   </section>
 
@@ -530,7 +532,7 @@
         <button class="filter-tab" data-culture="heritage">Heritage</button>
         <button class="filter-tab" data-culture="fort">Forts</button>
       </div>
-      <div class="top-dest-grid reveal-up" id="cultureGrid"></div>
+      <div class="top-dest-grid reveal-up" id="cultureGrid"><div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div></div>
     </div>
   </section>
 
