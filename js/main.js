@@ -1821,6 +1821,7 @@
       generateBtn.disabled = true;
       generateBtn.innerHTML = '<span style="opacity:0.7">Generating...</span>';
       addChatMessage('user', `Generate a ${budget} budget ${duration} trek plan for: ${selectedInterests.join(', ')}`);
+      showTypingIndicator();
 
       try {
         const response = await fetch('/api/ai/plan', {
@@ -1835,6 +1836,7 @@
         });
 
         const data = await response.json();
+        removeTypingIndicator();
 
         if (response.ok) {
           addChatMessage('ai', data.plan);
@@ -1842,6 +1844,7 @@
           addChatMessage('ai', 'Sorry, I couldn\'t generate a plan right now. Please try again.');
         }
       } catch (err) {
+        removeTypingIndicator();
         console.error('Plan generation error:', err);
         addChatMessage('ai', 'Sorry, there was an error. Please try again.');
       } finally {
@@ -1858,6 +1861,7 @@
 
         addChatMessage('user', message);
         chatInput.value = '';
+        showTypingIndicator();
 
         try {
           const response = await fetch('/api/chat', {
@@ -1867,6 +1871,7 @@
           });
 
           const data = await response.json();
+          removeTypingIndicator();
 
           if (response.ok) {
             addChatMessage('ai', data.reply);
@@ -1874,6 +1879,7 @@
             addChatMessage('ai', 'Sorry, I couldn\'t respond right now. Please try again.');
           }
         } catch (err) {
+          removeTypingIndicator();
           console.error('Chat error:', err);
           addChatMessage('ai', 'Sorry, there was an error. Please try again.');
         }
@@ -1900,6 +1906,24 @@
 
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function showTypingIndicator() {
+    const chatMessages = $('#plannerChatMessages');
+    if (!chatMessages) return;
+    const typing = createEl('div', { className: 'chat-message ai', id: 'typingIndicator' });
+    typing.innerHTML =
+      '<div class="chat-avatar">AI</div>' +
+      '<div class="chat-bubble">' +
+        '<div class="typing-indicator"><span></span><span></span><span></span></div>' +
+      '</div>';
+    chatMessages.appendChild(typing);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const el = $('#typingIndicator');
+    if (el) el.remove();
   }
 
   // --- localStorage cache helpers ---
