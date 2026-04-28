@@ -3093,6 +3093,29 @@ input, select, textarea {
   text-align: center;
   font-size: var(--fs-sm);
 }
+.footer-bottom p:last-child {
+  font-size: 20px;
+}
+.footer-bottom .crafted-name {
+  background: linear-gradient(135deg, #FFD700, #FF6B6B, #00CED1, #FFD700);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  text-decoration: none;
+  animation: gradientShift 3s ease infinite;
+}
+.footer-bottom .crafted-name:hover {
+  text-decoration: underline;
+  -webkit-text-decoration-color: #FFD700;
+  text-decoration-color: #FFD700;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
 /* ============================================================
    MODAL
