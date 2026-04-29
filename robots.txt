@@ -13,4 +13,4 @@ Disallow: /register.html
 Disallow: /profile.html
 
 # Sitemaps
-Sitemap: https://gilgitadventuretreks.com/sitemap-index.xml
+Sitemap: https://gilgitadventuretreks.com/sitemap.xml
