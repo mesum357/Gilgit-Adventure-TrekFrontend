@@ -3,14 +3,12 @@
 User-agent: *
 Allow: /
 
-# Block admin panel & API
+# Block admin panel & API from crawling
 Disallow: /admin/
 Disallow: /api/
+Disallow: /uploads/
 
-# Block auth pages from indexing
-Disallow: /login.html
-Disallow: /register.html
-Disallow: /profile.html
+# Auth pages use <meta name="robots" content="noindex, nofollow"> instead
 
 # Sitemaps
-Sitemap: https://gilgitadventuretreks.com/sitemap.xml
+Sitemap: https://gilgitadventuretreks.com/sitemap-index.xml

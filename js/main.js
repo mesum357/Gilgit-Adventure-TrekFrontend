@@ -288,7 +288,7 @@
     grid.innerHTML = visible.map(function(item) {
       var tag = item.category === 'trek' ? 'Trek' : (item.category === 'meadow' ? 'Meadow' : 'Glacier');
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
-        '<img src="' + item.image + '" alt="' + item.name + ' trek — Gilgit Adventure Treks" width="600" height="400">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' trek — Gilgit Adventure Treks" width="600" height="400" loading="lazy">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">' + tag + '</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
@@ -328,7 +328,7 @@
     if (!grid) return;
     grid.innerHTML = safariData.map(function(item) {
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
-        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" width="600" height="400">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" width="600" height="400" loading="lazy">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">Tour</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
@@ -357,7 +357,7 @@
     grid.innerHTML = visible.map(function(item) {
       var tag = item.category === 'heritage' ? 'Heritage' : 'Fort';
       return '<div class="top-dest-card" role="button" tabindex="0" data-name="' + item.name + '">' +
-        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" width="600" height="400">' +
+        '<img src="' + item.image + '" alt="' + item.name + ' — Gilgit Adventure Treks" width="600" height="400" loading="lazy">' +
         '<div class="top-dest-overlay">' +
           '<span class="top-dest-tag">' + tag + '</span>' +
           '<h3 class="top-dest-name">' + item.name + '</h3>' +
@@ -660,7 +660,7 @@
       const avatarSrc = rev.avatar || defaultAvatarSvg;
       card.innerHTML = `
         <div class="review-card-header">
-          <img class="review-avatar" src="${escapeHtml(avatarSrc)}" alt="${escapeHtml(rev.name)}">
+          <img class="review-avatar" src="${escapeHtml(avatarSrc)}" alt="${escapeHtml(rev.name)}" width="48" height="48" loading="lazy">
           <div>
             <div class="review-author">${escapeHtml(rev.name)}</div>
             <div class="review-meta">
@@ -708,6 +708,8 @@
     for (let i = 0; i < totalDots; i++) {
       const dot = createEl('button', {
         className: `carousel-dot${i === reviewIndex ? ' active' : ''}`,
+        role: 'tab',
+        'aria-selected': i === reviewIndex ? 'true' : 'false',
         'aria-label': `Review group ${i + 1}`
       });
       dot.addEventListener('click', () => {
@@ -876,9 +878,11 @@
     if (e.key === 'ArrowRight') lightboxNav(1);
   });
 
+  var galleryLazyObserver = null;
   function renderGallery(filter) {
     if (!galleryGrid) return;
     galleryGrid.innerHTML = '';
+    if (galleryLazyObserver) galleryLazyObserver.disconnect();
 
     var filtered = (!filter || filter === 'all')
       ? galleryImages
@@ -888,19 +892,44 @@
       const item = createEl('div', {
         className: (index >= 11) ? 'gallery-item gallery-hidden' : 'gallery-item'
       });
-      item.style.backgroundImage = `url('${img.imageUrl}')`;
+      // Store URL in data attribute — IntersectionObserver loads when visible
+      item.dataset.bg = img.imageUrl;
       // Hidden img tag for SEO crawlability (background-image isn't indexed)
       const seoImg = createEl('img', {
-        src: img.imageUrl,
         alt: img.altText || 'Northern Pakistan adventure photo — Gilgit Adventure Treks',
         loading: 'lazy',
-        width: '400',
-        height: '300',
         style: 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);'
       });
+      seoImg.dataset.lazySrc = img.imageUrl;
       item.appendChild(seoImg);
       galleryGrid.appendChild(item);
     });
+
+    // Lazy load gallery background images
+    if ('IntersectionObserver' in window) {
+      galleryLazyObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var el = entry.target;
+            el.style.backgroundImage = "url('" + el.dataset.bg + "')";
+            var seoImg = el.querySelector('img');
+            if (seoImg && seoImg.dataset.lazySrc) seoImg.src = seoImg.dataset.lazySrc;
+            delete el.dataset.bg;
+            galleryLazyObserver.unobserve(el);
+          }
+        });
+      }, { rootMargin: '300px' });
+      $$('.gallery-item[data-bg]', galleryGrid).forEach(function(el) {
+        galleryLazyObserver.observe(el);
+      });
+    } else {
+      // Fallback: load all immediately
+      $$('.gallery-item[data-bg]', galleryGrid).forEach(function(el) {
+        el.style.backgroundImage = "url('" + el.dataset.bg + "')";
+        var seoImg = el.querySelector('img');
+        if (seoImg && seoImg.dataset.lazySrc) seoImg.src = seoImg.dataset.lazySrc;
+      });
+    }
 
     initLightboxBindings();
   }
@@ -928,42 +957,47 @@
       return;
     }
 
-    // Fallback: canvas skin-tone detection
-    try {
-      var canvas = document.createElement('canvas');
-      var s = 80; // small sample for speed
-      var ratio = img.naturalWidth / img.naturalHeight;
-      var w = ratio >= 1 ? s : Math.round(s * ratio);
-      var h = ratio >= 1 ? Math.round(s / ratio) : s;
-      canvas.width = w;
-      canvas.height = h;
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-      var data = ctx.getImageData(0, 0, w, h).data;
-      var sumX = 0, sumY = 0, count = 0;
-      for (var i = 0; i < data.length; i += 16) { // sample every 4th pixel
-        var r = data[i], g = data[i+1], b = data[i+2];
-        // Skin tone detection (works across skin colors)
-        if (r > 60 && g > 40 && b > 20 &&
-            r > g && r > b &&
-            r - g > 10 && r - g < 100 &&
-            Math.abs(g - b) < 80) {
-          var px = (i / 4) % w;
-          var py = Math.floor((i / 4) / w);
-          // Weight upper half more (face > body)
-          var weight = py < h * 0.5 ? 3 : 1;
-          sumX += px * weight;
-          sumY += py * weight;
-          count += weight;
+    // Fallback: canvas skin-tone detection — deferred to avoid blocking main thread
+    var doCanvasFallback = function() {
+      try {
+        var canvas = document.createElement('canvas');
+        var s = 80; // small sample for speed
+        var ratio = img.naturalWidth / img.naturalHeight;
+        var w = ratio >= 1 ? s : Math.round(s * ratio);
+        var h = ratio >= 1 ? Math.round(s / ratio) : s;
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        var data = ctx.getImageData(0, 0, w, h).data;
+        var sumX = 0, sumY = 0, count = 0;
+        for (var i = 0; i < data.length; i += 16) {
+          var r = data[i], g = data[i+1], b = data[i+2];
+          if (r > 60 && g > 40 && b > 20 &&
+              r > g && r > b &&
+              r - g > 10 && r - g < 100 &&
+              Math.abs(g - b) < 80) {
+            var px = (i / 4) % w;
+            var py = Math.floor((i / 4) / w);
+            var weight = py < h * 0.5 ? 3 : 1;
+            sumX += px * weight;
+            sumY += py * weight;
+            count += weight;
+          }
         }
-      }
-      if (count > 10) {
-        applyPosition(
-          Math.min(80, Math.max(20, Math.round(sumX / count / w * 100))),
-          Math.min(75, Math.max(15, Math.round(sumY / count / h * 100)))
-        );
-      }
-    } catch(e) {}
+        if (count > 10) {
+          applyPosition(
+            Math.min(80, Math.max(20, Math.round(sumX / count / w * 100))),
+            Math.min(75, Math.max(15, Math.round(sumY / count / h * 100)))
+          );
+        }
+      } catch(e) {}
+    };
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(doCanvasFallback);
+    } else {
+      setTimeout(doCanvasFallback, 100);
+    }
   }
 
   function renderTeam() {
@@ -975,7 +1009,7 @@
       const card = createEl('div', { className: 'team-card' });
       card.innerHTML = `
         <div class="team-card-img">
-          <img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)} — ${escapeHtml(m.role)} at Gilgit Adventure Treks" width="300" height="300">
+          <img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)} — ${escapeHtml(m.role)} at Gilgit Adventure Treks" width="300" height="300" loading="lazy">
         </div>
         <div class="team-card-body">
           <h3 class="team-card-name">${escapeHtml(m.name)}</h3>
@@ -1232,7 +1266,7 @@
       // Use thumbnail image for fast loading, fallback to video preview
       if (v.thumbnailUrl) {
         card.innerHTML = `
-          <img src="${v.thumbnailUrl}" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;">
+          <img src="${v.thumbnailUrl}" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
           <div class="video-card-overlay">
             <span class="${tagClass}">${v.tag}</span>
             <h3 class="video-card-title">${v.title}</h3>
@@ -1266,15 +1300,8 @@
       videoSectionObserver.observe(videosSection);
     }
 
-    // Preload video URLs so reels viewer opens faster
-    videos.forEach(v => {
-      if (!v.videoUrl) return;
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'video';
-      link.href = v.videoUrl;
-      document.head.appendChild(link);
-    });
+    // Video preloading removed — videos are only needed when user clicks to open reels.
+    // The videoSectionObserver already handles lazy-loading video sources.
   }
 
   /* --------------------------------------------------------
@@ -1966,13 +1993,25 @@
   }
 
   function renderAll() {
-    var renders = [
-      renderTopDestinations, renderTreks, renderSafaris, renderCulture,
-      renderMapList, renderReviews, renderTeam, renderVideos, renderGallery,
-      initBookingWizard, initAIPlanner, updateNavAuth, injectDestinationSchema
-    ];
-    renders.forEach(function(fn) {
+    // Critical above-fold: render immediately
+    var critical = [renderTopDestinations, updateNavAuth, injectDestinationSchema];
+    critical.forEach(function(fn) {
       try { fn(); } catch (e) { console.error('Render error in ' + fn.name + ':', e); }
+    });
+
+    // Below-fold: stagger with setTimeout to yield the main thread between renders.
+    // This breaks the 500ms+ monolithic task into many small <50ms tasks.
+    var deferred = [
+      renderTreks, renderSafaris, renderCulture, renderMapList,
+      renderReviews, renderTeam, renderVideos, renderGallery,
+      initBookingWizard, initAIPlanner
+    ];
+    deferred.forEach(function(fn, i) {
+      setTimeout(function() {
+        try { fn(); } catch (e) { console.error('Render error in ' + fn.name + ':', e); }
+        // Re-observe new elements after last deferred render
+        if (i === deferred.length - 1) startRevealObservers();
+      }, (i + 1) * 30);
     });
   }
 
@@ -1983,14 +2022,19 @@
         $$('.reveal-up').forEach(function(el) { el.classList.add('revealed'); });
         return;
       }
-      $$('.reveal-up:not(.revealed)').forEach(function(el) {
-        var rect = el.getBoundingClientRect();
-        if (rect.top > window.innerHeight) {
-          el.classList.add('reveal-hidden');
+      var els = $$('.reveal-up:not(.revealed)');
+      // Batch all reads first, then all writes to avoid forced reflow
+      var viewH = window.innerHeight;
+      var positions = els.map(function(el) {
+        return { el: el, top: el.getBoundingClientRect().top };
+      });
+      positions.forEach(function(p) {
+        if (p.top > viewH) {
+          p.el.classList.add('reveal-hidden');
         } else {
-          el.classList.add('revealed');
+          p.el.classList.add('revealed');
         }
-        revealObserver.observe(el);
+        revealObserver.observe(p.el);
       });
       var heroStats = $('.hero-stats');
       if (heroStats) statsObserver.observe(heroStats);
@@ -2010,21 +2054,47 @@
   }
 
   async function init() {
-    // Priority 1: Server-injected inline data (fastest — zero fetch needed)
+    // Priority 1: Server-injected inline data (destinations + settings only — small payload)
     var inline = window.__inlineData || null;
     var cached = inline ? null : getCachedData();
 
     // Start reveal observers immediately so sections animate as user scrolls
     startRevealObservers();
 
-    // Instant render from inline data or localStorage cache
+    // Instant render above-fold from inline data (destinations + settings)
     if (inline) {
       applyData(inline);
-      renderAll();
-      setCachedData(inline);
-      delete window.__inlineData;
+      // Render above-fold sections immediately from inline data
+      [renderTopDestinations, renderTreks, renderSafaris, renderCulture,
+       renderMapList, initBookingWizard, updateNavAuth, injectDestinationSchema
+      ].forEach(function(fn) { try { fn(); } catch(e) { console.error(fn.name, e); } });
       startRevealObservers();
-      return; // No need to fetch — data is already fresh from server
+      delete window.__inlineData;
+
+      // Fetch remaining data (reviews, team, videos, gallery) for below-fold sections
+      try {
+        var data = await fetch('/api/page-data?need=destinations,reviews,team,videos,gallery').then(function(r) { return r.json(); });
+        setCachedData(data);
+        applyData(data);
+        // Stagger below-fold renders to keep main thread responsive
+        var belowFold = [renderReviews, renderTeam, renderVideos, renderGallery, initAIPlanner];
+        belowFold.forEach(function(fn, i) {
+          setTimeout(function() {
+            try { fn(); } catch(e) { console.error(fn.name, e); }
+            if (i === belowFold.length - 1) startRevealObservers();
+          }, (i + 1) * 40);
+        });
+      } catch (err) {
+        // Fallback: try localStorage cache for below-fold data
+        var cachedFull = getCachedData();
+        if (cachedFull) {
+          applyData(cachedFull);
+          [renderReviews, renderTeam, renderVideos, renderGallery, initAIPlanner
+          ].forEach(function(fn) { try { fn(); } catch(e) {} });
+          startRevealObservers();
+        }
+      }
+      return;
     }
 
     if (cached) {
